@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600;1,700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <style>
   :root {
     --teal: #3DA89A;
@@ -1488,6 +1489,12 @@ const SUPABASE_URL = "https://ihcqrqcmtcmunlnymaip.supabase.co";
 const SUPABASE_KEY = "sb_publishable_gTicl_PmUtXSl8f4-khr7A_HW2dp2l_";
 const VILLA_SLUG = "mae";
 
+/* ═══ CONFIG EMAILJS — colle tes 3 clés ici ═══ */
+const EMAILJS_PUBLIC_KEY  = "ZJ_IBOHUhe1YL5xxF";
+const EMAILJS_SERVICE_ID  = "service_p6ot4yh";
+const EMAILJS_TEMPLATE_ID = "template_9azaoyu";
+const EMAIL_SOLEYA        = "soleyaconciergerie@gmail.com";
+
 async function submitToSupabase() {
   // Fonction sécurisée : si l'id n'existe pas, retourne ''
   const g = id => {
@@ -1564,6 +1571,32 @@ async function submitToSupabase() {
   }
 
   return true;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ENVOI MAIL AUTOMATIQUE (EmailJS) — Soleya + client
+   ═══════════════════════════════════════════════════════════ */
+async function sendEmails() {
+  // Si les clés ne sont pas encore renseignées, on ne fait rien (pas d'erreur)
+  if (!window.emailjs || EMAILJS_PUBLIC_KEY.indexOf("VOTRE_") === 0) return;
+  const g = id => { const el = document.getElementById(id); return el ? (el.value || '').trim() : ''; };
+  const params = {
+    villa: VILLA.name,
+    client_prenom: g('firstName'),
+    client_nom: g('lastName'),
+    client_email: g('email'),
+    client_phone: g('phone'),
+    date_arrivee: g('dateArrival'),
+    date_depart: g('dateDeparture'),
+    recap: buildSummary()
+  };
+  const destinataires = [EMAIL_SOLEYA];
+  if (g('email')) destinataires.push(g('email'));
+  for (const to of destinataires) {
+    await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID,
+      Object.assign({}, params, { to_email: to }),
+      { publicKey: EMAILJS_PUBLIC_KEY });
+  }
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -1714,6 +1747,7 @@ roomsContainer.addEventListener('click', (e) => {
 roomsContainer.addEventListener('change', (e) => {
   if (e.target.matches('[data-room-note]')) {
     roomNotes[e.target.dataset.roomNote] = e.target.value;
+    if (typeof saveProgress === 'function') saveProgress();
   }
   if (e.target.matches('[data-room-photo]')) {
     const roomId = e.target.dataset.roomPhoto;
@@ -1848,6 +1882,7 @@ function isValid(step) {
 
 function validateCurrent() {
   nextBtn.disabled = !isValid(current);
+  if (typeof saveProgress === 'function') saveProgress();
   // update tabs : lock futures
   tabs.forEach((t, i) => {
     const s = i + 1;
@@ -1887,6 +1922,8 @@ nextBtn.addEventListener('click', async () => {
     nextBtn.innerHTML = '⏳ Envoi en cours...';
     try {
       await submitToSupabase();
+      try { await sendEmails(); } catch (e) { console.warn('Mail non envoyé:', e); }
+      clearProgress();
       go(current + 1);
     } catch (err) {
       console.error('Erreur envoi Supabase:', err);
@@ -2027,6 +2064,94 @@ document.getElementById('sigCopy').addEventListener('click', async () => {
   lb.addEventListener('click', () => lb.classList.remove('open'));
 })();
 
+/* ═══════════════════════════════════════════════════════════
+   SAUVEGARDE LOCALE AUTO — anti-fermeture accidentelle
+   ═══════════════════════════════════════════════════════════ */
+const PROGRESS_KEY = 'soleya_progress_' + VILLA_SLUG;
+
+function saveProgress() {
+  try {
+    const g = id => { const el = document.getElementById(id); return el ? el.value : ''; };
+    const flags = {};
+    document.querySelectorAll('.item-row[data-value="no"]').forEach(r => { flags[r.dataset.item] = 'no'; });
+    const data = {
+      fields: {
+        firstName: g('firstName'), lastName: g('lastName'), email: g('email'),
+        phone: g('phone'), dateArrival: g('dateArrival'), dateDeparture: g('dateDeparture'),
+        guests: g('guests'), observations: g('observations')
+      },
+      roomStatus: roomStatus,
+      flags: flags,
+      notes: roomNotes,
+      rulesMain: !!(document.querySelector('[data-rule="main"]') || {}).checked,
+      rulesDeparture: !!(document.querySelector('[data-rule="departure"]') || {}).checked,
+      step: current,
+      ts: Date.now()
+    };
+    localStorage.setItem(PROGRESS_KEY, JSON.stringify(data));
+  } catch (e) { /* localStorage indispo (mode navigation privée / sandbox) : on ignore */ }
+}
+
+function clearProgress() {
+  try { localStorage.removeItem(PROGRESS_KEY); } catch (e) {}
+}
+
+function restoreProgress() {
+  let raw;
+  try { raw = localStorage.getItem(PROGRESS_KEY); } catch (e) { return; }
+  if (!raw) return;
+  let d;
+  try { d = JSON.parse(raw); } catch (e) { return; }
+
+  // Champs
+  Object.keys(d.fields || {}).forEach(id => {
+    const el = document.getElementById(id);
+    if (el && d.fields[id]) el.value = d.fields[id];
+  });
+  // Statut des pièces
+  Object.keys(d.roomStatus || {}).forEach(id => {
+    roomStatus[id] = d.roomStatus[id];
+    const roomEl = document.querySelector('.room[data-room-id="' + id + '"]');
+    if (!roomEl) return;
+    if (d.roomStatus[id] === 'conforme') {
+      const b = roomEl.querySelector('.rc-btn.conforme');
+      if (b) b.classList.add('active');
+    } else if (d.roomStatus[id] === 'signal') {
+      roomEl.classList.add('show-detail');
+    }
+  });
+  // Éléments signalés
+  Object.keys(d.flags || {}).forEach(key => {
+    const row = document.querySelector('[data-item="' + key + '"]');
+    if (!row) return;
+    row.dataset.value = 'no';
+    const f = row.querySelector('.flag');
+    if (f) { f.classList.add('on'); f.textContent = '✓ Signalé'; }
+  });
+  // Notes
+  Object.keys(d.notes || {}).forEach(id => {
+    const ta = document.querySelector('[data-room-note="' + id + '"]');
+    if (ta) { ta.value = d.notes[id]; roomNotes[id] = d.notes[id]; }
+  });
+  // Règlement
+  if (d.rulesMain) { const c = document.querySelector('[data-rule="main"]'); if (c) c.checked = true; }
+  if (d.rulesDeparture) { const c = document.querySelector('[data-rule="departure"]'); if (c) c.checked = true; }
+
+  updateRoomStatus();
+  if (d.step && d.step > 1) go(d.step);
+  showToast('Votre saisie précédente a été restaurée.');
+}
+
+function showToast(msg) {
+  const t = document.createElement('div');
+  t.textContent = msg;
+  t.style.cssText = 'position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:var(--teal-darker);color:#fff;font-family:Inter,sans-serif;font-size:13px;font-weight:600;padding:10px 18px;border-radius:24px;box-shadow:0 6px 20px rgba(0,0,0,.2);z-index:9998;opacity:0;transition:opacity .3s;';
+  document.body.appendChild(t);
+  requestAnimationFrame(() => t.style.opacity = '1');
+  setTimeout(() => { t.style.opacity = '0'; setTimeout(() => t.remove(), 400); }, 4000);
+}
+
+restoreProgress();
 validateCurrent();
 </script>
 </body>
