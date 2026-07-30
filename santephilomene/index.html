@@ -1,0 +1,1373 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Villa L'Escale de Sainte Philomène — État des lieux d'entrée | Soleya Conciergerie</title>
+    <meta name="description" content="Livret d'accueil et état des lieux digital de la Villa L'Escale de Sainte Philomène — Soleya Conciergerie Martinique">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        :root {
+            --soleya-primary: #2c6e49;
+            --soleya-primary-dark: #245a3c;
+            --soleya-accent: #d4a373;
+            --soleya-bg: #faf6f0;
+            --soleya-text: #333;
+            --soleya-border: #e0d5c1;
+            --warn: #b45309;
+            --danger: #dc2626;
+            --success: #059669;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--soleya-bg);
+            color: var(--soleya-text);
+            line-height: 1.6;
+            padding-bottom: 100px;
+        }
+
+        .header {
+            background: white;
+            padding: 1rem 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-logo {
+            font-size: 0.75rem;
+            color: #666;
+        }
+
+        .header h1 {
+            font-size: 1.1rem;
+            color: var(--soleya-primary);
+            font-weight: 600;
+        }
+
+        .nav-tabs {
+            background: white;
+            padding: 0.5rem 1rem;
+            display: flex;
+            overflow-x: auto;
+            gap: 0.5rem;
+            border-bottom: 1px solid var(--soleya-border);
+            scrollbar-width: none;
+        }
+
+        .nav-tabs::-webkit-scrollbar { display: none; }
+
+        .nav-tab {
+            padding: 0.5rem 1rem;
+            background: var(--soleya-bg);
+            border: 1px solid var(--soleya-border);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--soleya-text);
+        }
+
+        .nav-tab.active {
+            background: var(--soleya-primary);
+            color: white;
+            border-color: var(--soleya-primary);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+
+        .step-header {
+            font-size: 0.85rem;
+            color: var(--soleya-accent);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        h2 {
+            color: var(--soleya-primary);
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        h3 {
+            color: var(--soleya-primary);
+            margin: 1.5rem 0 0.75rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        h4 {
+            color: var(--soleya-text);
+            margin: 1rem 0 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .info-block {
+            background: var(--soleya-bg);
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 0.75rem 0;
+        }
+
+        .info-block strong {
+            color: var(--soleya-primary);
+        }
+
+        .warning {
+            background: #fef3c7;
+            border-left: 4px solid var(--warn);
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+        }
+
+        .danger {
+            background: #fee2e2;
+            border-left: 4px solid var(--danger);
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+        }
+
+        .list-clean {
+            list-style: none;
+            padding: 0;
+        }
+
+        .list-clean li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--soleya-border);
+        }
+
+        .list-clean li:last-child {
+            border-bottom: none;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: var(--soleya-primary);
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            margin: 0.25rem;
+            cursor: pointer;
+            border: none;
+            font-size: 0.95rem;
+            transition: background 0.2s;
+        }
+
+        .btn:hover { background: var(--soleya-primary-dark); }
+
+        .btn-outline {
+            background: white;
+            color: var(--soleya-primary);
+            border: 2px solid var(--soleya-primary);
+        }
+
+        .btn-block {
+            display: block;
+            width: 100%;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .btn-copy {
+            background: var(--soleya-accent);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.25rem;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--soleya-border);
+            border-radius: 8px;
+            font-size: 1rem;
+            background: white;
+            font-family: inherit;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        @media (max-width: 600px) {
+            .grid-2 { grid-template-columns: 1fr; }
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            background: var(--soleya-bg);
+            border-radius: 8px;
+            margin: 1rem 0;
+            cursor: pointer;
+        }
+
+        .checkbox-group input {
+            margin-right: 0.75rem;
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+        }
+
+        .accordion {
+            border: 1px solid var(--soleya-border);
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+            overflow: hidden;
+            background: white;
+        }
+
+        .accordion-header {
+            padding: 1rem;
+            background: white;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 500;
+            gap: 0.5rem;
+        }
+
+        .accordion-header-title {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex: 1;
+        }
+
+        .accordion-content {
+            padding: 1rem;
+            background: var(--soleya-bg);
+            display: none;
+        }
+
+        .accordion.open .accordion-content { display: block; }
+        .accordion.open .accordion-arrow { transform: rotate(180deg); }
+
+        .accordion-arrow {
+            transition: transform 0.2s;
+            font-size: 0.8rem;
+        }
+
+        .accordion-check {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--soleya-border);
+            border-radius: 4px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            background: white;
+        }
+
+        .accordion.validated .accordion-check {
+            background: var(--success);
+            border-color: var(--success);
+            color: white;
+        }
+
+        .accordion.validated .accordion-check::before {
+            content: "✓";
+            font-weight: bold;
+        }
+
+        .supp-badge {
+            display: inline-block;
+            background: var(--warn);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-left: 0.5rem;
+        }
+
+        .service-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .service-card {
+            text-align: center;
+            padding: 1rem;
+            background: var(--soleya-bg);
+            border-radius: 8px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 0.75rem;
+            margin: 1rem 0;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 2rem 1rem;
+            color: #666;
+            font-size: 0.85rem;
+        }
+
+        .step-content { display: none; }
+        .step-content.active { display: block; }
+
+        .contact-strip {
+            background: var(--soleya-primary);
+            color: white;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+
+        .contact-strip a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .wifi-card {
+            background: linear-gradient(135deg, var(--soleya-primary) 0%, var(--soleya-primary-dark) 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .wifi-card h3, .wifi-card h4 {
+            color: white;
+        }
+
+        .wifi-ssid {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin: 0.5rem 0;
+            letter-spacing: 0.5px;
+        }
+
+        .wifi-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            align-items: center;
+        }
+
+        .qr-container {
+            background: white;
+            padding: 0.75rem;
+            border-radius: 8px;
+            display: inline-block;
+        }
+
+        .qr-container img, .qr-container canvas {
+            display: block;
+        }
+
+        .copy-toast {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--success);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 500;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .copy-toast.show { opacity: 1; }
+
+        .key-item {
+            background: white;
+            padding: 0.75rem;
+            border-radius: 8px;
+            margin: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            border: 1px solid var(--soleya-border);
+        }
+
+        .key-icon {
+            font-size: 1.5rem;
+        }
+
+        .highlight-box {
+            background: #fef3c7;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border-left: 4px solid var(--warn);
+        }
+
+        .success-box {
+            background: #d1fae5;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border-left: 4px solid var(--success);
+        }
+
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn-back {
+            background: white;
+            color: var(--soleya-primary);
+            border: 1px solid var(--soleya-border);
+        }
+
+        .info-note {
+            font-size: 0.9rem;
+            color: #666;
+            font-style: italic;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+    <div>
+        <div class="header-logo">🏠 Soleya Conciergerie</div>
+        <h1>Villa L'Escale de Sainte Philomène</h1>
+    </div>
+</div>
+
+<!-- NAV TABS -->
+<div class="nav-tabs">
+    <div class="nav-tab active" data-step="1">Bienvenue</div>
+    <div class="nav-tab" data-step="2">Vos Infos</div>
+    <div class="nav-tab" data-step="3">Alentours</div>
+    <div class="nav-tab" data-step="4">Inventaire</div>
+    <div class="nav-tab" data-step="5">Règlement</div>
+    <div class="nav-tab" data-step="6">Signature</div>
+    <div class="nav-tab" data-step="7">Confirmation</div>
+</div>
+
+<!-- STEP 1 - BIENVENUE -->
+<div class="container step-content active" id="step-1">
+    <div class="step-header">SOLEYA CONCIERGERIE · ÉTAT DES LIEUX D'ENTRÉE</div>
+    <h2>Villa L'Escale de Sainte Philomène</h2>
+
+    <div class="card">
+        <p>Nous avons le plaisir de vous accueillir à la <strong>Villa L'Escale de Sainte Philomène</strong>, une villa pieds dans l'eau au cœur du nord Caraïbes.</p>
+        <p style="margin-top: 0.75rem;">Voici les informations principales pour votre séjour.</p>
+        <p style="margin-top: 0.75rem;">Notre équipe reste joignable tout au long de votre séjour pour toute question ou assistance.</p>
+        <p style="margin-top: 0.75rem; font-style: italic;">Nous vous souhaitons un excellent séjour ! ☀️</p>
+    </div>
+
+    <!-- CONTACT SOLEYA -->
+    <div class="card">
+        <h3>📞 Contact Soleya</h3>
+        <p style="margin-bottom: 1rem; color: #666; font-size: 0.95rem;">Nous sommes joignables tout au long de votre séjour pour toute question ou assistance.</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+            <a href="tel:0696111869" class="btn" role="button">📞 Appeler</a>
+            <a href="https://wa.me/596696111869?text=Bonjour%20Soleya%2C%20je%20suis%20client%20%C3%A0%20la%20Villa%20Escale%20Sainte-Philom%C3%A8ne." class="btn" style="background: #25D366;">💬 WhatsApp</a>
+        </div>
+        <p class="info-note" style="margin-top: 0.75rem;">📱 06 96 11 18 69 · 📞 +596 696 111 869</p>
+    </div>
+
+    <!-- WIFI CARD -->
+    <div class="wifi-card">
+        <h3 style="color: white;">📶 Connexion Wifi</h3>
+        <div style="margin-top: 0.5rem;">
+            <div style="font-size: 0.85rem; opacity: 0.9;">Nom du réseau</div>
+            <div class="wifi-ssid" id="wifi-ssid">Livebox-CF0A</div>
+        </div>
+        <div style="margin-top: 0.75rem;">
+            <div style="font-size: 0.85rem; opacity: 0.9;">Mot de passe</div>
+            <div style="font-family: monospace; font-size: 1.1rem; background: rgba(255,255,255,0.15); padding: 0.75rem 1rem; border-radius: 6px; margin-top: 0.25rem; word-break: break-all; letter-spacing: 0.5px;" id="wifi-pwd">nw3DgxHo6nL9oEQx2L</div>
+        </div>
+
+        <button class="btn btn-copy" onclick="copyWifiPassword()" style="margin-top: 1rem;">📋 Copier le mot de passe</button>
+
+        <div style="display: flex; align-items: center; gap: 0.75rem; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.2);">
+            <div class="qr-container" id="wifi-qr"></div>
+            <div style="font-size: 0.85rem; opacity: 0.95; flex: 1;">
+                <strong>💡 Astuce :</strong><br>
+                Scannez ce QR code avec un autre téléphone (ou l'appareil photo) pour vous connecter en 1 clic.
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>🔑 Jeu de clés fourni à l'arrivée</h3>
+        <div class="key-item">
+            <span class="key-icon">📱</span>
+            <div>
+                <strong>Bip portail</strong><br>
+                <span style="font-size: 0.9rem; color: #666;">Pour l'ouverture du portail principal</span>
+            </div>
+        </div>
+        <div class="key-item">
+            <span class="key-icon">🔑</span>
+            <div>
+                <strong>Clé entrée principale + volets</strong><br>
+                <span style="font-size: 0.9rem; color: #666;">Porte d'entrée et volets roulants</span>
+            </div>
+        </div>
+        <div class="key-item">
+            <span class="key-icon">🔓</span>
+            <div>
+                <strong>Clé portillon plage</strong><br>
+                <span style="font-size: 0.9rem; color: #666;">Accès direct à la plage de Sainte-Philomène</span>
+            </div>
+        </div>
+        <div class="key-item">
+            <span class="key-icon">❄️</span>
+            <div>
+                <strong>Clé activation climatisation</strong><br>
+                <span style="font-size: 0.9rem; color: #666;">À insérer pour activer les climatiseurs</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>🚨 Sécurité</h3>
+        <div class="info-block">
+            <strong>Alarme villa</strong><br>
+            Code à activer à chaque sortie (communiqué à l'arrivée)
+        </div>
+        <div class="info-block">
+            <strong>🏊 Piscine sécurisée par alarme</strong><br>
+            Fonctionnement expliqué dans le règlement intérieur
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>🗺️ Comment trouver la villa</h3>
+        <p style="margin-bottom: 0.5rem;">📍 <strong>Saint-Pierre, quartier Sainte-Philomène, Martinique</strong></p>
+        <p class="info-note" style="margin-bottom: 1rem;">À 5 minutes de voiture du bourg de Saint-Pierre et du bourg du Prêcheur.</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+            <a href="https://waze.com/ul?q=Villa%20Escale%20Sainte%20Philomene%20Saint-Pierre%20Martinique&navigate=yes" class="btn" target="_blank">🧭 Ouvrir dans Waze</a>
+            <a href="https://www.google.com/maps?q=14.7813874,-61.2083433&z=17" class="btn btn-outline" target="_blank">📍 Ouvrir dans Google Maps</a>
+        </div>
+        <p class="info-note" style="margin-top: 0.75rem;">Coordonnées GPS : 14.7813874, -61.2083433</p>
+    </div>
+
+    <div class="navigation-buttons">
+        <div></div>
+        <button class="btn" onclick="nextStep(2)">Continuer →</button>
+    </div>
+</div>
+
+<!-- STEP 2 - VOS INFOS -->
+<div class="container step-content" id="step-2">
+    <div class="step-header">Étape 2 sur 7</div>
+    <h2>Vos Informations</h2>
+    <p style="margin-bottom: 1rem;">Ces informations figureront sur votre état des lieux signé.</p>
+
+    <div class="card">
+        <div class="form-group">
+            <label>Prénom</label>
+            <input type="text" required id="firstname">
+        </div>
+        <div class="form-group">
+            <label>Nom</label>
+            <input type="text" required id="lastname">
+        </div>
+        <div class="form-group">
+            <label>Email</label>
+            <input type="email" required id="email">
+        </div>
+        <div class="form-group">
+            <label>Téléphone</label>
+            <input type="tel" required id="phone">
+        </div>
+        <div class="grid-2">
+            <div class="form-group">
+                <label>Date d'arrivée</label>
+                <input type="date" required id="checkin">
+            </div>
+            <div class="form-group">
+                <label>Date de départ</label>
+                <input type="date" required id="checkout">
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Nombre de personnes (max 6 adultes + 1 bébé)</label>
+            <input type="number" min="1" max="7" id="pax">
+        </div>
+    </div>
+
+    <div class="navigation-buttons">
+        <button class="btn btn-back" onclick="nextStep(1)">← Retour</button>
+        <button class="btn" onclick="nextStep(3)">Continuer →</button>
+    </div>
+</div>
+
+<!-- STEP 3 - AUX ALENTOURS -->
+<div class="container step-content" id="step-3">
+    <div class="step-header">Étape 3 sur 7</div>
+    <h2>Aux Alentours</h2>
+    <p style="margin-bottom: 1rem;">Nos recommandations pour votre séjour.</p>
+
+    <!-- PLAGES -->
+    <div class="card">
+        <h3>🏖️ Plages</h3>
+        <h4>Sur place</h4>
+        <ul class="list-clean">
+            <li><strong>Plage de Sainte-Philomène</strong> — accès direct par le portillon derrière le BBQ. Baignade avec tortues et poissons.</li>
+        </ul>
+        <div class="warning" style="margin-top: 0.75rem;">
+            <strong>⚠️ Plage de galets</strong> — Chaussures d'eau vivement recommandées.
+        </div>
+
+        <h4>À découvrir</h4>
+        <ul class="list-clean">
+            <li><strong>Anse Couleuvre</strong> — Le Prêcheur (plage de sable noir)</li>
+            <li><strong>Plage de Saint-Pierre</strong> — bourg à 5 min</li>
+            <li><strong>Plage du Coin du Carbet</strong></li>
+        </ul>
+    </div>
+
+    <!-- RESTOS -->
+    <div class="card">
+        <h3>🍽️ Restaurants</h3>
+        <h4>Recommandés</h4>
+        <ul class="list-clean">
+            <li><strong>Habitation Céron</strong> — Table gastronomique + plus vieil arbre de MQ</li>
+            <li><strong>Habitation Anse Couleuvre</strong> — Ambiance nature</li>
+        </ul>
+        <h4>Plage du Coin (Carbet)</h4>
+        <ul class="list-clean">
+            <li><strong>Beach Grill</strong></li>
+            <li><strong>Caribbean Food</strong></li>
+            <li><strong>P'tit Bonom</strong></li>
+        </ul>
+        <h4>Bourg de Saint-Pierre</h4>
+        <ul class="list-clean">
+            <li><strong>Glacier du bourg</strong> — sorbets locaux</li>
+        </ul>
+    </div>
+
+    <!-- PRATIQUE -->
+    <div class="card">
+        <h3>🛒 Pratique</h3>
+        <h4>Courses</h4>
+        <ul class="list-clean">
+            <li><strong>Ecomax</strong> — sortie de Saint-Pierre</li>
+            <li><strong>Super U</strong> — Saint-Pierre</li>
+            <li><strong>Marché de Saint-Pierre</strong> — tous les jours 6h-14h (fruits, légumes, poissons)</li>
+        </ul>
+        <h4>Santé</h4>
+        <ul class="list-clean">
+            <li><strong>Pharmacie</strong> — bourg de Saint-Pierre</li>
+        </ul>
+    </div>
+
+    <!-- ACTIVITÉS -->
+    <div class="card">
+        <h3>🏄 Activités</h3>
+        <h4>Sports & nature</h4>
+        <ul class="list-clean">
+            <li>🏔️ Randonnée <strong>Montagne Pelée</strong> (Morne Rouge)</li>
+            <li>💧 <strong>Cascade Couleuvre</strong> (Le Prêcheur)</li>
+            <li>🥾 Randonnée <strong>Prêcheur ↔ Grand'Rivière</strong></li>
+            <li>🤿 <strong>Plongée</strong> baie de Saint-Pierre (nombreuses épaves)</li>
+            <li>🐢 <strong>Snorkeling</strong> devant la villa</li>
+        </ul>
+
+        <h4>Culture & découverte</h4>
+        <ul class="list-clean">
+            <li>🏛️ <strong>Ruines de Saint-Pierre</strong> (théâtre, ancienne prison, 1902)</li>
+            <li>🥃 <strong>Distillerie Depaz</strong> (Saint-Pierre) — visite gratuite</li>
+            <li>🥃 <strong>Distillerie Neisson</strong> (Carbet)</li>
+            <li>🌳 <strong>Habitation Céron</strong> (plus vieil arbre de MQ)</li>
+            <li>🖼️ <strong>Musée Gauguin</strong> (Carbet)</li>
+            <li>🚂 Petit train <strong>Cyparis Express</strong></li>
+        </ul>
+
+        <h4>Sur mesure</h4>
+        <p>Soleya peut organiser toutes vos excursions et activités personnalisées.</p>
+    </div>
+
+    <!-- SERVICES SOLEYA -->
+    <div class="card">
+        <h3>✨ Services Soleya</h3>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">👨‍🍳</div>
+                <div>Chef privé</div>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🛒</div>
+                <div>Livraison courses</div>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🚗</div>
+                <div>Transferts</div>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🤿</div>
+                <div>Excursions nautiques</div>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">💆</div>
+                <div>Massage</div>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🧹</div>
+                <div>Ménage intermédiaire</div>
+            </div>
+        </div>
+        <p style="text-align: center; margin-top: 1rem;">Réservation d'activités, transferts, courses, livraison de repas — <strong>contactez-nous !</strong></p>
+        <a href="https://wa.me/596696111869?text=Bonjour%20Soleya%2C%20je%20suis%20client%20%C3%A0%20la%20Villa%20Escale%20Sainte-Philom%C3%A8ne%20et%20je%20souhaiterais%20r%C3%A9server%20une%20activit%C3%A9%20%2F%20un%20service." class="btn btn-block" style="margin-top: 1rem;">💬 WhatsApp Soleya</a>
+    </div>
+
+    <div class="navigation-buttons">
+        <button class="btn btn-back" onclick="nextStep(2)">← Retour</button>
+        <button class="btn" onclick="nextStep(4)">Continuer →</button>
+    </div>
+</div>
+
+<!-- STEP 4 - INVENTAIRE -->
+<div class="container step-content" id="step-4">
+    <div class="step-header">Étape 4 sur 7</div>
+    <h2>Inventaire des Équipements</h2>
+    <p style="margin-bottom: 1rem;">Ouvrez chaque pièce, comparez avec la photo de référence, puis <strong>cochez chaque section pour valider</strong>.</p>
+
+    <div class="highlight-box">
+        <strong>⚠️ Important :</strong> vous devez cocher toutes les sections de l'inventaire pour passer à l'étape suivante.
+    </div>
+
+    <!-- SALON -->
+    <div class="accordion" data-inventory="1">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+            <div class="accordion-header-title">
+                <div class="accordion-check"></div>
+                <span>🛋️ Salon / Séjour</span>
+            </div>
+            <span class="accordion-arrow">▼</span>
+        </div>
+        <div class="accordion-content">
+            <ul class="list-clean">
+                <li>Smart TV grand écran</li>
+                <li>Enceinte Sonos</li>
+                <li>Table basse + plateau</li>
+                <li>Décorations authentiques (palmier central)</li>
+                <li>Canapé avec coussins</li>
+                <li>Vue mer directe</li>
+            </ul>
+            <button class="btn btn-block" style="margin-top: 1rem;" onclick="validateInventory(this)">✓ Confirmer l'inventaire</button>
+        </div>
+    </div>
+
+    <!-- CUISINE -->
+    <div class="accordion" data-inventory="1">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+            <div class="accordion-header-title">
+                <div class="accordion-check"></div>
+                <span>🍳 Cuisine ouverte</span>
+            </div>
+            <span class="accordion-arrow">▼</span>
+        </div>
+        <div class="accordion-content">
+            <ul class="list-clean">
+                <li>Four</li>
+                <li>Micro-ondes</li>
+                <li>Lave-vaisselle</li>
+                <li>Blender</li>
+                <li>Bouilloire</li>
+                <li>Machine à café <strong>Dolce Gusto</strong></li>
+                <li>Grille-pain</li>
+                <li>Seau + coupe à champagne</li>
+                <li>Congélateur</li>
+                <li>Distributeur de glaçons</li>
+                <li><strong>Vaisselle complète pour 6 personnes</strong></li>
+            </ul>
+            <button class="btn btn-block" style="margin-top: 1rem;" onclick="validateInventory(this)">✓ Confirmer l'inventaire</button>
+        </div>
+    </div>
+
+    <!-- BUANDERIE -->
+    <div class="accordion" data-inventory="1">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+            <div class="accordion-header-title">
+                <div class="accordion-check"></div>
+                <span>🧺 Buanderie</span>
+            </div>
+            <span class="accordion-arrow">▼</span>
+        </div>
+        <div class="accordion-content">
+            <ul class="list-clean">
+                <li>Machine à laver</li>
+                <li>Sèche-linge</li>
+                <li>Fer à repasser</li>
+                <li>Aspirateur</li>
+            </ul>
+            <button class="btn btn-block" style="margin-top: 1rem;" onclick="validateInventory(this)">✓ Confirmer l'inventaire</button>
+        </div>
+    </div>
+
+    <!-- CHAMBRE 1 -->
+    <div class="accordion" data-inventory="1">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+            <div class="accordion-header-title">
+                <div class="accordion-check"></div>
+                <span>🛏️ Chambre 1</span>
+            </div>
+            <span class="accordion-arrow">▼</span>
+        </div>
+        <div class="accordion-content">
+            <ul class="list-clean">
+                <li>Lit double 160x200</li>
+                <li>Smart TV</li>
+                <li>Climatisation</li>
+                <li>Meuble rangement</li>
+                <li>SDB privée (douche à l'italienne + WC)</li>
+            </ul>
+            <button class="btn btn-block" style="margin-top: 1rem;" onclick="validateInventory(this)">✓ Confirmer l'inventaire</button>
+        </div>
+    </div>
+
+    <!-- CHAMBRE 2 -->
+    <div class="accordion" data-inventory="1">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+            <div class="accordion-header-title">
+                <div class="accordion-check"></div>
+                <span>🛏️ Chambre 2 (accès terrasse)</span>
+            </div>
+            <span class="accordion-arrow">▼</span>
+        </div>
+        <div class="accordion-content">
+            <ul class="list-clean">
+                <li>Lit double 160x200</li>
+                <li>Smart TV</li>
+                <li>Climatisation</li>
+                <li>Accès direct terrasse</li>
+                <li>SDB privée + douche extérieure</li>
+            </ul>
+            <button class="btn btn-block" style="margin-top: 1rem;" onclick="validateInventory(this)">✓ Confirmer l'inventaire</button>
+        </div>
+    </div>
+
+    <!-- CHAMBRE 3 -->
+    <div class="accordion" data-inventory="1">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+            <div class="accordion-header-title">
+                <div class="accordion-check"></div>
+                <span>🛏️ Chambre 3 (accès terrasse)</span>
+            </div>
+            <span class="accordion-arrow">▼</span>
+        </div>
+        <div class="accordion-content">
+            <ul class="list-clean">
+                <li>Lit double 160x200</li>
+                <li>Smart TV</li>
+                <li>Climatisation</li>
+                <li>Accès direct terrasse</li>
+                <li>SDB privée</li>
+            </ul>
+            <button class="btn btn-block" style="margin-top: 1rem;" onclick="validateInventory(this)">✓ Confirmer l'inventaire</button>
+        </div>
+    </div>
+
+    <!-- TERRASSE & PISCINE -->
+    <div class="accordion" data-inventory="1">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+            <div class="accordion-header-title">
+                <div class="accordion-check"></div>
+                <span>🌴 Terrasse & Piscine</span>
+            </div>
+            <span class="accordion-arrow">▼</span>
+        </div>
+        <div class="accordion-content">
+            <ul class="list-clean">
+                <li>Terrasse ombragée (ombrières)</li>
+                <li>Transats</li>
+                <li><strong>Salon extérieur</strong></li>
+                <li><strong>Table à manger extérieure</strong></li>
+                <li>Piscine 3x4m sécurisée par alarme</li>
+                <li>BBQ au charbon (derrière la villa, près du portillon plage)</li>
+                <li>Portillon d'accès direct à la plage</li>
+            </ul>
+            <button class="btn btn-block" style="margin-top: 1rem;" onclick="validateInventory(this)">✓ Confirmer l'inventaire</button>
+        </div>
+    </div>
+
+    <!-- BÉBÉ -->
+    <div class="accordion" data-inventory="1">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+            <div class="accordion-header-title">
+                <div class="accordion-check"></div>
+                <span>👶 Équipements bébé</span>
+            </div>
+            <span class="accordion-arrow">▼</span>
+        </div>
+        <div class="accordion-content">
+            <ul class="list-clean">
+                <li>Lit parapluie fourni</li>
+            </ul>
+            <button class="btn btn-block" style="margin-top: 1rem;" onclick="validateInventory(this)">✓ Confirmer l'inventaire</button>
+        </div>
+    </div>
+
+    <!-- SÉCURITÉ & CONFORT -->
+    <div class="accordion" data-inventory="1">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+            <div class="accordion-header-title">
+                <div class="accordion-check"></div>
+                <span>🔒 Sécurité & confort</span>
+            </div>
+            <span class="accordion-arrow">▼</span>
+        </div>
+        <div class="accordion-content">
+            <ul class="list-clean">
+                <li>Coffre-fort</li>
+                <li>Enceinte de musique</li>
+                <li>Serviettes de plage (grises, distinctes des serviettes de bain)</li>
+                <li>Linge de maison fourni (draps, serviettes, torchons)</li>
+                <li>Sèche-cheveux</li>
+            </ul>
+            <button class="btn btn-block" style="margin-top: 1rem;" onclick="validateInventory(this)">✓ Confirmer l'inventaire</button>
+        </div>
+    </div>
+
+    <div id="inventory-status" style="margin-top: 1rem;"></div>
+
+    <div class="navigation-buttons">
+        <button class="btn btn-back" onclick="nextStep(3)">← Retour</button>
+        <button class="btn" id="btn-to-step-5" onclick="tryNextStep(5)" disabled style="opacity: 0.5;">Continuer →</button>
+    </div>
+</div>
+
+<!-- STEP 5 - RÈGLEMENT -->
+<div class="container step-content" id="step-5">
+    <div class="step-header">Étape 5 sur 7</div>
+    <h2>Règlement Intérieur</h2>
+    <p style="margin-bottom: 1rem;">Déroulez chaque section ▼, lisez et cochez pour valider.</p>
+
+    <div class="danger">
+        <strong>🔒 RÈGLES IMPORTANTES</strong>
+        <ul style="margin-top: 0.5rem; padding-left: 1.5rem;">
+            <li>Fermer TOUS les volets et baies vitrées à chaque sortie</li>
+            <li>Activer l'alarme dès que vous quittez la villa</li>
+            <li>Fermer le portillon d'accès à la plage</li>
+            <li>Rentrer les effets personnels</li>
+            <li><strong>Ne pas s'asseoir sur le canapé en sortant de la piscine</strong></li>
+        </ul>
+    </div>
+
+    <!-- RÈGLES PRINCIPALES -->
+    <h3>📋 Règles Principales</h3>
+
+    <div class="accordion">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+            <div class="accordion-header-title">
+                <span>🕘 Vie en communauté</span>
+            </div>
+            <span class="accordion-arrow">▼</span>
+        </div>
+        <div class="accordion-content">
+            <p>Nuisances sonores interdites entre <strong>22h et 8h</strong>.</p>
+            <p style="margin-top: 0.5rem;"><strong>Aucune fête autorisée</strong> dans la villa.</p>
+            <p style="margin-top: 0.5rem;">Animaux admis <strong>sur autorisation préalable uniquement</strong>.</p>
+            <p style="margin-top: 0.5rem;"><strong>Interdiction de fumer à l'intérieur</strong> de la villa.</p>
+        </div>
+    </div>
+
+    <div class="accordion">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+            <div class="accordion-header-title">
+                <span>📺 Équipements & multimédia</span>
+            </div>
+            <span class="accordion-arrow">▼</span>
+        </div>
+        <div class="accordion-content">
+            <p>L'équipement multimédia est sous la responsabilité du locataire. Toute panne ou casse non signalée sera retenue sur la caution. Wi-Fi interdit pour activités illégales.</p>
+        </div>
+    </div>
+
+    <div class="accordion">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+            <div class="accordion-header-title">
+                <span>🔒 Sécurité & fermeture</span>
+            </div>
+            <span class="accordion-arrow">▼</span>
+        </div>
+        <div class="accordion-content">
+            <ul style="padding-left: 1.5rem;">
+                <li>Fermer TOUS les volets ET baies vitrées à chaque sortie</li>
+                <li><strong>Activer l'alarme</strong> dès que vous quittez la villa</li>
+                <li>Fermer le portillon d'accès à la plage</li>
+                <li>Ne pas s'asseoir sur le canapé en sortant de la piscine</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="accordion">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+            <div class="accordion-header-title">
+                <span>🏊 Piscine</span>
+            </div>
+            <span class="accordion-arrow">▼</span>
+        </div>
+        <div class="accordion-content">
+            <p><strong>Alarme piscine :</strong></p>
+            <ul style="padding-left: 1.5rem; margin-top: 0.5rem;">
+                <li>Désamorcer en tapant <strong>1234</strong></li>
+                <li>Mise à l'arrêt en tapant <strong>34 34 34 34</strong></li>
+                <li>⚠️ Il doit impérativement y avoir un <strong>bip à chaque appui</strong> sur les touches</li>
+            </ul>
+
+            <p style="margin-top: 0.75rem;"><strong>Robot piscine (mis à disposition) :</strong></p>
+            <ul style="padding-left: 1.5rem; margin-top: 0.5rem;">
+                <li>Mettre le robot dans la piscine <strong>quand il n'y a personne</strong></li>
+                <li>Brancher en s'assurant que la <strong>clé des clims soit activée</strong></li>
+                <li>Le laisser faire</li>
+                <li>Rincer à l'eau claire après utilisation</li>
+            </ul>
+
+            <p style="margin-top: 0.75rem;"><strong>Entretien piscine :</strong></p>
+            <ul style="padding-left: 1.5rem; margin-top: 0.5rem;">
+                <li>Remplir la surverse de la piscine au tuyau d'eau <strong>régulièrement</strong></li>
+            </ul>
+
+            <div class="warning" style="margin-top: 0.75rem;">
+                <strong>⚠️ Accès direct plage de galets</strong> : chaussures d'eau recommandées. Vigilance particulière pour enfants (proximité mer).
+            </div>
+        </div>
+    </div>
+
+    <div class="accordion">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+            <div class="accordion-header-title">
+                <span>♻️ Tri des déchets</span>
+            </div>
+            <span class="accordion-arrow">▼</span>
+        </div>
+        <div class="accordion-content">
+            <ul style="padding-left: 1.5rem;">
+                <li><strong>Poubelle grise</strong> — tout venant</li>
+                <li><strong>Poubelle jaune</strong> — plastique & cartons</li>
+                <li><strong>Verre</strong> — bennes au village</li>
+            </ul>
+            <div class="highlight-box" style="margin-top: 0.75rem;">
+                <strong>📅 Ramassage des ordures : une fois par semaine, le lundi</strong>
+                <br><br>
+                Bien penser à sortir les poubelles à l'extérieur du portail la veille au soir.
+            </div>
+        </div>
+    </div>
+
+    <div class="checkbox-group">
+        <input type="checkbox" id="rules1">
+        <label for="rules1">J'ai lu et j'accepte les règles principales</label>
+    </div>
+
+    <!-- RÈGLES DE DÉPART -->
+    <h3>🗂️ Règles de Départ</h3>
+    <p style="margin-bottom: 1rem;">Obligations avant de quitter la villa</p>
+
+    <div class="accordion">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+            <div class="accordion-header-title">
+                <span>🍽️ Vaisselle</span>
+                <span class="supp-badge">Suppl. 30€</span>
+            </div>
+            <span class="accordion-arrow">▼</span>
+        </div>
+        <div class="accordion-content">
+            <p>Ranger la vaisselle propre et vider le lave-vaisselle avant le départ.</p>
+        </div>
+    </div>
+
+    <div class="accordion">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+            <div class="accordion-header-title">
+                <span>🗑️ Poubelles</span>
+                <span class="supp-badge">Suppl. 50€</span>
+            </div>
+            <span class="accordion-arrow">▼</span>
+        </div>
+        <div class="accordion-content">
+            <p>Sortir les poubelles et respecter le tri sélectif.</p>
+        </div>
+    </div>
+
+    <div class="accordion">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+            <div class="accordion-header-title">
+                <span>🔥 Four & Barbecue</span>
+                <span class="supp-badge">Suppl. 80€</span>
+            </div>
+            <span class="accordion-arrow">▼</span>
+        </div>
+        <div class="accordion-content">
+            <p>Nettoyer le four et/ou le barbecue au charbon après usage.</p>
+        </div>
+    </div>
+
+    <div class="accordion">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+            <div class="accordion-header-title">
+                <span>🔧 Casse & Pannes</span>
+            </div>
+            <span class="accordion-arrow">▼</span>
+        </div>
+        <div class="accordion-content">
+            <p>Signaler toute casse ou panne survenue avant le départ.</p>
+        </div>
+    </div>
+
+    <div class="accordion">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+            <div class="accordion-header-title">
+                <span>🛏️ Linge</span>
+            </div>
+            <span class="accordion-arrow">▼</span>
+        </div>
+        <div class="accordion-content">
+            <p>Regrouper le linge dans le salon — draps et serviettes séparés.</p>
+        </div>
+    </div>
+
+    <div class="checkbox-group">
+        <input type="checkbox" id="rules2">
+        <label for="rules2">J'ai lu et j'accepte les Règles de Départ</label>
+    </div>
+
+    <div class="navigation-buttons">
+        <button class="btn btn-back" onclick="nextStep(4)">← Retour</button>
+        <button class="btn" onclick="nextStep(6)">Continuer →</button>
+    </div>
+</div>
+
+<!-- STEP 6 - SIGNATURE -->
+<div class="container step-content" id="step-6">
+    <div class="step-header">Étape 6 sur 7</div>
+    <h2>Signature</h2>
+    <p style="margin-bottom: 1rem;">En signant, vous confirmez l'inventaire et le règlement intérieur.</p>
+
+    <div class="card">
+        <p style="margin-bottom: 1rem;">Zone de signature</p>
+        <canvas id="signature-canvas" style="border: 2px dashed var(--soleya-border); border-radius: 8px; width: 100%; height: 150px; touch-action: none;"></canvas>
+        <button class="btn btn-outline" style="margin-top: 1rem;" onclick="clearSignature()">Effacer</button>
+    </div>
+
+    <button class="btn btn-block" onclick="nextStep(7)">💾 Télécharger le PDF & Valider</button>
+    <p style="text-align: center; margin-top: 1rem; font-size: 0.85rem; color: #666;">Votre état des lieux sera transmis automatiquement à Soleya.</p>
+
+    <div class="navigation-buttons">
+        <button class="btn btn-back" onclick="nextStep(5)">← Retour</button>
+    </div>
+</div>
+
+<!-- STEP 7 - CONFIRMATION -->
+<div class="container step-content" id="step-7">
+    <div class="step-header">Étape 7 sur 7</div>
+    <h2>Confirmation</h2>
+    <p style="margin-bottom: 1rem;">Merci, votre état des lieux est enregistré.</p>
+
+    <div class="card" style="text-align: center;">
+        <div style="font-size: 3rem; color: var(--soleya-primary);">✓</div>
+        <h3 style="margin: 0.5rem 0;">État des lieux validé</h3>
+        <p style="margin: 1rem 0;">Nous vous souhaitons un agréable séjour à la <strong>Villa L'Escale de Sainte Philomène</strong> !</p>
+        <a href="https://wa.me/596696111869?text=Bonjour%20Soleya%2C%20je%20viens%20de%20valider%20mon%20%C3%A9tat%20des%20lieux%20%C3%A0%20la%20Villa%20Escale%20Sainte-Philom%C3%A8ne." class="btn">💬 Contacter Soleya</a>
+    </div>
+</div>
+
+<!-- TOAST -->
+<div class="copy-toast" id="copy-toast">✓ Mot de passe copié !</div>
+
+<!-- CONTACT STRIP -->
+<div class="contact-strip">
+    <a href="tel:+596696111869">📞 +596 696 111 869</a> · Soleya Conciergerie ☀️
+</div>
+
+<script>
+    // ========== NAVIGATION ==========
+    document.querySelectorAll('.nav-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            const step = tab.dataset.step;
+            goToStep(step);
+        });
+    });
+
+    function goToStep(step) {
+        document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+        document.querySelector(`.nav-tab[data-step="${step}"]`).classList.add('active');
+        document.querySelectorAll('.step-content').forEach(s => s.classList.remove('active'));
+        document.getElementById(`step-${step}`).classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function nextStep(step) { goToStep(step); }
+
+    function tryNextStep(step) {
+        if (checkInventoryComplete()) {
+            goToStep(step);
+        }
+    }
+
+    function toggleAccordion(header) {
+        header.parentElement.classList.toggle('open');
+    }
+
+    // ========== INVENTORY VALIDATION ==========
+    function validateInventory(button) {
+        const accordion = button.closest('.accordion');
+        accordion.classList.add('validated');
+        accordion.classList.remove('open');
+        checkInventoryComplete();
+    }
+
+    function checkInventoryComplete() {
+        const total = document.querySelectorAll('.accordion[data-inventory="1"]').length;
+        const validated = document.querySelectorAll('.accordion[data-inventory="1"].validated').length;
+        const btn = document.getElementById('btn-to-step-5');
+        const status = document.getElementById('inventory-status');
+
+        if (validated === total) {
+            btn.disabled = false;
+            btn.style.opacity = '1';
+            status.innerHTML = '<div class="success-box">✓ Inventaire complet ! Vous pouvez passer à la suite.</div>';
+            return true;
+        } else {
+            btn.disabled = true;
+            btn.style.opacity = '0.5';
+            status.innerHTML = `<div class="highlight-box">⚠️ Il reste ${total - validated} section(s) à valider (${validated}/${total})</div>`;
+            return false;
+        }
+    }
+
+    // ========== WIFI ==========
+    function copyWifiPassword() {
+        const pwd = document.getElementById('wifi-pwd').innerText;
+        navigator.clipboard.writeText(pwd).then(() => {
+            const toast = document.getElementById('copy-toast');
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }).catch(err => {
+            // Fallback pour navigateurs anciens
+            const textArea = document.createElement('textarea');
+            textArea.value = pwd;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            const toast = document.getElementById('copy-toast');
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        });
+    }
+
+    // ========== QR CODE WIFI ==========
+    window.addEventListener('load', () => {
+        const wifiString = 'WIFI:T:WPA;S:Livebox-CF0A;P:nw3DgxHo6nL9oEQx2L;;';
+        new QRCode(document.getElementById('wifi-qr'), {
+            text: wifiString,
+            width: 80,
+            height: 80,
+            correctLevel: QRCode.CorrectLevel.M
+        });
+    });
+
+    // ========== SIGNATURE CANVAS ==========
+    const canvas = document.getElementById('signature-canvas');
+    if (canvas) {
+        const ctx = canvas.getContext('2d');
+        canvas.width = canvas.offsetWidth;
+        canvas.height = 150;
+        let drawing = false;
+
+        function startDrawing(e) {
+            drawing = true;
+            const rect = canvas.getBoundingClientRect();
+            const x = (e.clientX || e.touches[0].clientX) - rect.left;
+            const y = (e.clientY || e.touches[0].clientY) - rect.top;
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+        }
+
+        function draw(e) {
+            if (!drawing) return;
+            e.preventDefault();
+            const rect = canvas.getBoundingClientRect();
+            const x = (e.clientX || e.touches[0].clientX) - rect.left;
+            const y = (e.clientY || e.touches[0].clientY) - rect.top;
+            ctx.lineTo(x, y);
+            ctx.strokeStyle = '#2c6e49';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+        }
+
+        function stopDrawing() { drawing = false; }
+
+        canvas.addEventListener('mousedown', startDrawing);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', stopDrawing);
+        canvas.addEventListener('touchstart', startDrawing);
+        canvas.addEventListener('touchmove', draw);
+        canvas.addEventListener('touchend', stopDrawing);
+    }
+
+    function clearSignature() {
+        if (canvas) {
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+    }
+</script>
+
+</body>
+</html>
