@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{NOM_VILLA}} — État des lieux d'entrée | Soleya Conciergerie</title>
+<style>
+:root{
+  --encre:#12312c;
+  --encre-doux:#4a6b64;
+  --sable:#f7f4ee;
+  --sable-fonce:#ebe4d8;
+  --lagon:#1f7a6b;
+  --lagon-clair:#e4f0ed;
+  --corail:#c4603f;
+  --or:#c9a227;
+  --blanc:#fffdfa;
+  --radius:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'Avenir Next','Segoe UI',system-ui,sans-serif;
+  background:var(--sable);color:var(--encre);
+  line-height:1.6;-webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:640px;margin:0 auto;padding:0 18px 90px}
+
+/* En-tête */
+header{
+  background:var(--encre);color:var(--blanc);
+  padding:22px 18px 18px;text-align:center;
+}
+.marque{
+  font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--or);margin-bottom:6px;
+}
+header h1{font-size:23px;font-weight:600;letter-spacing:-.01em}
+.lieu{font-size:13px;color:#a8c4bd;margin-top:4px}
+
+/* Fil des étapes */
+.fil{
+  display:flex;gap:6px;overflow-x:auto;padding:12px 18px;
+  background:var(--blanc);border-bottom:1px solid var(--sable-fonce);
+  position:sticky;top:0;z-index:20;-webkit-overflow-scrolling:touch;
+}
+.fil button{
+  flex:0 0 auto;border:1px solid var(--sable-fonce);background:transparent;
+  color:var(--encre-doux);font-size:12px;padding:6px 13px;border-radius:99px;
+  cursor:pointer;font-family:inherit;white-space:nowrap;
+}
+.fil button[aria-current="true"]{background:var(--lagon);color:#fff;border-color:var(--lagon)}
+
+/* Avis navigateur */
+.avis{
+  background:#fdf4e3;border-left:3px solid var(--or);
+  padding:11px 14px;font-size:13px;margin:16px 0;border-radius:0 8px 8px 0;
+}
+
+/* Étapes */
+.etape{display:none;padding-top:20px}
+.etape.actif{display:block}
+.compteur{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--encre-doux)}
+.etape h2{font-size:21px;margin:6px 0 12px;font-weight:600}
+.chapo{color:var(--encre-doux);font-size:15px;margin-bottom:18px}
+
+.carte{
+  background:var(--blanc);border:1px solid var(--sable-fonce);
+  border-radius:var(--radius);padding:17px;margin-bottom:14px;
+}
+.carte h3{font-size:15px;margin-bottom:9px;display:flex;gap:8px;align-items:center}
+.carte h4{font-size:13px;color:var(--encre-doux);margin:12px 0 5px;text-transform:uppercase;letter-spacing:.06em}
+.carte ul{list-style:none}
+.carte li{padding:5px 0 5px 17px;position:relative;font-size:14.5px}
+.carte li::before{content:"—";position:absolute;left:0;color:var(--lagon)}
+
+/* Blocs d'accès */
+.acces{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
+.acces div{
+  background:var(--lagon-clair);border-radius:10px;padding:13px;text-align:center;
+}
+.acces span{display:block;font-size:11px;color:var(--encre-doux);text-transform:uppercase;letter-spacing:.08em}
+.acces strong{font-size:17px;font-family:ui-monospace,Menlo,monospace;letter-spacing:.02em}
+
+/* Boutons */
+.btn{
+  display:block;width:100%;text-align:center;text-decoration:none;
+  padding:13px;border-radius:10px;font-size:15px;font-weight:600;
+  border:none;font-family:inherit;cursor:pointer;margin-bottom:9px;
+}
+.btn-plein{background:var(--lagon);color:#fff}
+.btn-ligne{background:transparent;color:var(--encre);border:1.5px solid var(--encre)}
+.btn-wa{background:#25D366;color:#fff}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+
+/* Formulaire */
+label{display:block;font-size:13px;font-weight:600;margin:12px 0 5px}
+input,textarea{
+  width:100%;padding:11px;border:1px solid var(--sable-fonce);
+  border-radius:9px;font-size:16px;font-family:inherit;background:var(--blanc);
+}
+input:focus,textarea:focus{outline:2px solid var(--lagon);outline-offset:1px}
+
+/* Règlement dépliable */
+details{
+  background:var(--blanc);border:1px solid var(--sable-fonce);
+  border-radius:var(--radius);margin-bottom:12px;overflow:hidden;
+}
+summary{padding:15px 17px;cursor:pointer;font-weight:600;font-size:15px;list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"▾";float:right;color:var(--encre-doux)}
+details[open] summary::after{content:"▴"}
+.contenu{padding:0 17px 15px;font-size:14.5px}
+.regle{margin-bottom:13px}
+.regle strong{display:block;margin-bottom:3px}
+.suppl{
+  display:inline-block;background:#fbe9e3;color:var(--corail);
+  font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px;margin-left:6px;
+}
+.coche{
+  display:flex;gap:10px;align-items:flex-start;
+  background:var(--lagon-clair);padding:12px 17px;font-size:14px;
+}
+.coche input{width:19px;height:19px;flex:0 0 auto;margin-top:2px}
+
+.alerte{
+  background:#fbe9e3;border-left:3px solid var(--corail);
+  padding:12px 14px;font-size:14px;margin-bottom:16px;border-radius:0 8px 8px 0;
+}
+
+/* Signature */
+canvas{
+  width:100%;height:170px;background:var(--blanc);
+  border:1px dashed var(--encre-doux);border-radius:var(--radius);touch-action:none;
+}
+
+/* Navigation bas */
+.nav{
+  position:fixed;bottom:0;left:0;right:0;background:var(--blanc);
+  border-top:1px solid var(--sable-fonce);padding:11px 18px;
+  display:flex;gap:10px;max-width:640px;margin:0 auto;
+}
+.nav button{flex:1;padding:13px;border-radius:10px;font-size:15px;font-weight:600;border:none;font-family:inherit;cursor:pointer}
+.nav .prec{background:var(--sable-fonce);color:var(--encre)}
+.nav .suiv{background:var(--lagon);color:#fff}
+
+.valide{text-align:center;padding:26px 0}
+.valide .rond{
+  width:62px;height:62px;border-radius:50%;background:var(--lagon);
+  color:#fff;font-size:31px;display:flex;align-items:center;justify-content:center;
+  margin:0 auto 16px;
+}
+.aremplir{background:#fff8dc;padding:2px 5px;border-radius:4px;font-weight:600}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="marque">Soleya Conciergerie · État des lieux d'entrée</div>
+  <h1>{{NOM_VILLA}}</h1>
+  <div class="lieu">📍 {{COMMUNE}}, Martinique</div>
+</header>
+
+<nav class="fil" id="fil"></nav>
+
+<div class="wrap">
+
+<div class="avis">
+  <strong>Conseil :</strong> ouvrez ce lien dans Safari (iPhone) ou Chrome (Android) plutôt que dans WhatsApp, pour pouvoir enregistrer le PDF. Touchez les trois points en haut à droite → « Ouvrir dans le navigateur ».
+</div>
+
+<!-- 1 -->
+<section class="etape actif" data-titre="Bienvenue">
+  <div class="compteur">Étape 1 sur 7</div>
+  <h2>Bienvenue</h2>
+  <p class="chapo">Nous avons le plaisir de vous accueillir à {{NOM_VILLA}}. Voici les informations principales pour votre séjour. Notre équipe reste joignable à tout moment.</p>
+
+  <div class="acces">
+    <div><span>Wifi</span><strong>{{WIFI_NOM}}</strong></div>
+    <div><span>Mot de passe</span><strong>{{WIFI_MDP}}</strong></div>
+    <div><span>Code portail</span><strong>{{CODE_PORTAIL}}</strong></div>
+    <div><span>Alarme</span><strong>{{CODE_ALARME}}</strong></div>
+  </div>
+
+  <div class="carte">
+    <h3>🔑 Jeu de clés</h3>
+    <ul>
+      <li>{{CLE_1}}</li>
+      <li>{{CLE_2}}</li>
+      <li>{{CLE_3}}</li>
+    </ul>
+  </div>
+
+  <div class="carte">
+    <h3>🧭 Comment trouver la villa</h3>
+    <p style="font-size:14.5px;color:var(--encre-doux);margin-bottom:12px">Coordonnées GPS : {{GPS}}</p>
+    <div class="duo">
+      <a class="btn btn-ligne" href="{{LIEN_WAZE}}">Ouvrir Waze</a>
+      <a class="btn btn-ligne" href="{{LIEN_MAPS}}">Google Maps</a>
+    </div>
+  </div>
+
+  <a class="btn btn-plein" href="tel:+596696111869">📞 Appeler Soleya</a>
+  <a class="btn btn-wa" href="https://wa.me/596696111869">💬 WhatsApp</a>
+</section>
+
+<!-- 2 -->
+<section class="etape" data-titre="Vos infos">
+  <div class="compteur">Étape 2 sur 7</div>
+  <h2>Vos informations</h2>
+  <p class="chapo">Ces informations figureront sur votre état des lieux signé.</p>
+  <div class="carte">
+    <label>Prénom</label><input type="text">
+    <label>Nom</label><input type="text">
+    <label>Email</label><input type="email">
+    <label>Téléphone</label><input type="tel">
+    <label>Date d'arrivée</label><input type="date">
+    <label>Date de départ</label><input type="date">
+    <label>Nombre de personnes</label><input type="number" min="1">
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="etape" data-titre="Alentours">
+  <div class="compteur">Étape 3 sur 7</div>
+  <h2>Aux alentours</h2>
+  <p class="chapo">Nos recommandations pour votre séjour.</p>
+
+  <div class="carte">
+    <h3>🏖️ Plages</h3>
+    <h4>À proximité</h4>
+    <ul><li>{{PLAGE_1}}</li><li>{{PLAGE_2}}</li></ul>
+    <h4>À découvrir</h4>
+    <ul><li>{{PLAGE_3}}</li></ul>
+  </div>
+
+  <div class="carte">
+    <h3>🍽️ Restaurants &amp; pratique</h3>
+    <h4>Restaurants</h4>
+    <ul><li>{{RESTO_1}}</li><li>{{RESTO_2}}</li><li>{{RESTO_3}}</li></ul>
+    <h4>Courses &amp; services</h4>
+    <ul><li>{{SUPERMARCHE}}</li><li>{{PHARMACIE}}</li><li>{{STATION}}</li></ul>
+  </div>
+
+  <div class="carte">
+    <h3>🏄 Activités</h3>
+    <ul><li>{{ACTIVITE_1}}</li><li>{{ACTIVITE_2}}</li><li>{{ACTIVITE_3}}</li></ul>
+  </div>
+
+  <div class="carte">
+    <h3>✨ Services Soleya</h3>
+    <ul>
+      <li>Chef privé à domicile</li>
+      <li>Livraison de courses</li>
+      <li>Transferts aéroport</li>
+      <li>Excursions nautiques</li>
+      <li>Massage</li>
+      <li>Ménage intermédiaire</li>
+    </ul>
+    <a class="btn btn-wa" style="margin-top:12px" href="https://wa.me/596696111869">💬 Réserver un service</a>
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="etape" data-titre="Inventaire">
+  <div class="compteur">Étape 4 sur 7</div>
+  <h2>Inventaire des équipements</h2>
+  <p class="chapo">Ouvrez chaque pièce, comparez avec la photo de référence, puis validez. Signalez seulement ce qui manque ou est abîmé.</p>
+
+  <details>
+    <summary>{{PIECE_1}}</summary>
+    <div class="contenu">
+      <ul><li>{{EQUIPEMENT_1}}</li><li>{{EQUIPEMENT_2}}</li><li>{{EQUIPEMENT_3}}</li></ul>
+    </div>
+    <label class="coche"><input type="checkbox"> Conforme</label>
+  </details>
+
+  <details>
+    <summary>{{PIECE_2}}</summary>
+    <div class="contenu">
+      <ul><li>{{EQUIPEMENT_4}}</li><li>{{EQUIPEMENT_5}}</li></ul>
+    </div>
+    <label class="coche"><input type="checkbox"> Conforme</label>
+  </details>
+
+  <details>
+    <summary>{{PIECE_3}}</summary>
+    <div class="contenu">
+      <ul><li>{{EQUIPEMENT_6}}</li><li>{{EQUIPEMENT_7}}</li></ul>
+    </div>
+    <label class="coche"><input type="checkbox"> Conforme</label>
+  </details>
+
+  <div class="carte">
+    <label>Anomalie à signaler</label>
+    <textarea rows="3" placeholder="Décrivez ce qui manque ou est abîmé"></textarea>
+  </div>
+</section>
+
+<!-- 5 -->
+<section class="etape" data-titre="Règlement">
+  <div class="compteur">Étape 5 sur 7</div>
+  <h2>Règlement intérieur</h2>
+  <p class="chapo">Dépliez chaque section, lisez et cochez pour valider.</p>
+
+  <div class="alerte"><strong>Règle importante :</strong> {{REGLE_PRINCIPALE}}</div>
+
+  <details>
+    <summary>📋 Règles principales</summary>
+    <div class="contenu">
+      <div class="regle"><strong>🕘 Vie en communauté</strong>Nuisances sonores interdites entre 22h et 8h. Les fêtes nécessitent une autorisation préalable. {{ANIMAUX}} Interdiction de fumer à l'intérieur.</div>
+      <div class="regle"><strong>📺 Équipements &amp; multimédia</strong>L'équipement multimédia est sous la responsabilité du locataire. Toute panne ou casse non signalée sera retenue sur la caution.</div>
+      <div class="regle"><strong>🔒 Sécurité &amp; fermeture</strong>{{CONSIGNE_FERMETURE}}</div>
+      <div class="regle"><strong>♻️ Tri des déchets</strong>{{CONSIGNE_DECHETS}} Ramassage le {{JOUR_ORDURES}}.</div>
+    </div>
+    <label class="coche"><input type="checkbox"> J'ai lu et j'accepte les règles principales</label>
+  </details>
+
+  <details>
+    <summary>🏊 Piscine</summary>
+    <div class="contenu">
+      <div class="regle"><strong>Accès</strong>{{REGLE_PISCINE}}</div>
+      <div class="regle"><strong>Entretien</strong>{{ROBOT_PISCINE}}</div>
+    </div>
+    <label class="coche"><input type="checkbox"> J'ai lu et j'accepte les règles piscine</label>
+  </details>
+
+  <details>
+    <summary>🗂️ Règles de départ</summary>
+    <div class="contenu">
+      <div class="regle"><strong>🍽️ Vaisselle<span class="suppl">Suppl. 30 €</span></strong>Ranger la vaisselle propre et vider le lave-vaisselle avant le départ.</div>
+      <div class="regle"><strong>🗑️ Poubelles<span class="suppl">Suppl. 50 €</span></strong>Sortir les poubelles et respecter le tri sélectif.</div>
+      <div class="regle"><strong>🔥 Four &amp; barbecue<span class="suppl">Suppl. 80 €</span></strong>Nettoyer le four et le barbecue après usage.</div>
+      <div class="regle"><strong>🔧 Casse &amp; pannes</strong>Signaler toute casse ou panne survenue pendant le séjour.</div>
+      <div class="regle"><strong>🛏️ Linge</strong>Regrouper le linge dans {{LIEU_LINGE}} — draps et serviettes séparés.</div>
+    </div>
+    <label class="coche"><input type="checkbox"> J'ai lu et j'accepte les règles de départ</label>
+  </details>
+</section>
+
+<!-- 6 -->
+<section class="etape" data-titre="Signature">
+  <div class="compteur">Étape 6 sur 7</div>
+  <h2>Signature</h2>
+  <p class="chapo">En signant, vous confirmez l'inventaire et le règlement intérieur.</p>
+  <canvas id="sign"></canvas>
+  <button class="btn btn-ligne" style="margin-top:10px" onclick="effacer()">Effacer</button>
+  <button class="btn btn-plein" onclick="window.print()">💾 Télécharger le PDF</button>
+  <p style="font-size:13px;color:var(--encre-doux);text-align:center">Votre état des lieux est transmis automatiquement à Soleya à la validation.</p>
+</section>
+
+<!-- 7 -->
+<section class="etape" data-titre="Confirmation">
+  <div class="compteur">Étape 7 sur 7</div>
+  <div class="valide">
+    <div class="rond">✓</div>
+    <h2>État des lieux validé</h2>
+    <p class="chapo">Merci ! Nous vous souhaitons un excellent séjour à {{NOM_VILLA}}.</p>
+    <a class="btn btn-wa" href="https://wa.me/596696111869">💬 Contacter Soleya</a>
+  </div>
+</section>
+
+</div>
+
+<div class="nav">
+  <button class="prec" onclick="aller(-1)">← Retour</button>
+  <button class="suiv" onclick="aller(1)">Continuer →</button>
+</div>
+
+<script>
+const etapes=[...document.querySelectorAll('.etape')];
+const fil=document.getElementById('fil');
+let i=0;
+
+etapes.forEach((s,n)=>{
+  const b=document.createElement('button');
+  b.textContent=s.dataset.titre;
+  b.onclick=()=>montrer(n);
+  fil.appendChild(b);
+});
+
+function montrer(n){
+  i=Math.max(0,Math.min(etapes.length-1,n));
+  etapes.forEach((s,k)=>s.classList.toggle('actif',k===i));
+  [...fil.children].forEach((b,k)=>b.setAttribute('aria-current',k===i));
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function aller(d){montrer(i+d)}
+montrer(0);
+
+// Signature
+const c=document.getElementById('sign');
+const ctx=c.getContext('2d');
+function taille(){
+  const r=c.getBoundingClientRect();
+  c.width=r.width*2;c.height=r.height*2;
+  ctx.scale(2,2);ctx.lineWidth=2;ctx.lineCap='round';ctx.strokeStyle='#12312c';
+}
+taille();window.addEventListener('resize',taille);
+let trace=false;
+function pos(e){
+  const r=c.getBoundingClientRect();
+  const p=e.touches?e.touches[0]:e;
+  return{x:p.clientX-r.left,y:p.clientY-r.top};
+}
+function debut(e){trace=true;const p=pos(e);ctx.beginPath();ctx.moveTo(p.x,p.y);e.preventDefault()}
+function bouge(e){if(!trace)return;const p=pos(e);ctx.lineTo(p.x,p.y);ctx.stroke();e.preventDefault()}
+function fin(){trace=false}
+c.addEventListener('mousedown',debut);c.addEventListener('mousemove',bouge);
+c.addEventListener('mouseup',fin);c.addEventListener('mouseleave',fin);
+c.addEventListener('touchstart',debut);c.addEventListener('touchmove',bouge);
+c.addEventListener('touchend',fin);
+function effacer(){ctx.clearRect(0,0,c.width,c.height)}
+</script>
+</body>
+</html>
