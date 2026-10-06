@@ -1120,7 +1120,7 @@
       <div class="welcome-badges">
         <div class="welcome-badge">📍 Trois-Îlets, Martinique</div>
         <div class="welcome-badge">📶 Wifi : VillaLili972</div>
-        <div class="welcome-badge">🔑 Code boîte à clés : 3030</div>
+        <div class="welcome-badge">🔑 Code boîte à clés transmis par message</div>
       </div>
     </div>
 
@@ -1140,7 +1140,8 @@
       <div class="info-grid">
         <div class="info-box">
           <div class="info-label">🔑 Code boîte à clés</div>
-          <div class="info-code">3030</div>
+          <div class="info-code-small">Transmis par message</div>
+          <div class="info-sub">Il change à chaque séjour — vous le recevez avant votre arrivée</div>
         </div>
         <div class="info-box">
           <div class="info-label">📶 Wifi</div>
@@ -1604,7 +1605,7 @@ async function sendEmails() {
    ═══════════════════════════════════════════════════════════ */
 const VILLA = {
   name: "Villa Maé",
-  keyCode: "3030",
+  keyCode: "",
   totalSteps: 7,
   rooms: [
     { "id":"sejour", "label":"Séjour", "icon":"🛋️",
@@ -2154,24 +2155,5 @@ function showToast(msg) {
 restoreProgress();
 validateCurrent();
 </script>
-  <footer style="max-width:680px;margin:32px auto 0;padding:16px;
-  font-size:12px;line-height:1.5;color:#6A7180;border-top:1px solid #DDDAD2">
-  <details>
-    <summary style="cursor:pointer;font-weight:600">Mentions légales et données personnelles</summary>
-    <p><strong>Éditeur</strong> — Soleya Conciergerie, Johalann Chapuis,
-    entrepreneur individuel. SIRET 913 067 427 00017.
-    Tél. +596 696 11 18 69 · contact@soleyaconciergerie.com.
-    Directrice de la publication : Johalann Chapuis.</p>
-    <p><strong>Hébergement</strong> — Vercel Inc., 440 N Barranca Ave #4133,
-    Covina, CA 91723, États-Unis.</p>
-    <p><strong>Vos données</strong> — Les informations que vous renseignez ici
-    (identité, coordonnées, inventaire, signature) servent uniquement à votre
-    accueil et à l'état des lieux de votre séjour. Elles ne sont transmises
-    qu'au propriétaire de la villa, ne font l'objet d'aucun usage commercial,
-    et sont supprimées deux ans après votre départ. Pour les consulter, les
-    corriger ou les supprimer : contact@soleyaconciergerie.com. Vous pouvez
-    également saisir la CNIL.</p>
-  </details>
-</footer>
 </body>
 </html>
