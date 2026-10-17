@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="Compagnon de séjour Soleya Conciergerie — les idées de sortie en Martinique, classées par temps de route depuis votre villa.">
-<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}img{max-width:100%}[hidden]{display:none!important}</style>
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px);background:#062E42}img{max-width:100%}[hidden]{display:none!important}</style>
 </head>
 <body>
 <title>Compagnon de séjour Soleya</title>
@@ -17,44 +17,45 @@
   --or:#7A5410; --or-vif:#E6BE6A; --or-trait:#B98B2C;
   --bord:rgba(10,46,43,.16);
   --f1:#8FDCD2; --f2:#35AABA; --f3:#0C7187;
-  --txt:#07312F; --txt70:rgba(7,49,47,.74); --txt55:rgba(7,49,47,.56); --kick:#7A4A08;
-  --sur:rgba(255,255,255,.55); --surb:rgba(7,49,47,.18); --pp-bg:#07312F; --pp-fg:#F3FAF8;
+  --txt:#FFFFFF;
+  --txt70:rgba(255,255,255,.82);
+  --txt55:rgba(255,255,255,.64);
+  --kick:#FFDCA2;
+  --sur:rgba(255,255,255,.16);
+  --surb:rgba(255,255,255,.34);
+  --pp-bg:#FFFFFF;
+  --pp-fg:#0B3340;
+  
   --lum:rgba(255,214,140,.62); --lum2:rgba(255,255,255,.42); --sable:rgba(242,230,204,.5);
-  --photo:url("assets/fond-soleil.webp"); --voile:rgba(143,220,210,.18),rgba(53,170,186,.58) 46%,rgba(12,113,135,.90);
+  --photo:url("assets/fond-soleil.webp"); --voile:rgba(8,38,52,.20),rgba(10,78,100,.56) 30%,rgba(6,46,66,.94);--fin:#062E42;
   color-scheme: light;
 }
-body[data-amb="soleil"]{--photo:url("assets/fond-soleil.webp");--voile:rgba(143,220,210,.18),rgba(53,170,186,.58) 46%,rgba(12,113,135,.90);--f1:#8FDCD2;--f2:#35AABA;--f3:#0C7187;
+body[data-amb="soleil"]{--txt:#FFFFFF;--txt70:rgba(255,255,255,.82);--txt55:rgba(255,255,255,.64);--kick:#FFDCA2;--sur:rgba(255,255,255,.16);--surb:rgba(255,255,255,.34);--pp-bg:#FFFFFF;--pp-fg:#0B3340;--photo:url("assets/fond-soleil.webp");--voile:rgba(8,38,52,.20),rgba(10,78,100,.56) 30%,rgba(6,46,66,.94);--fin:#062E42;--f1:#8FDCD2;--f2:#35AABA;--f3:#0C7187;
   --lum:rgba(255,204,114,.78);--lum2:rgba(255,255,255,.45);--sable:rgba(248,226,182,.52);
-  --txt:#07312F;--txt70:rgba(7,49,47,.74);--txt55:rgba(7,49,47,.56);--kick:#7A4A08;
-  --sur:rgba(255,255,255,.55);--surb:rgba(7,49,47,.18);--pp-bg:#07312F;--pp-fg:#F3FAF8}
-body[data-amb="nuage"]{--photo:url("assets/fond-nuage.webp");--voile:rgba(212,227,223,.20),rgba(163,188,187,.62) 46%,rgba(107,134,139,.92);--f1:#D4E3DF;--f2:#A3BCBB;--f3:#6B868B;
+  
+  --pp-fg:#0A3D4C}
+body[data-amb="nuage"]{--txt:#FFFFFF;--txt70:rgba(255,255,255,.82);--txt55:rgba(255,255,255,.64);--kick:#FFDCA2;--sur:rgba(255,255,255,.16);--surb:rgba(255,255,255,.34);--pp-bg:#FFFFFF;--pp-fg:#0B3340;--photo:url("assets/fond-nuage.webp");--voile:rgba(20,34,40,.22),rgba(60,90,98,.58) 30%,rgba(32,54,62,.94);--fin:#203640;--f1:#D4E3DF;--f2:#A3BCBB;--f3:#6B868B;
   --lum:rgba(255,255,255,.62);--lum2:rgba(255,255,255,.34);--sable:rgba(234,228,217,.5);
-  --txt:#15312F;--txt70:rgba(21,49,47,.74);--txt55:rgba(21,49,47,.56);--kick:#6E4A10;
-  --sur:rgba(255,255,255,.62);--surb:rgba(21,49,47,.18);--pp-bg:#15312F;--pp-fg:#F3FAF8}
-body[data-amb="pluie"]{--photo:url("assets/fond-pluie.webp");--voile:rgba(90,147,164,.40),rgba(43,102,120,.62) 46%,rgba(14,50,70,.93);--f1:#5A93A4;--f2:#2B6678;--f3:#0E3246;
+  
+  --pp-fg:#243A42}
+body[data-amb="pluie"]{--txt:#FFFFFF;--txt70:rgba(255,255,255,.82);--txt55:rgba(255,255,255,.64);--kick:#FFDCA2;--sur:rgba(255,255,255,.16);--surb:rgba(255,255,255,.34);--pp-bg:#FFFFFF;--pp-fg:#0B3340;--photo:url("assets/fond-pluie.webp");--voile:rgba(8,24,36,.30),rgba(16,52,72,.62) 30%,rgba(6,26,42,.95);--fin:#061A2A;--f1:#5A93A4;--f2:#2B6678;--f3:#0E3246;
   --lum:rgba(168,212,224,.38);--lum2:rgba(255,255,255,.16);--sable:rgba(110,155,172,.32);
-  --txt:#F1FAFC;--txt70:rgba(241,250,252,.80);--txt55:rgba(241,250,252,.60);--kick:#FFD79A;
-  --sur:rgba(255,255,255,.13);--surb:rgba(255,255,255,.30);--pp-bg:#F1FAFC;--pp-fg:#0D3042}
-body[data-amb="soiree"]{--photo:url("assets/fond-soiree.webp");--voile:rgba(239,164,104,.50),rgba(139,85,120,.60) 46%,rgba(31,39,87,.93);--f1:#EFA468;--f2:#8B5578;--f3:#1F2757;
+  
+  --pp-fg:#0A2434}
+body[data-amb="soiree"]{--txt:#FFFFFF;--txt70:rgba(255,255,255,.82);--txt55:rgba(255,255,255,.64);--kick:#FFDCA2;--sur:rgba(255,255,255,.16);--surb:rgba(255,255,255,.34);--pp-bg:#FFFFFF;--pp-fg:#0B3340;--photo:url("assets/fond-soiree.webp");--voile:rgba(40,18,36,.26),rgba(82,44,82,.58) 30%,rgba(18,22,56,.95);--fin:#121638;--f1:#EFA468;--f2:#8B5578;--f3:#1F2757;
   --lum:rgba(255,186,116,.62);--lum2:rgba(255,214,190,.3);--sable:rgba(255,164,120,.34);
-  --txt:#FDF3EC;--txt70:rgba(253,243,236,.80);--txt55:rgba(253,243,236,.60);--kick:#FFD79A;
-  --sur:rgba(255,255,255,.15);--surb:rgba(255,255,255,.32);--pp-bg:#FDF3EC;--pp-fg:#2A2050}
+  
+  --pp-fg:#1B1F46}
 *{box-sizing:border-box}
 body{
-  margin:0; background:var(--f2); color:var(--txt); transition:color .8s ease;
+  margin:0; background:var(--fin); color:var(--txt); transition:background-color 1s ease;
   font-family:"Instrument Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
   font-size:15px; line-height:1.55; -webkit-font-smoothing:antialiased;
 }
-/* fond vivant : dégradé de base + deux nappes de lumière très lentes */
-.fond{position:fixed;inset:0;z-index:-1;overflow:hidden;background:linear-gradient(176deg,var(--f1) 0%,var(--f2) 46%,var(--f3) 100%);transition:background 1.2s ease}
-.fond .ph{position:absolute;inset:0;background-image:var(--photo);background-size:cover;background-position:center top;opacity:.38;transition:opacity .8s ease}
-.fond .voile{position:absolute;inset:0;background:linear-gradient(180deg,var(--voile))}
-.fond i{position:absolute;display:block;border-radius:50%;filter:blur(2px)}
-.fond i:nth-child(1){inset:-35% 20% 55% -20%;background:radial-gradient(closest-side,var(--lum),transparent 72%);animation:derive1 46s ease-in-out infinite alternate}
-.fond i:nth-child(2){inset:35% -25% -30% 30%;background:radial-gradient(closest-side,var(--lum2),transparent 70%);animation:derive2 64s ease-in-out infinite alternate}
-.fond i:nth-child(3){inset:72% -10% -40% -10%;background:radial-gradient(closest-side,var(--sable),transparent 74%);animation:derive1 82s ease-in-out infinite alternate-reverse}
-@keyframes derive1{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(9%,5%,0) scale(1.18)}}
-@keyframes derive2{from{transform:translate3d(0,0,0) scale(1.05)}to{transform:translate3d(-8%,-6%,0) scale(1)}}
+/* la photo meteo occupe le haut de l'ecran, puis fond uni en dessous */
+.fond{position:absolute;top:0;left:0;right:0;height:112vh;z-index:-1;overflow:hidden;pointer-events:none}
+.fond .ph{position:absolute;inset:0;background-image:var(--photo);background-size:cover;background-position:center top}
+.fond .voile{position:absolute;inset:0;background:linear-gradient(180deg,var(--voile) 86%,var(--fin) 100%)}
 
 .wrap{
   max-width:860px; margin:0 auto;
@@ -66,7 +67,7 @@ em.s{font-family:"Instrument Serif",Georgia,serif; font-style:italic; font-weigh
 .kicker{font-size:10.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--kick);display:flex;align-items:center;gap:7px;flex-wrap:wrap}
 .kicker .pt{width:5px;height:5px;border-radius:50%;background:currentColor;flex:none}
 
-.apercu{background:rgba(10,46,43,.9);color:#EAF4F1;position:relative;z-index:2}
+.apercu{background:rgba(6,30,42,.55);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);color:#EAF4F1;position:relative;z-index:2;border-bottom:1px solid rgba(255,255,255,.14)}
 .apercu-in{max-width:860px;margin:0 auto;
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
   padding-block:12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
@@ -74,11 +75,11 @@ em.s{font-family:"Instrument Serif",Georgia,serif; font-style:italic; font-weigh
 .apercu select{font:inherit;font-size:13px;background:transparent;color:#EAF4F1;border:1px solid rgba(234,244,241,.3);border-radius:999px;padding:5px 10px}
 .apercu select option{color:#0A2E2B;background:#fff}
 
-header{padding-block:34px 26px}
-h1{margin:14px 0 0;font-size:clamp(34px,8.5vw,58px);line-height:1.02;font-weight:700;letter-spacing:-.02em;text-wrap:balance}
+header{padding-block:40px 26px;text-shadow:0 2px 20px rgba(0,0,0,.30)}
+h1{text-shadow:0 2px 18px rgba(0,20,30,.35);margin:14px 0 0;font-size:clamp(34px,8.5vw,58px);line-height:1.02;font-weight:700;letter-spacing:-.02em;text-wrap:balance}
 h1 em.s{font-size:1.04em}
-.lede{margin:14px 0 0;max-width:46ch;color:var(--txt70);font-size:15.5px}
-.bulletin{display:flex;align-items:center;gap:13px;margin-top:20px;background:var(--sur);border:1px solid var(--surb);border-radius:18px;padding:13px 16px;max-width:430px;transition:background .5s,border-color .5s}
+.lede{text-shadow:0 1px 12px rgba(0,20,30,.3);margin:14px 0 0;max-width:46ch;color:var(--txt70);font-size:15.5px}
+.bulletin{display:flex;align-items:center;gap:13px;margin-top:20px;background:var(--sur);-webkit-backdrop-filter:blur(16px) saturate(1.3);backdrop-filter:blur(16px) saturate(1.3);border:1px solid var(--surb);border-radius:20px;padding:14px 16px;max-width:430px;box-shadow:0 10px 30px rgba(0,25,40,.18)}
 .bulletin .ic{flex:none;color:var(--txt);opacity:.95}
 .bulletin .deg{font-size:26px;font-weight:700;letter-spacing:-.02em;line-height:1}
 .bulletin .col{min-width:0}
@@ -133,14 +134,14 @@ svg#carte .nom{cursor:pointer}
 .filtres{padding-block:34px 6px;display:grid;gap:18px}
 .grp-lab{font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--txt55);font-weight:600;margin-bottom:9px}
 .pills{display:flex;gap:8px;flex-wrap:wrap}
-.pill{font:inherit;font-size:13px;cursor:pointer;background:var(--sur);color:var(--txt);border:1px solid var(--surb);border-radius:999px;padding:8px 14px;transition:background .3s,color .3s,border-color .3s}
+.pill{font:inherit;font-size:13px;cursor:pointer;background:var(--sur);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);color:var(--txt);border:1px solid var(--surb);border-radius:999px;padding:8px 14px;transition:background .3s,color .3s,border-color .3s}
 .pill:hover{border-color:var(--txt55)}
 .pill.on{background:var(--pp-bg);color:var(--pp-fg);border-color:var(--pp-bg);font-weight:600}
 .pill.on.or{background:var(--or-vif);border-color:var(--or-vif);color:#3A2806}
 
 .bloc{padding-block:30px 0}
 .bloc-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;border-top:1px solid var(--surb);padding-top:16px}
-.bloc-head h2{margin:0;font-size:22px;font-weight:700;letter-spacing:-.01em}
+.bloc-head h2{text-shadow:0 1px 12px rgba(0,20,30,.3);margin:0;font-size:22px;font-weight:700;letter-spacing:-.01em}
 .bloc-head .c{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--txt55);font-weight:600;white-space:nowrap}
 .bloc-sous{margin:6px 0 0;font-size:13.5px;color:var(--txt55)}
 .grille{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(236px,1fr));margin-top:16px}
@@ -153,7 +154,7 @@ svg#carte .nom{cursor:pointer}
 .vign svg{width:38px;height:38px;color:#0B4F49;opacity:.55;position:relative;z-index:1}
 .vign .badge{position:absolute;left:10px;top:10px;z-index:2;background:var(--or-vif);color:#3A2806;border-radius:999px;padding:5px 10px;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:700}
 .sheet .vign{border-radius:14px;margin:2px 0 14px}
-.credit{font:inherit;font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--txt);background:transparent;border:1px solid var(--surb);border-radius:999px;padding:8px 13px;cursor:pointer}
+.credit{-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);font:inherit;font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--txt);background:var(--sur);border:1px solid var(--surb);border-radius:999px;padding:8px 13px;cursor:pointer}
 .fiche.vu{opacity:1;transform:none}
 .fiche:hover{box-shadow:0 14px 30px rgba(10,46,43,.18)}
 .fiche h4{margin:2px 0 0;font-size:16.5px;font-weight:700;line-height:1.22;letter-spacing:-.01em}
@@ -161,16 +162,16 @@ svg#carte .nom{cursor:pointer}
 .fiche .d{margin:0;font-size:13.5px;color:#3E524D;line-height:1.45;flex:1}
 .fiche .pied{margin-top:auto;display:flex;justify-content:space-between;align-items:center;gap:10px;border-top:1px solid #E7EEEB;margin-top:4px;padding-top:10px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--encre-55);font-weight:600}
 .fiche .pied .fl{color:var(--or-trait);font-size:14px;letter-spacing:0}
-.vide{margin-top:16px;background:var(--sur);border:1px dashed var(--surb);border-radius:16px;padding:20px;font-size:14px;color:var(--txt70)}
+.vide{margin-top:16px;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);background:var(--sur);border:1px dashed var(--surb);border-radius:16px;padding:20px;font-size:14px;color:var(--txt70)}
 
 .conc{margin-top:40px;background:var(--creme);color:var(--encre);border-radius:22px;padding:26px 22px;box-shadow:0 14px 34px rgba(10,46,43,.14)}
 .conc h2{margin:10px 0 0;font-size:26px;font-weight:700;letter-spacing:-.015em;line-height:1.15}
 .conc p{margin:8px 0 0;font-size:14.5px;color:#3E524D;max-width:44ch}
 .conc .btn.s{border-color:#DCD2BD}
-.intro-liens{margin:34px 0 0;font-size:13.5px;color:var(--txt70)}
+.intro-liens{margin:34px 0 0;font-size:13.5px;color:var(--txt70);text-shadow:0 1px 10px rgba(0,20,30,.4)}
 .liens{margin-top:11px;display:flex;gap:9px;flex-wrap:wrap}
-.liens a{font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--txt);text-decoration:none;border:1px solid var(--surb);border-radius:999px;padding:8px 13px}
-.sig{margin-top:26px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--txt55);font-weight:600}
+.liens a{-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);background:var(--sur);font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--txt);text-decoration:none;border:1px solid var(--surb);border-radius:999px;padding:8px 13px}
+.sig{text-shadow:0 1px 10px rgba(0,20,30,.4);margin-top:26px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--txt55);font-weight:600}
 
 @media (prefers-reduced-motion:reduce){
   .fiche{opacity:1;transform:none;transition:none}
@@ -179,7 +180,7 @@ svg#carte .nom{cursor:pointer}
 }
 </style>
 
-<div class="fond" aria-hidden="true"><span class="ph"></span><span class="voile"></span><i></i><i></i><i></i></div>
+<div class="fond" aria-hidden="true"><span class="ph"></span><span class="voile"></span></div>
 
 <div class="apercu">
   <div class="apercu-in">
