@@ -1,0 +1,654 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Compagnon de séjour Soleya Conciergerie — les idées de sortie en Martinique, classées par temps de route depuis votre villa.">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>Compagnon de séjour Soleya</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap">
+<style>
+:root{
+  --encre:#0A2E2B; --encre-70:rgba(10,46,43,.72); --encre-55:rgba(10,46,43,.56);
+  --blanc:#FFFFFF; --creme:#FDFAF3;
+  --or:#7A5410; --or-vif:#E6BE6A; --or-trait:#B98B2C;
+  --bord:rgba(10,46,43,.16);
+  --f1:#8FDCD2; --f2:#35AABA; --f3:#0C7187;
+  --txt:#07312F; --txt70:rgba(7,49,47,.74); --txt55:rgba(7,49,47,.56); --kick:#7A4A08;
+  --sur:rgba(255,255,255,.55); --surb:rgba(7,49,47,.18); --pp-bg:#07312F; --pp-fg:#F3FAF8;
+  --lum:rgba(255,214,140,.62); --lum2:rgba(255,255,255,.42); --sable:rgba(242,230,204,.5);
+  --photo:url("assets/fond-soleil.webp"); --voile:rgba(143,220,210,.18),rgba(53,170,186,.58) 46%,rgba(12,113,135,.90);
+  color-scheme: light;
+}
+body[data-amb="soleil"]{--photo:url("assets/fond-soleil.webp");--voile:rgba(143,220,210,.18),rgba(53,170,186,.58) 46%,rgba(12,113,135,.90);--f1:#8FDCD2;--f2:#35AABA;--f3:#0C7187;
+  --lum:rgba(255,204,114,.78);--lum2:rgba(255,255,255,.45);--sable:rgba(248,226,182,.52);
+  --txt:#07312F;--txt70:rgba(7,49,47,.74);--txt55:rgba(7,49,47,.56);--kick:#7A4A08;
+  --sur:rgba(255,255,255,.55);--surb:rgba(7,49,47,.18);--pp-bg:#07312F;--pp-fg:#F3FAF8}
+body[data-amb="nuage"]{--photo:url("assets/fond-nuage.webp");--voile:rgba(212,227,223,.20),rgba(163,188,187,.62) 46%,rgba(107,134,139,.92);--f1:#D4E3DF;--f2:#A3BCBB;--f3:#6B868B;
+  --lum:rgba(255,255,255,.62);--lum2:rgba(255,255,255,.34);--sable:rgba(234,228,217,.5);
+  --txt:#15312F;--txt70:rgba(21,49,47,.74);--txt55:rgba(21,49,47,.56);--kick:#6E4A10;
+  --sur:rgba(255,255,255,.62);--surb:rgba(21,49,47,.18);--pp-bg:#15312F;--pp-fg:#F3FAF8}
+body[data-amb="pluie"]{--photo:url("assets/fond-pluie.webp");--voile:rgba(90,147,164,.40),rgba(43,102,120,.62) 46%,rgba(14,50,70,.93);--f1:#5A93A4;--f2:#2B6678;--f3:#0E3246;
+  --lum:rgba(168,212,224,.38);--lum2:rgba(255,255,255,.16);--sable:rgba(110,155,172,.32);
+  --txt:#F1FAFC;--txt70:rgba(241,250,252,.80);--txt55:rgba(241,250,252,.60);--kick:#FFD79A;
+  --sur:rgba(255,255,255,.13);--surb:rgba(255,255,255,.30);--pp-bg:#F1FAFC;--pp-fg:#0D3042}
+body[data-amb="soiree"]{--photo:url("assets/fond-soiree.webp");--voile:rgba(239,164,104,.50),rgba(139,85,120,.60) 46%,rgba(31,39,87,.93);--f1:#EFA468;--f2:#8B5578;--f3:#1F2757;
+  --lum:rgba(255,186,116,.62);--lum2:rgba(255,214,190,.3);--sable:rgba(255,164,120,.34);
+  --txt:#FDF3EC;--txt70:rgba(253,243,236,.80);--txt55:rgba(253,243,236,.60);--kick:#FFD79A;
+  --sur:rgba(255,255,255,.15);--surb:rgba(255,255,255,.32);--pp-bg:#FDF3EC;--pp-fg:#2A2050}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--f2); color:var(--txt); transition:color .8s ease;
+  font-family:"Instrument Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  font-size:15px; line-height:1.55; -webkit-font-smoothing:antialiased;
+}
+/* fond vivant : dégradé de base + deux nappes de lumière très lentes */
+.fond{position:fixed;inset:0;z-index:-1;overflow:hidden;background:linear-gradient(176deg,var(--f1) 0%,var(--f2) 46%,var(--f3) 100%);transition:background 1.2s ease}
+.fond .ph{position:absolute;inset:0;background-image:var(--photo);background-size:cover;background-position:center top;opacity:.38;transition:opacity .8s ease}
+.fond .voile{position:absolute;inset:0;background:linear-gradient(180deg,var(--voile))}
+.fond i{position:absolute;display:block;border-radius:50%;filter:blur(2px)}
+.fond i:nth-child(1){inset:-35% 20% 55% -20%;background:radial-gradient(closest-side,var(--lum),transparent 72%);animation:derive1 46s ease-in-out infinite alternate}
+.fond i:nth-child(2){inset:35% -25% -30% 30%;background:radial-gradient(closest-side,var(--lum2),transparent 70%);animation:derive2 64s ease-in-out infinite alternate}
+.fond i:nth-child(3){inset:72% -10% -40% -10%;background:radial-gradient(closest-side,var(--sable),transparent 74%);animation:derive1 82s ease-in-out infinite alternate-reverse}
+@keyframes derive1{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(9%,5%,0) scale(1.18)}}
+@keyframes derive2{from{transform:translate3d(0,0,0) scale(1.05)}to{transform:translate3d(-8%,-6%,0) scale(1)}}
+
+.wrap{
+  max-width:860px; margin:0 auto;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:0 110px;
+}
+em.s{font-family:"Instrument Serif",Georgia,serif; font-style:italic; font-weight:400}
+.kicker{font-size:10.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--kick);display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.kicker .pt{width:5px;height:5px;border-radius:50%;background:currentColor;flex:none}
+
+.apercu{background:rgba(10,46,43,.9);color:#EAF4F1;position:relative;z-index:2}
+.apercu-in{max-width:860px;margin:0 auto;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.apercu-lab{font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:rgba(234,244,241,.65);font-weight:600}
+.apercu select{font:inherit;font-size:13px;background:transparent;color:#EAF4F1;border:1px solid rgba(234,244,241,.3);border-radius:999px;padding:5px 10px}
+.apercu select option{color:#0A2E2B;background:#fff}
+
+header{padding-block:34px 26px}
+h1{margin:14px 0 0;font-size:clamp(34px,8.5vw,58px);line-height:1.02;font-weight:700;letter-spacing:-.02em;text-wrap:balance}
+h1 em.s{font-size:1.04em}
+.lede{margin:14px 0 0;max-width:46ch;color:var(--txt70);font-size:15.5px}
+.bulletin{display:flex;align-items:center;gap:13px;margin-top:20px;background:var(--sur);border:1px solid var(--surb);border-radius:18px;padding:13px 16px;max-width:430px;transition:background .5s,border-color .5s}
+.bulletin .ic{flex:none;color:var(--txt);opacity:.95}
+.bulletin .deg{font-size:26px;font-weight:700;letter-spacing:-.02em;line-height:1}
+.bulletin .col{min-width:0}
+.bulletin .lab{font-size:13.5px;font-weight:600;line-height:1.3}
+.bulletin .sub{font-size:12.5px;color:var(--txt70);line-height:1.35}
+.bulletin .live{margin-left:auto;flex:none;font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--kick);border:1px solid currentColor;border-radius:999px;padding:3px 7px}
+
+.carte-card{position:relative;background:var(--blanc);border-radius:22px;overflow:hidden;box-shadow:0 18px 44px rgba(10,46,43,.18)}
+.carte-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:16px 18px 10px;flex-wrap:wrap}
+.carte-head .t{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--encre-55);font-weight:600}
+.pastille{flex:none;background:var(--encre);color:#F3FAF8;border-radius:999px;padding:7px 13px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:600}
+.carte-zone{position:relative;background:#0A55A6;line-height:0}
+svg#carte{display:block;width:100%;height:auto;max-width:min(100%,560px);margin:0 auto;touch-action:pan-y}
+svg#carte .pt{cursor:pointer}
+svg#carte .nom{cursor:pointer}
+.zoomer{position:absolute;right:10px;bottom:10px;display:flex;flex-direction:column;gap:6px}
+.zoomer button{width:34px;height:34px;border-radius:11px;border:1px solid var(--bord);background:rgba(255,255,255,.92);color:var(--encre);font:inherit;font-size:17px;font-weight:600;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.zoomer button:disabled{opacity:.4;cursor:default}
+.carte-pied{display:flex;gap:7px 14px;flex-wrap:wrap;align-items:center;padding:11px 18px 15px;font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--encre-55);font-weight:600}
+.carte-pied .k{display:inline-flex;align-items:center;gap:6px}
+.carte-pied i{width:9px;height:9px;border-radius:50%;flex:none;display:block}
+.carte-pied i.r0{background:#06302E}
+.carte-pied i.r1{background:#13807A}
+.carte-pied i.r2{background:#fff;box-shadow:inset 0 0 0 1.5px #0B3F3C}
+.carte-pied i.v{background:var(--or-vif);border-radius:2px;transform:rotate(45deg);width:8px;height:8px}
+.astuce{padding:0 18px 14px;margin:0;font-size:11.5px;color:var(--encre-55)}
+
+/* ---- bottom sheet ---- */
+.sheet{
+  position:fixed;left:0;right:0;bottom:0;z-index:40;display:flex;justify-content:center;
+  padding-left:max(10px,env(safe-area-inset-left,0px));padding-right:max(10px,env(safe-area-inset-right,0px));
+  padding-bottom:max(10px,env(safe-area-inset-bottom,0px));
+  transform:translateY(115%);transition:transform .34s cubic-bezier(.2,.8,.25,1);pointer-events:none;
+}
+.sheet.open{transform:none}
+.sheet-in{
+  pointer-events:auto;width:100%;max-width:560px;background:var(--blanc);border-radius:22px;
+  padding:12px 18px 18px;box-shadow:0 -8px 44px rgba(10,46,43,.32);max-height:76vh;overflow:auto;position:relative;
+}
+.poignee{width:44px;height:4px;border-radius:2px;background:#D7E0DD;margin:0 auto 12px}
+.fermer{position:absolute;z-index:3;top:12px;right:14px;width:30px;height:30px;border-radius:50%;border:1px solid var(--bord);background:#fff;color:var(--encre);font:inherit;font-size:16px;line-height:1;cursor:pointer}
+.sheet h3{margin:4px 44px 0 0;font-size:21px;font-weight:700;letter-spacing:-.01em;line-height:1.2}
+.sheet p.n{margin:8px 0 0;color:var(--encre-70);font-size:14.5px}
+.sheet .warn{margin-top:10px;font-size:13px;color:#8A5A10;border-left:2px solid var(--or-trait);padding-left:10px}
+.sheet .exact{margin:10px 0 0;font-size:11.5px;color:var(--encre-55)}
+.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}
+.btn{font:inherit;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;border-radius:999px;padding:10px 16px;text-decoration:none;display:inline-block;border:1px solid transparent;cursor:pointer}
+.btn.p{background:var(--encre);color:#F3FAF8}
+.btn.s{border-color:var(--bord);color:var(--encre);background:transparent}
+.btn.o{background:var(--or-vif);color:#3A2806}
+
+.filtres{padding-block:34px 6px;display:grid;gap:18px}
+.grp-lab{font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--txt55);font-weight:600;margin-bottom:9px}
+.pills{display:flex;gap:8px;flex-wrap:wrap}
+.pill{font:inherit;font-size:13px;cursor:pointer;background:var(--sur);color:var(--txt);border:1px solid var(--surb);border-radius:999px;padding:8px 14px;transition:background .3s,color .3s,border-color .3s}
+.pill:hover{border-color:var(--txt55)}
+.pill.on{background:var(--pp-bg);color:var(--pp-fg);border-color:var(--pp-bg);font-weight:600}
+.pill.on.or{background:var(--or-vif);border-color:var(--or-vif);color:#3A2806}
+
+.bloc{padding-block:30px 0}
+.bloc-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;border-top:1px solid var(--surb);padding-top:16px}
+.bloc-head h2{margin:0;font-size:22px;font-weight:700;letter-spacing:-.01em}
+.bloc-head .c{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--txt55);font-weight:600;white-space:nowrap}
+.bloc-sous{margin:6px 0 0;font-size:13.5px;color:var(--txt55)}
+.grille{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(236px,1fr));margin-top:16px}
+.fiche{background:var(--blanc);color:var(--encre);border-radius:18px;padding:0;display:flex;flex-direction:column;min-width:0;cursor:pointer;border:none;text-align:left;font:inherit;overflow:hidden;box-shadow:0 6px 18px rgba(10,46,43,.12);
+  opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s cubic-bezier(.2,.7,.3,1),box-shadow .2s}
+.corps{padding:13px 15px 11px;display:flex;flex-direction:column;gap:6px;flex:1;min-width:0}
+.vign{position:relative;aspect-ratio:16/9;width:100%;overflow:hidden;background:linear-gradient(135deg,#9FD7CC 0%,#CFE6DB 45%,#EFE0BE 100%);display:flex;align-items:center;justify-content:center}
+.vign img{width:100%;height:100%;object-fit:cover;display:block}
+.vign.sans::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(135deg,rgba(255,255,255,.22) 0 2px,transparent 2px 9px)}
+.vign svg{width:38px;height:38px;color:#0B4F49;opacity:.55;position:relative;z-index:1}
+.vign .badge{position:absolute;left:10px;top:10px;z-index:2;background:var(--or-vif);color:#3A2806;border-radius:999px;padding:5px 10px;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:700}
+.sheet .vign{border-radius:14px;margin:2px 0 14px}
+.credit{font:inherit;font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--txt);background:transparent;border:1px solid var(--surb);border-radius:999px;padding:8px 13px;cursor:pointer}
+.fiche.vu{opacity:1;transform:none}
+.fiche:hover{box-shadow:0 14px 30px rgba(10,46,43,.18)}
+.fiche h4{margin:2px 0 0;font-size:16.5px;font-weight:700;line-height:1.22;letter-spacing:-.01em}
+.fiche .ou{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--encre-55);font-weight:600}
+.fiche .d{margin:0;font-size:13.5px;color:#3E524D;line-height:1.45;flex:1}
+.fiche .pied{margin-top:auto;display:flex;justify-content:space-between;align-items:center;gap:10px;border-top:1px solid #E7EEEB;margin-top:4px;padding-top:10px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--encre-55);font-weight:600}
+.fiche .pied .fl{color:var(--or-trait);font-size:14px;letter-spacing:0}
+.vide{margin-top:16px;background:var(--sur);border:1px dashed var(--surb);border-radius:16px;padding:20px;font-size:14px;color:var(--txt70)}
+
+.conc{margin-top:40px;background:var(--creme);color:var(--encre);border-radius:22px;padding:26px 22px;box-shadow:0 14px 34px rgba(10,46,43,.14)}
+.conc h2{margin:10px 0 0;font-size:26px;font-weight:700;letter-spacing:-.015em;line-height:1.15}
+.conc p{margin:8px 0 0;font-size:14.5px;color:#3E524D;max-width:44ch}
+.conc .btn.s{border-color:#DCD2BD}
+.intro-liens{margin:34px 0 0;font-size:13.5px;color:var(--txt70)}
+.liens{margin-top:11px;display:flex;gap:9px;flex-wrap:wrap}
+.liens a{font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--txt);text-decoration:none;border:1px solid var(--surb);border-radius:999px;padding:8px 13px}
+.sig{margin-top:26px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--txt55);font-weight:600}
+
+@media (prefers-reduced-motion:reduce){
+  .fiche{opacity:1;transform:none;transition:none}
+  .fond i{animation:none}
+  .sheet{transition:none}
+}
+</style>
+
+<div class="fond" aria-hidden="true"><span class="ph"></span><span class="voile"></span><i></i><i></i><i></i></div>
+
+<div class="apercu">
+  <div class="apercu-in">
+    <span class="apercu-lab">Aperçu</span>
+    <select id="selvilla" aria-label="Villa"></select>
+    <select id="selmeteo" aria-label="Météo">
+      <option value="soleil">☀️ Grand soleil</option>
+      <option value="nuage">⛅ Ciel couvert</option>
+      <option value="pluie">🌧️ Averses</option>
+    </select>
+    <span class="apercu-lab" id="labmeteo">météo du jour — automatique une fois le livret en ligne</span>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <header>
+    <div class="kicker"><span class="pt"></span><span id="kv">Villa</span></div>
+    <h1>Aujourd'hui,<br><em class="s">on va où&nbsp;?</em></h1>
+    <p class="lede" id="lede"></p>
+    <div class="bulletin" id="bulletin" hidden>
+      <span class="ic" id="mico"></span>
+      <span class="deg" id="mtemp"></span>
+      <span class="col"><span class="lab" id="mlab"></span><br><span class="sub" id="msub"></span></span>
+      <span class="live" id="mlive">en direct</span>
+    </div>
+  </header>
+
+  <section class="carte-card">
+    <div class="carte-head">
+      <div class="t">Toute la Martinique</div>
+      <div class="pastille" id="pastille"></div>
+    </div>
+    <div class="carte-zone">
+      <svg id="carte" viewBox="0 0 100 96.25" role="img" aria-label="Carte des activités en Martinique"></svg>
+      <div class="zoomer">
+        <button type="button" id="zp" aria-label="Agrandir la carte">+</button>
+        <button type="button" id="zm" aria-label="Réduire la carte">−</button>
+        <button type="button" id="zr" aria-label="Revoir toute l'île">⟲</button>
+      </div>
+    </div>
+    <div class="carte-pied">
+      <span class="k"><i class="v"></i>Votre villa</span>
+      <span class="k"><i class="r0"></i>− de 20 min</span>
+      <span class="k"><i class="r1"></i>20 à 45 min</span>
+      <span class="k"><i class="r2"></i>+ de 45 min</span>
+    </div>
+    <p class="astuce">Touchez un point pour l'ouvrir. Pincez à deux doigts ou appuyez sur + : les noms des lieux apparaissent en zoomant.</p>
+  </section>
+
+  <section class="filtres">
+    <div>
+      <div class="grp-lab">Envie du jour</div>
+      <div class="pills" id="p-envie"></div>
+    </div>
+    <div>
+      <div class="grp-lab">Avec qui</div>
+      <div class="pills" id="p-qui"></div>
+    </div>
+    <div>
+      <div class="grp-lab">Temps disponible</div>
+      <div class="pills" id="p-tps"></div>
+    </div>
+  </section>
+
+  <div id="listes"></div>
+
+  <section class="conc">
+    <div class="kicker"><span class="pt"></span>Services Soleya</div>
+    <h2>On peut aussi tout organiser<br><em class="s">pour vous.</em></h2>
+    <p>Courses livrées, chef à domicile, massage à la villa, transfert aéroport, excursion privée. Un message suffit.</p>
+    <div class="actions">
+      <a class="btn p" id="btnwa" href="#" target="_blank" rel="noopener">Écrire à Soleya</a>
+      <a class="btn s" href="https://soleyaconciergerie.com/prestations.html" target="_blank" rel="noopener">Nos prestations et tarifs</a>
+    </div>
+  </section>
+
+  <p class="intro-liens">Suivez l'actualité de l'île en direct sur&nbsp;:</p>
+  <div class="liens">
+    <a href="https://meteofrance.mq/" target="_blank" rel="noopener">Météo Martinique</a>
+    <a href="https://zayactu.org/" target="_blank" rel="noopener">Zayactu</a>
+    <a href="https://la1ere.franceinfo.fr/martinique/" target="_blank" rel="noopener">Martinique la 1ère</a>
+    <a href="https://rci.fm/martinique" target="_blank" rel="noopener">RCI</a>
+  </div>
+
+  <div class="liens" style="margin-top:12px"><button class="credit" type="button" id="btncredits">Crédits cartographiques</button></div>
+
+  <div class="sig">Soleya Conciergerie · Compagnon de séjour</div>
+</div>
+
+<div class="sheet" id="sheet" aria-hidden="true"><div class="sheet-in" id="sheetin" role="dialog" aria-label="Détail du lieu"></div></div>
+
+<script>
+const A=[{"n": "Plage des Salines", "c": "Sainte-Anne", "s": "S4", "e": ["soleil", "decouvrir"], "io": "dehors", "q": ["tous"], "d": 3, "dt": "2 à 4 h", "b": 0, "cote": "Caraïbe", "note": "La plage carte postale de la Martinique. Très fréquentée le week-end : arrivez tôt.", "lat": 14.3917, "lon": -60.8778, "fi": "OK"}, {"n": "Anse Dufour — nager avec les tortues", "c": "Les Anses-d'Arlet", "s": "S1", "e": ["soleil", "decouvrir"], "io": "dehors", "q": ["tous"], "d": 3, "dt": "2 à 4 h", "b": 0, "cote": "Caraïbe", "note": "Tortues vertes visibles presque tous les matins, à quelques mètres du bord. Masque et tuba indispensables.", "lat": 14.5131, "lon": -61.0875, "fi": "OK"}, {"n": "Anse Noire", "c": "Les Anses-d'Arlet", "s": "S1", "e": ["soleil"], "io": "dehors", "q": ["couple", "amis", "famille"], "d": 3, "dt": "2 à 4 h", "b": 0, "cote": "Caraïbe", "note": "Sable noir et eau très claire, juste à côté de l'Anse Dufour.", "warn": "130 marches à descendre puis à remonter.", "lat": 14.5133, "lon": -61.0889, "fi": "OK"}, {"n": "Les plages des Anses-d'Arlet", "c": "Les Anses-d'Arlet", "s": "S1", "e": ["soleil", "enfants"], "io": "dehors", "q": ["tous"], "d": 4, "dt": "Demi-journée", "b": 0, "cote": "Caraïbe", "note": "Grande Anse, Petite Anse et le ponton de l'église. Mer calme, le village juste derrière.", "lat": 14.4906, "lon": -61.0836, "fi": "OK"}, {"n": "Sentier sous-marin de Cap Salomon", "c": "Les Anses-d'Arlet", "s": "S1", "e": ["soleil", "decouvrir"], "io": "dehors", "q": ["couple", "amis"], "d": 2.5, "dt": "2 à 3 h", "b": 0, "cote": "Caraïbe", "note": "Parcours balisé dans la réserve. Plusieurs centres de plongée du village proposent des sorties encadrées.", "lat": 14.4972, "lon": -61.0919, "fi": "OK"}, {"n": "Grande Anse du Diamant", "c": "Le Diamant", "s": "S2", "e": ["soleil"], "io": "dehors", "q": ["tous"], "d": 2, "dt": "1 à 3 h", "b": 0, "cote": "Caraïbe", "note": "Quatre kilomètres de sable face au Rocher. Superbe au coucher du soleil.", "warn": "Baignade prudente : courants et rouleaux.", "lat": 14.4836, "lon": -61.0375, "fi": "OK"}, {"n": "Mémorial Cap 110", "c": "Le Diamant", "s": "S2", "e": ["decouvrir"], "io": "dehors", "q": ["tous"], "d": 0.75, "dt": "30 à 60 min", "b": 0, "note": "Quinze statues tournées vers la mer, en mémoire du naufrage de 1830. Très fort en fin de journée.", "lat": 14.4756, "lon": -61.0547, "fi": "OK"}, {"n": "Morne Larcher", "c": "Le Diamant", "s": "S2", "e": ["decouvrir"], "io": "dehors", "q": ["sportifs"], "d": 2.5, "dt": "2 à 3 h", "b": 0, "note": "477 mètres de montée raide, et une vue qui porte jusqu'à Sainte-Lucie. Par temps sec uniquement.", "lat": 14.4792, "lon": -61.06, "fi": "À vérifier"}, {"n": "Point de vue sur le Rocher du Diamant", "c": "Le Diamant", "s": "S2", "e": ["decouvrir"], "io": "dehors", "q": ["tous"], "d": 0.5, "dt": "30 min", "b": 0, "note": "Un arrêt court sur la route de l'Anse Cafard, parfait avant ou après Cap 110.", "lat": 14.4733, "lon": -61.0475, "fi": "À vérifier"}, {"n": "Maison du Bagnard", "c": "Le Diamant", "s": "S2", "e": ["decouvrir", "pluie"], "io": "dedans", "q": ["tous"], "d": 0.75, "dt": "30 à 45 min", "b": 1, "note": "La petite case colorée de Médard Aribot, à l'Anse Cafard. À enchaîner avec le mémorial Cap 110, juste à côté.", "lat": 14.4758, "lon": -61.0545, "fi": "OK"}, {"n": "Les restaurants de Sainte-Luce", "c": "Sainte-Luce", "s": "S2", "e": ["manger"], "io": "dehors", "q": ["tous"], "d": 1.5, "dt": "1 à 2 h", "b": 2, "note": "Front de mer et ruelles du bourg. La Baraq Obama pour l'ambiance et les grillades.", "lat": 14.4683, "lon": -60.9231, "fi": "OK"}, {"n": "Anse Figuier", "c": "Rivière-Pilote", "s": "S3", "e": ["soleil", "enfants"], "io": "dehors", "q": ["tous"], "d": 3, "dt": "2 à 4 h", "b": 0, "cote": "Caraïbe", "note": "Eau peu profonde et calme, plage aménagée. Le meilleur choix du sud avec de jeunes enfants.", "lat": 14.4522, "lon": -60.9281, "fi": "OK"}, {"n": "Marché de Rivière-Pilote", "c": "Rivière-Pilote", "s": "S3", "e": ["manger", "decouvrir"], "io": "dehors", "q": ["tous"], "d": 1.25, "dt": "1 h à 1 h 30", "b": 0, "note": "Fruits, épices et rhums arrangés. Le matin, et surtout le samedi.", "lat": 14.4869, "lon": -60.9008, "fi": "OK"}, {"n": "Distillerie La Mauny", "c": "Rivière-Pilote", "s": "S3", "e": ["decouvrir", "pluie"], "io": "dedans", "q": ["couple", "amis", "adultes"], "d": 1.75, "dt": "1 h 30 à 2 h", "b": 1, "note": "Visite guidée et dégustation, une des plus accessibles du sud.", "lat": 14.4792, "lon": -60.9064, "fi": "OK"}, {"n": "Village Créole", "c": "Les Trois-Îlets", "s": "S1", "e": ["manger", "detente"], "io": "dehors", "q": ["tous"], "d": 1.5, "dt": "1 à 2 h", "b": 1, "note": "Boutiques, restaurants et terrasses. Agréable en fin d'après-midi.", "lat": 14.5464, "lon": -61.0453, "fi": "OK"}, {"n": "Pointe du Bout et la marina", "c": "Les Trois-Îlets", "s": "S1", "e": ["detente", "soleil"], "io": "dehors", "q": ["tous"], "d": 2, "dt": "1 à 3 h", "b": 0, "cote": "Caraïbe", "note": "Marina, plage de l'Anse Mitan, et la navette maritime vers Fort-de-France : 20 minutes au lieu de 40 en voiture.", "lat": 14.5464, "lon": -61.0506, "fi": "OK"}, {"n": "La Savane des Esclaves", "c": "Les Trois-Îlets", "s": "S1", "e": ["decouvrir", "enfants", "pluie"], "io": "dehors", "q": ["tous"], "d": 2.5, "dt": "2 à 3 h", "b": 1, "note": "Village d'antan reconstitué et jardin créole. Fonctionne aussi par temps couvert.", "lat": 14.5389, "lon": -61.0197, "fi": "OK"}, {"n": "Domaine de la Pagerie", "c": "Les Trois-Îlets", "s": "S1", "e": ["decouvrir", "pluie"], "io": "dedans", "q": ["tous"], "d": 1.25, "dt": "1 h à 1 h 30", "b": 1, "note": "Maison natale de Joséphine de Beauharnais, dans un parc ombragé.", "lat": 14.5406, "lon": -61.0325, "fi": "OK"}, {"n": "Cathédrale Saint-Louis", "c": "Fort-de-France", "s": "S5", "e": ["decouvrir", "pluie"], "io": "dedans", "q": ["tous"], "d": 0.75, "dt": "30 à 45 min", "b": 0, "note": "Charpente métallique de la fin du XIXe siècle, en plein centre-ville.", "lat": 14.6017, "lon": -61.0656, "fi": "OK"}, {"n": "Bibliothèque Schœlcher", "c": "Fort-de-France", "s": "S5", "e": ["decouvrir"], "io": "dehors", "q": ["tous"], "d": 0.75, "dt": "30 à 45 min", "b": 0, "note": "Bâtiment Art nouveau démonté à Paris puis remonté ici. Spectaculaire, même de l'extérieur.", "lat": 14.6031, "lon": -61.0664, "fi": "OK"}, {"n": "Marché couvert de Fort-de-France", "c": "Fort-de-France", "s": "S5", "e": ["manger", "decouvrir"], "io": "dedans", "q": ["tous"], "d": 1.5, "dt": "1 à 2 h", "b": 0, "note": "Épices, rhums arrangés, vannerie. Le matin, et le samedi en particulier.", "lat": 14.6008, "lon": -61.0725, "fi": "OK"}, {"n": "Fort Saint-Louis", "c": "Fort-de-France", "s": "S5", "e": ["decouvrir"], "io": "dehors", "q": ["tous"], "d": 1.5, "dt": "1 h 30", "b": 1, "note": "Fort militaire toujours en activité, visite guidée uniquement.", "warn": "Horaires restreints : vérifiez avant de vous déplacer.", "lat": 14.5983, "lon": -61.0631, "fi": "Recommandée"}, {"n": "Musée du Père Pinchon", "c": "Fort-de-France", "s": "S5", "e": ["pluie", "enfants", "decouvrir"], "io": "dedans", "q": ["famille", "tous"], "d": 1.25, "dt": "1 h à 1 h 30", "b": 1, "note": "Collections naturalistes. Un très bon plan quand il pleut.", "lat": 14.6078, "lon": -61.0656, "fi": "À vérifier"}, {"n": "Jardin de Balata", "c": "Fort-de-France", "s": "S8", "e": ["decouvrir", "detente", "enfants"], "io": "dehors", "q": ["tous"], "d": 1.75, "dt": "1 h 30 à 2 h", "b": 2, "note": "Jardin botanique et ponts suspendus dans la canopée, sur la Route de la Trace.", "lat": 14.6697, "lon": -61.1047, "fi": "OK"}, {"n": "Route de la Trace et rivière de l'Alma", "c": "Fonds-Saint-Denis", "s": "S8", "e": ["decouvrir", "soleil"], "io": "dehors", "q": ["tous"], "d": 4, "dt": "Demi-journée", "b": 0, "note": "La traversée de la forêt tropicale, avec un arrêt baignade et pique-nique à l'Alma.", "lat": 14.6778, "lon": -61.1119, "fi": "À vérifier"}, {"n": "Cascade du Saut du Gendarme", "c": "Fonds-Saint-Denis", "s": "S8", "e": ["decouvrir", "enfants"], "io": "dehors", "q": ["tous"], "d": 1, "dt": "45 min à 1 h", "b": 0, "note": "À quelques minutes de marche depuis la route. La cascade la plus facile de l'île avec des enfants.", "lat": 14.7239, "lon": -61.1403, "fi": "À vérifier"}, {"n": "Cascade d'Absalon", "c": "Fort-de-France", "s": "S8", "e": ["decouvrir"], "io": "dehors", "q": ["sportifs", "amis"], "d": 1.75, "dt": "1 h 30 à 2 h", "b": 0, "note": "Sentier en sous-bois jusqu'au bassin.", "warn": "Chaussures fermées : très glissant après la pluie.", "lat": 14.6711, "lon": -61.12, "fi": "À vérifier"}, {"n": "Randonnée de la Montagne Pelée", "c": "Le Morne-Rouge", "s": "S8", "e": ["decouvrir"], "io": "dehors", "q": ["sportifs"], "d": 5, "dt": "4 à 6 h", "b": 0, "note": "Départ de l'Aileron. Partir tôt, prévoir eau et coupe-vent.", "warn": "Le sommet est souvent dans les nuages, même par beau temps en bas.", "lat": 14.8117, "lon": -61.1689, "fi": "OK"}, {"n": "Anse Couleuvre et sa cascade", "c": "Le Prêcheur", "s": "S7", "e": ["soleil", "decouvrir"], "io": "dehors", "q": ["sportifs", "amis"], "d": 3.5, "dt": "3 à 4 h", "b": 0, "cote": "Caraïbe", "note": "Plage de sable noir au bout de la route, puis une heure de marche jusqu'à la cascade.", "warn": "Route d'accès étroite et sinueuse.", "lat": 14.8392, "lon": -61.2186, "fi": "OK"}, {"n": "Plage du Sinaï — Grand'Rivière", "c": "Grand'Rivière", "s": "S10", "e": ["soleil", "decouvrir"], "io": "dehors", "q": ["amis", "sportifs"], "d": 8, "dt": "Journée", "b": 0, "cote": "Atlantique", "note": "Le bout de la route du nord, là où la Martinique s'arrête. La route fait partie du voyage.", "lat": 14.8744, "lon": -61.1811, "fi": "À vérifier"}, {"n": "Zoo de Martinique — Habitation Latouche", "c": "Le Carbet", "s": "S7", "e": ["enfants", "decouvrir"], "io": "dehors", "q": ["famille"], "d": 2.5, "dt": "2 à 3 h", "b": 2, "note": "Les animaux des Caraïbes dans les ruines d'une habitation. Le meilleur choix famille du nord.", "lat": 14.7064, "lon": -61.1839, "fi": "OK"}, {"n": "Distillerie Depaz", "c": "Saint-Pierre", "s": "S7", "e": ["decouvrir"], "io": "dehors", "q": ["couple", "amis", "adultes"], "d": 1.75, "dt": "1 h 30 à 2 h", "b": 1, "note": "Château et jardins au pied de la Pelée. Une des plus belles visites de l'île.", "lat": 14.7483, "lon": -61.1869, "fi": "OK"}, {"n": "Distillerie Neisson", "c": "Le Carbet", "s": "S7", "e": ["decouvrir", "pluie"], "io": "dedans", "q": ["couple", "amis", "adultes"], "d": 1.25, "dt": "1 h à 1 h 30", "b": 1, "note": "Petite distillerie familiale, au rhum très réputé.", "lat": 14.7136, "lon": -61.1819, "fi": "OK"}, {"n": "Musée Frank A. Perret", "c": "Saint-Pierre", "s": "S7", "e": ["pluie", "decouvrir"], "io": "dedans", "q": ["tous"], "d": 1.25, "dt": "1 h à 1 h 30", "b": 1, "note": "L'éruption de 1902 racontée par les objets retrouvés. Parfait sous la pluie.", "lat": 14.7414, "lon": -61.1764, "fi": "OK"}, {"n": "Les ruines de Saint-Pierre", "c": "Saint-Pierre", "s": "S7", "e": ["decouvrir"], "io": "dehors", "q": ["tous"], "d": 1.75, "dt": "1 h 30 à 2 h", "b": 0, "note": "Le théâtre, le cachot de Cyparis, le front de mer. Se combine avec le musée Perret.", "lat": 14.7417, "lon": -61.175, "fi": "OK"}, {"n": "Centre de Découverte des Sciences de la Terre", "c": "Saint-Pierre", "s": "S7", "e": ["pluie", "enfants", "decouvrir"], "io": "dedans", "q": ["famille", "tous"], "d": 1.75, "dt": "1 h 30 à 2 h", "b": 1, "note": "Très pédagogique sur le volcanisme. Excellent repli quand le temps tourne.", "lat": 14.7497, "lon": -61.1708, "fi": "OK"}, {"n": "Habitation Saint-Étienne", "c": "Le Gros-Morne", "s": "S9", "e": ["decouvrir"], "io": "dehors", "q": ["couple", "amis", "adultes"], "d": 1.75, "dt": "1 h 30 à 2 h", "b": 1, "note": "Site classé, galerie d'art contemporain et jardin au bord de la rivière Lézarde.", "lat": 14.6833, "lon": -61.0192, "fi": "À vérifier"}, {"n": "Distillerie Saint James et Musée du Rhum", "c": "Sainte-Marie", "s": "S9", "e": ["decouvrir", "pluie", "enfants"], "io": "dedans", "q": ["famille", "adultes", "tous"], "d": 1.75, "dt": "1 h 30 à 2 h", "b": 1, "note": "Le musée du rhum, et le petit train à travers les champs de canne selon la saison.", "lat": 14.7817, "lon": -60.9944, "fi": "OK"}, {"n": "Musée de la Banane", "c": "Sainte-Marie", "s": "S9", "e": ["enfants", "decouvrir"], "io": "dehors", "q": ["famille"], "d": 1.5, "dt": "1 h 30", "b": 1, "note": "Plantation pédagogique et dégustation. Très bien avec des enfants.", "lat": 14.77, "lon": -60.9906, "fi": "À vérifier"}, {"n": "Tombolo de Sainte-Marie", "c": "Sainte-Marie", "s": "S9", "e": ["decouvrir", "soleil"], "io": "dehors", "q": ["tous"], "d": 1.5, "dt": "1 à 2 h", "b": 0, "cote": "Atlantique", "note": "Un banc de sable qui relie l'îlet à la côte, à pied, les pieds dans l'eau.", "warn": "Accessible seulement quelques mois par an, selon les marées. Vérifiez auprès de la mairie de Sainte-Marie avant de vous déplacer.", "lat": 14.7889, "lon": -60.9875, "fi": "OK"}, {"n": "Maison du Bèlè", "c": "Sainte-Marie", "s": "S9", "e": ["decouvrir", "pluie"], "io": "dedans", "q": ["tous"], "d": 1.25, "dt": "1 h à 1 h 30", "b": 1, "note": "Le tambour et la danse bèlè, au cœur de la tradition martiniquaise.", "warn": "Vérifiez les jours d'ouverture et les soirées.", "lat": 14.7806, "lon": -60.9933, "fi": "À vérifier"}, {"n": "Château Dubuc et presqu'île de la Caravelle", "c": "La Trinité", "s": "S9", "e": ["decouvrir", "soleil"], "io": "dehors", "q": ["tous", "sportifs"], "d": 3.5, "dt": "3 à 4 h", "b": 1, "cote": "Atlantique", "note": "Réserve naturelle, ruines du château et sentiers jusqu'au phare.", "warn": "Très peu d'ombre : eau et chapeau indispensables.", "lat": 14.7667, "lon": -60.875, "fi": "OK"}, {"n": "Habitation Clément", "c": "Le François", "s": "S6", "e": ["decouvrir", "pluie"], "io": "dehors", "q": ["tous"], "d": 2.5, "dt": "2 à 3 h", "b": 2, "note": "Maison créole, parc, art contemporain et chais. Une des visites les plus complètes de l'île.", "lat": 14.6103, "lon": -60.9183, "fi": "OK"}, {"n": "Distillerie JM", "c": "Macouba", "s": "S10", "e": ["decouvrir"], "io": "dehors", "q": ["couple", "amis", "adultes"], "d": 1.25, "dt": "1 h à 1 h 30", "b": 1, "note": "Au fond de la vallée de Macouba. Le trajet fait partie de la visite.", "lat": 14.8469, "lon": -61.1619, "fi": "À vérifier"}, {"n": "Braud et Quennesson", "c": "Le Marin", "s": "S3", "e": ["decouvrir", "pluie"], "io": "dedans", "q": ["couple", "amis", "adultes"], "d": 1.25, "dt": "1 h à 1 h 30", "b": 1, "note": "Distillerie du sud de l'île, à combiner avec la marina du Marin.", "lat": 14.4719, "lon": -60.8686, "fi": "À COMPLÉTER — coordonnées exactes à confirmer"}];
+const COTE="M33.1,49.2 32.8,48.8 32.2,49.0 30.9,48.3 30.0,48.3 29.5,47.5 29.6,46.8 28.5,45.9 27.4,45.6 27.0,44.3 26.4,44.1 26.0,42.8 22.4,37.5 21.6,35.0 22.9,29.8 22.9,28.3 21.5,26.4 19.3,24.7 18.1,22.4 16.5,22.1 15.1,19.2 14.3,18.4 14.5,17.6 14.0,16.8 14.0,15.0 14.4,13.4 15.7,11.3 15.7,10.8 16.5,10.4 16.8,9.3 17.8,8.0 21.1,6.8 22.0,6.3 22.3,5.7 22.9,5.8 25.9,5.1 29.5,5.2 30.1,5.7 31.5,5.8 32.6,6.5 33.7,6.5 35.6,7.6 36.5,7.8 37.9,9.4 39.3,9.8 40.0,10.7 41.1,11.2 42.2,11.2 42.5,12.1 43.4,12.8 44.7,13.1 46.0,12.4 46.7,13.5 48.3,13.5 47.8,14.8 49.4,15.0 50.0,17.2 51.3,17.6 52.1,16.9 52.1,17.4 53.1,17.5 52.6,18.0 52.8,18.3 52.4,18.5 52.5,19.2 53.5,19.9 53.7,21.0 54.4,21.5 54.8,21.4 54.8,21.9 55.4,22.7 56.5,22.5 56.8,22.8 56.8,23.2 56.3,23.1 56.2,23.4 56.9,24.3 57.7,24.5 57.8,25.3 58.8,25.8 59.0,26.5 58.8,27.2 59.2,27.9 59.8,28.0 59.5,28.5 59.7,29.6 60.4,30.0 61.1,29.8 61.4,27.9 62.2,27.0 62.8,26.4 64.3,26.0 64.5,25.6 66.1,25.3 66.3,25.9 66.9,26.2 68.3,25.5 68.8,24.3 69.1,24.9 70.0,24.7 70.1,24.2 70.8,24.1 71.8,23.5 72.4,22.4 72.8,22.3 73.0,23.0 74.7,23.3 74.4,23.5 75.1,23.8 74.7,24.2 75.0,24.5 74.5,24.9 75.2,25.9 75.1,26.2 74.1,26.3 73.6,25.7 73.2,24.5 72.8,24.9 71.9,24.7 71.5,25.0 71.5,25.6 70.9,25.7 70.9,26.2 72.0,26.5 72.4,27.1 72.0,28.1 71.3,27.8 70.5,28.8 72.0,29.4 71.8,30.2 71.0,30.0 71.2,30.6 70.2,30.4 69.9,29.9 68.6,30.2 68.4,28.8 66.0,27.5 65.1,27.8 64.2,27.6 63.4,28.9 63.0,28.8 62.8,29.8 64.0,30.4 63.8,30.7 62.8,30.6 62.5,31.5 62.7,32.4 63.6,32.7 63.7,33.4 64.5,33.7 65.0,32.7 66.0,32.7 65.4,33.2 65.5,33.8 64.6,34.4 64.7,35.1 66.2,35.0 67.1,34.4 67.3,33.7 67.7,33.8 68.0,33.6 67.7,34.8 68.1,35.2 67.8,35.5 68.0,36.0 68.9,36.5 70.0,36.1 69.8,36.5 70.3,36.7 70.0,37.3 69.2,37.2 68.4,38.6 68.2,37.9 65.5,38.7 65.4,39.4 66.3,40.1 66.1,40.2 65.3,40.2 64.1,39.4 63.8,40.9 63.0,41.3 63.0,41.9 63.6,42.6 64.3,42.7 64.7,43.9 65.4,44.7 66.1,44.7 66.4,44.3 67.0,44.5 66.9,43.9 67.5,43.3 67.5,43.0 68.4,42.5 68.9,43.2 69.1,42.9 69.4,43.1 69.3,42.3 69.8,42.4 70.0,43.1 70.4,42.6 70.9,42.6 70.5,43.3 71.3,43.3 71.5,43.7 72.0,43.6 71.8,43.2 72.0,42.5 73.3,42.5 73.3,43.7 72.8,43.8 73.0,44.2 72.8,44.8 72.3,44.1 72.1,45.1 71.2,45.2 71.0,45.5 69.9,44.8 70.1,45.3 69.4,45.6 69.5,46.0 70.4,46.1 71.1,46.8 72.0,46.5 72.4,46.8 71.2,47.2 71.3,47.8 72.0,47.7 71.7,48.0 72.0,48.5 71.2,48.5 71.3,49.1 70.7,49.0 70.9,49.6 70.6,50.3 72.3,50.7 72.3,50.2 72.6,50.3 72.7,51.3 73.1,50.7 73.7,50.9 74.3,50.3 75.0,50.8 75.5,50.6 75.7,51.0 74.5,51.2 74.2,51.9 74.7,52.3 74.6,52.6 75.5,53.0 75.9,53.8 75.2,54.1 75.1,54.7 75.9,55.2 76.0,55.8 76.4,55.6 77.5,55.9 78.7,55.0 78.7,55.8 79.2,56.2 78.9,56.6 79.6,56.8 79.6,57.1 78.7,57.1 78.6,57.6 80.3,57.8 78.4,58.4 78.7,59.6 80.2,59.1 79.1,59.9 79.3,60.3 80.5,59.9 80.6,60.3 79.8,61.2 80.5,61.2 82.4,59.4 83.2,59.6 82.6,60.1 82.4,61.1 81.8,61.7 81.5,61.7 81.3,62.7 80.9,62.9 81.4,63.5 81.8,63.7 81.8,63.5 82.5,64.1 83.0,65.1 82.6,65.6 81.6,65.4 81.2,65.8 81.9,66.1 82.9,65.8 83.4,66.5 83.1,67.9 82.4,67.4 81.6,67.7 81.8,68.6 81.3,68.8 81.2,69.6 81.6,69.9 82.7,69.0 83.3,69.0 83.5,69.4 83.5,72.4 83.9,72.9 84.5,72.5 85.7,75.2 85.1,76.3 84.3,76.7 84.1,75.8 83.5,76.6 84.3,77.1 85.1,78.6 85.9,78.7 84.8,78.7 84.8,79.0 84.4,79.0 83.8,80.0 83.5,80.0 83.7,81.1 83.2,82.7 81.7,83.5 81.9,84.0 81.4,84.6 81.6,85.2 80.6,85.3 80.2,84.5 79.2,84.5 79.0,85.4 79.4,85.3 79.4,85.8 80.1,85.6 79.8,86.5 81.0,86.7 80.9,87.4 79.7,86.9 78.2,88.5 78.0,89.7 77.7,89.6 77.3,90.0 76.7,90.0 76.3,89.8 75.7,90.2 74.2,89.8 74.4,89.1 73.1,88.5 73.0,87.9 72.6,87.5 72.9,86.9 71.6,85.9 71.7,85.5 72.8,84.6 73.8,82.5 73.1,80.9 73.2,80.1 74.2,81.1 74.5,80.7 75.2,80.8 74.9,80.0 75.1,79.2 76.5,79.6 76.0,79.0 76.9,78.2 76.5,78.0 76.5,77.2 76.2,76.9 75.2,77.1 74.4,76.6 74.2,77.4 73.8,77.3 73.5,77.8 73.3,77.6 72.0,78.9 71.7,80.0 70.6,80.9 70.4,80.2 68.4,78.6 68.7,77.1 67.7,77.2 67.4,76.6 67.2,77.4 64.5,78.3 64.2,77.9 63.3,78.0 63.0,77.6 60.8,77.8 59.3,76.4 58.5,76.6 58.5,76.9 57.6,77.3 57.0,76.7 57.4,75.9 56.6,74.8 56.4,75.0 56.2,74.8 55.9,75.3 56.1,75.6 55.9,75.6 55.8,76.5 54.7,75.4 55.0,77.3 54.7,77.6 53.4,77.0 52.6,75.4 51.9,76.2 52.2,76.8 50.0,75.1 47.7,75.7 45.7,76.8 45.3,77.3 44.9,79.0 43.6,79.8 42.1,79.1 41.7,78.6 41.7,77.7 41.2,77.2 39.6,77.2 39.0,76.3 39.1,75.8 39.7,75.2 39.6,73.5 39.1,73.1 38.6,73.3 37.7,73.0 37.8,72.1 38.8,71.9 38.6,70.7 37.8,70.3 36.7,70.5 35.9,70.2 36.7,69.3 36.6,68.4 37.1,67.3 37.8,67.2 37.8,66.7 38.2,66.9 38.0,66.1 38.2,65.7 39.4,65.2 40.1,64.2 41.6,64.6 42.2,64.3 42.8,62.7 44.1,62.4 43.9,61.7 44.3,60.7 44.5,61.6 44.9,61.2 44.4,62.6 45.6,62.5 46.7,61.7 46.9,62.9 45.7,63.5 46.3,64.4 48.1,64.5 47.8,65.2 48.5,65.1 48.5,65.5 49.3,64.7 50.2,64.8 50.4,65.6 50.9,65.5 51.8,64.2 52.3,64.5 52.0,65.3 53.2,63.8 54.3,63.5 53.8,62.6 54.4,62.6 54.9,63.3 55.0,62.8 54.7,62.2 54.0,62.0 53.9,61.7 54.1,61.3 53.7,60.9 53.1,61.2 52.6,60.7 51.3,60.9 51.4,59.8 50.9,59.6 50.8,59.2 51.5,58.5 51.6,57.9 50.8,57.8 50.6,57.1 49.1,56.7 49.2,55.5 49.9,55.4 50.4,54.8 50.4,54.3 49.9,53.9 50.9,53.8 49.5,53.5 50.0,52.0 49.5,52.2 49.1,51.8 47.8,53.0 46.4,52.9 46.9,55.4 46.2,54.7 45.3,55.1 44.8,54.3 44.2,54.4 43.7,54.9 42.9,54.9 42.8,54.6 43.4,53.4 43.1,53.3 42.8,54.0 42.7,53.7 41.9,53.6 42.1,54.1 41.9,54.6 41.7,53.8 41.1,53.5 37.8,54.3 35.3,50.7 34.2,49.6 33.1,49.2Z M72.3,38.3 70.6,37.1 71.2,37.2 71.4,37.0 71.8,37.2 72.6,36.9 73.8,37.6 73.9,38.0 72.5,37.8 72.3,38.3Z M76.9,52.6 77.6,51.9 78.5,51.5 78.7,52.1 79.0,52.2 77.8,52.1 76.9,52.6Z";
+const RELIEF="assets/carte-martinique-relief.webp";
+const SECT={S1:"Trois-Îlets / Anses-d'Arlet",S2:"Diamant / Sainte-Luce",S3:"Rivière-Pilote / Le Marin",S4:"Sainte-Anne / Les Salines",S5:"Fort-de-France / Schœlcher",S6:"Lamentin / Ducos / François",S7:"Saint-Pierre / Carbet / Prêcheur",S8:"Morne-Rouge / Balata / Pelée",S9:"Trinité / Caravelle / Sainte-Marie",S10:"Macouba / Grand'Rivière"};
+const T={
+ mae:{S1:10,S2:30,S3:40,S4:55,S5:40,S6:35,S7:65,S8:60,S9:60,S10:100},
+ lili:{S1:10,S2:30,S3:40,S4:55,S5:40,S6:35,S7:65,S8:60,S9:60,S10:100},
+ ontherock:{S1:20,S2:10,S3:25,S4:40,S5:40,S6:35,S7:65,S8:60,S9:60,S10:100},
+ blackstone:{S1:20,S2:10,S3:25,S4:40,S5:40,S6:35,S7:65,S8:60,S9:60,S10:100},
+ natureparadise:{S1:35,S2:20,S3:10,S4:25,S5:45,S6:35,S7:75,S8:70,S9:55,S10:105},
+ happybay:{S1:65,S2:70,S3:80,S4:90,S5:40,S6:50,S7:10,S8:25,S9:60,S10:85}
+};
+const V=[
+ {id:"mae",n:"Villa Maé",c:"Les Trois-Îlets",lat:14.5559,lon:-61.0502},
+ {id:"lili",n:"Villa Lili",c:"Les Trois-Îlets",lat:14.5559,lon:-61.0502},
+ {id:"ontherock",n:"On The Rock",c:"Le Diamant",lat:14.4723,lon:-61.0436},
+ {id:"blackstone",n:"Black Stone",c:"Le Diamant",lat:14.4821,lon:-61.0201},
+ {id:"natureparadise",n:"Nature Paradise",c:"Rivière-Pilote",lat:14.5259,lon:-60.8754},
+ {id:"happybay",n:"Happy Bay",c:"Le Prêcheur",lat:14.7814,lon:-61.2083}
+];
+const REPERES=[["Grand'Rivière",14.874,-61.181,"s"],["Saint-Pierre",14.742,-61.176,"o"],["Le Carbet",14.709,-61.183,"o"],["Fort-de-France",14.602,-61.067,"o"],["La Trinité",14.735,-60.966,"e"],["Le François",14.613,-60.902,"e"],["Les Trois-Îlets",14.538,-61.037,"o"],["Le Diamant",14.480,-61.030,"s"],["Sainte-Anne",14.436,-60.880,"e"]];
+const LO0=-61.229,LA1=14.8788,KX=107.74,KY=110.6,SC=1.5911;
+const px=lo=>14+(lo-LO0)*KX*SC, py=la=>5+(LA1-la)*KY*SC;
+
+const ENVIES=[["soleil","Beau temps"],["pluie","Malgré la pluie"],["manger","Manger"],["enfants","Avec les enfants"],["detente","Se détendre"],["decouvrir","Découvrir"]];
+const QUI=[["tous","Peu importe"],["couple","En couple"],["famille","Avec enfants"],["amis","Entre amis"],["sportifs","On marche"]];
+const TPS=[[2,"2 heures"],[4,"Demi-journée"],[24,"La journée"]];
+const METEO={soleil:"Grand soleil",nuage:"Ciel couvert",pluie:"Averses"};
+const WMO={0:["soleil","Grand soleil"],1:["soleil","Ciel dégagé"],2:["nuage","Quelques nuages"],3:["nuage","Ciel couvert"],
+ 45:["nuage","Brume"],48:["nuage","Brume"],51:["pluie","Bruine"],53:["pluie","Bruine"],55:["pluie","Bruine soutenue"],
+ 56:["pluie","Bruine"],57:["pluie","Bruine"],61:["pluie","Pluie faible"],63:["pluie","Pluie"],65:["pluie","Forte pluie"],
+ 66:["pluie","Pluie"],67:["pluie","Pluie"],80:["pluie","Averses"],81:["pluie","Averses"],82:["pluie","Fortes averses"],
+ 95:["pluie","Orage"],96:["pluie","Orage"],99:["pluie","Orage"]};
+const ICM={
+ soleil:'<circle cx="12" cy="12" r="4.4"/><path d="M12 3.2V1m0 22v-2.2M20.8 12H23M1 12h2.2m14.2-6.4 1.6-1.6M4.2 19.8l1.6-1.6m0-12.6L4.2 4.2m15.6 15.6-1.6-1.6"/>',
+ nuage:'<path d="M17.5 19a4.5 4.5 0 0 0 0-9 6.5 6.5 0 0 0-12.4 1.9A3.6 3.6 0 0 0 6 19z"/>',
+ pluie:'<path d="M17.5 15.5a4.5 4.5 0 0 0 0-9 6.5 6.5 0 0 0-12.4 1.9A3.6 3.6 0 0 0 6 15.5"/><path d="M8.5 18.5 7.5 21.5m5-3-1 3m5-3-1 3"/>',
+ soiree:'<path d="M3 18h18M5.5 18a6.5 6.5 0 0 1 13 0M12 3.5V6m7.1.9-1.6 1.6M4.9 6.9l1.6 1.6M1.5 18h2M20.5 18h2"/><path d="M2 21.5h20"/>'
+};
+let amb="soleil", live=false;
+function icoMeteo(k){
+  return '<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+(ICM[k]||ICM.soleil)+'</svg>';
+}
+function heureLocale(){
+  try{
+    const s=new Intl.DateTimeFormat("fr-FR",{timeZone:"America/Martinique",hour:"2-digit",minute:"2-digit",hour12:false}).format(new Date());
+    const [h,m]=s.split(":").map(Number); return h+m/60;
+  }catch(e){ const d=new Date(); return d.getHours()+d.getMinutes()/60; }
+}
+function calerAmbiance(){
+  const h=heureLocale();
+  amb=(h>=17.3||h<5.5)?"soiree":meteo;
+  document.body.dataset.amb=amb;
+}
+async function meteoLive(){
+  const v=vv();
+  const u="https://api.open-meteo.com/v1/forecast?latitude="+v.lat+"&longitude="+v.lon
+    +"&current=temperature_2m,weather_code&hourly=precipitation_probability&timezone=America%2FMartinique&forecast_days=1";
+  const r=await fetch(u);
+  if(!r.ok) throw new Error("meteo");
+  const d=await r.json();
+  const code=d.current.weather_code, temp=Math.round(d.current.temperature_2m);
+  const [k,lab]=WMO[code]||["nuage","Temps variable"];
+  meteo=k; live=true;
+  calerAmbiance();
+  const hh=Math.floor(heureLocale());
+  let sub="Pas de pluie annoncée aujourd'hui.";
+  const P=d.hourly&&d.hourly.precipitation_probability, Tm=d.hourly&&d.hourly.time;
+  if(P&&Tm){
+    let best=-1,bi=-1;
+    for(let i=0;i<P.length;i++){
+      const hi=parseInt(Tm[i].slice(11,13),10);
+      if(hi>=hh && P[i]>best){best=P[i];bi=i;}
+    }
+    if(best>=40) sub="Averses possibles vers "+parseInt(Tm[bi].slice(11,13),10)+" h ("+best+" %).";
+    else if(best>=20) sub="Quelques gouttes possibles vers "+parseInt(Tm[bi].slice(11,13),10)+" h.";
+  }
+  $("mico").innerHTML=icoMeteo(amb==="soiree"?"soiree":k);
+  $("mtemp").textContent=temp+"°";
+  const hL=heureLocale();
+  $("mlab").textContent=((hL>=17.3&&hL<20)?"Fin de journée · ":"")+lab;
+  $("msub").textContent=sub;
+  $("bulletin").hidden=false;
+  $("selmeteo").hidden=true;
+  $("labmeteo").textContent="météo relevée à "+vv().n;
+}
+const WA="https://wa.me/596696111869?text=";
+
+let villa="ontherock", meteo="soleil", envie=null, qui="tous", tps=24, sel=null;
+const $=i=>document.getElementById(i);
+const doux = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const vv=()=>V.find(x=>x.id===villa);
+const mn=a=>T[villa][a.s];
+const cercle=m=>m<=20?0:m<=45?1:2;
+const budg=b=>b===0?"Gratuit":b===1?"Petit budget":"Budget";
+const esc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+const court=n=>n.split(" — ")[0];
+const maps=a=>"https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(a.n+" "+a.c+" Martinique");
+const waze=a=>"https://waze.com/ul?q="+encodeURIComponent(a.n+" "+a.c+" Martinique")+"&navigate=yes";
+function wa(a){const v=vv();return WA+encodeURIComponent("Bonjour Soleya, nous sommes à "+v.n+" et nous aimerions organiser : "+a.n+". Pouvez-vous nous renseigner ?");}
+
+function garde(a){
+  if(meteo==="pluie" && a.io!=="dedans" && !a.e.includes("pluie")) return false;
+  if(envie && !a.e.includes(envie)) return false;
+  if(qui!=="tous" && !a.q.includes("tous") && !a.q.includes(qui)) return false;
+  const m=mn(a), tot=a.d+(m*2)/60;
+  if(tps===2) return m<=20 && tot<=2.6;
+  if(tps===4) return m<=45 && tot<=5.5;
+  return true;
+}
+
+const ICO={
+ soleil:'<path d="M12 4V2m0 20v-2m8-8h2M2 12h2m13.7-5.7 1.4-1.4M4.9 19.1l1.4-1.4m0-11.4L4.9 4.9m14.2 14.2-1.4-1.4"/><circle cx="12" cy="12" r="4"/>',
+ manger:'<path d="M6 3v8a3 3 0 0 0 6 0V3M9 11v10M16 3c-1.5 2-2 4-2 6s.5 3 2 3 2-1 2-3-.5-4-2-6zm0 9v9"/>',
+ decouvrir:'<circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5z"/>',
+ enfants:'<circle cx="9" cy="6" r="2.5"/><circle cx="16.5" cy="8" r="2"/><path d="M5 21v-5a4 4 0 0 1 8 0v5M14.5 21v-4a3 3 0 0 1 5-2"/>',
+ detente:'<path d="M4 20c2-3 5-4.5 8-4.5s6 1.5 8 4.5M12 15V9m0 0c0-3 2-5 5-5 0 3-2 5-5 5zm0 0c0-3-2-5-5-5 0 3 2 5 5 5z"/>',
+ pluie:'<path d="M17 15a4.5 4.5 0 0 0-.5-9 6 6 0 0 0-11.2 2.2A3.5 3.5 0 0 0 6 15M8 18l-1 3m5-3-1 3m5-3-1 3"/>'
+};
+function ico(a){
+  const k=["manger","enfants","detente","pluie","decouvrir","soleil"].find(x=>a.e.includes(x))||"decouvrir";
+  return '<svg class="ic" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+(ICO[k]||ICO.decouvrir)+'</svg>';
+}
+
+/* ---------- carte : zoom ---------- */
+const VB0={x:0,y:0,w:100,h:96.25};
+let vb={...VB0}, LISTE=[], prevMid=null, dist0=null;
+const svgEl=()=>$("carte");
+function appliquerVB(){
+  svgEl().setAttribute("viewBox",vb.x.toFixed(3)+" "+vb.y.toFixed(3)+" "+vb.w.toFixed(3)+" "+vb.h.toFixed(3));
+  $("zp").disabled = vb.w<=VB0.w/5.9;
+  $("zm").disabled = vb.w>=VB0.w-.01;
+}
+function borner(){
+  vb.x=Math.min(Math.max(vb.x,-2),VB0.w-vb.w+2);
+  vb.y=Math.min(Math.max(vb.y,-2),VB0.h-vb.h+2);
+}
+function zoomer(f,cx,cy){
+  const w=Math.min(VB0.w,Math.max(VB0.w/6,vb.w*f)), k=w/vb.w;
+  if(cx===undefined){cx=vb.x+vb.w/2;cy=vb.y+vb.h/2;}
+  vb.x=cx-(cx-vb.x)*k; vb.y=cy-(cy-vb.y)*k; vb.w=w; vb.h=VB0.h*(w/VB0.w);
+  borner(); appliquerVB(); dessiner(LISTE);
+}
+function resetVB(){ vb={...VB0}; appliquerVB(); dessiner(LISTE); }
+function cadrerSur(a){
+  const w=VB0.w/3.2;
+  vb.w=w; vb.h=VB0.h*(w/VB0.w);
+  vb.x=px(a.lon)-w/2; vb.y=py(a.lat)-vb.h/2;
+  borner(); appliquerVB();
+}
+function brancherZoom(){
+  const el=svgEl();
+  el.addEventListener("touchstart",e=>{ if(e.touches.length===2){dist0=null;prevMid=null;e.preventDefault();} },{passive:false});
+  el.addEventListener("touchmove",e=>{
+    if(e.touches.length!==2) return;
+    e.preventDefault();
+    const r=el.getBoundingClientRect(), a=e.touches[0], b=e.touches[1];
+    const d=Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY);
+    const mx=(a.clientX+b.clientX)/2, my=(a.clientY+b.clientY)/2;
+    const cx=vb.x+(mx-r.left)/r.width*vb.w, cy=vb.y+(my-r.top)/r.height*vb.h;
+    if(dist0 && d>0) zoomer(dist0/d,cx,cy);
+    if(prevMid){ vb.x-=(mx-prevMid.x)/r.width*vb.w; vb.y-=(my-prevMid.y)/r.height*vb.h; borner(); appliquerVB(); dessiner(LISTE); }
+    dist0=d; prevMid={x:mx,y:my};
+  },{passive:false});
+  el.addEventListener("touchend",()=>{dist0=null;prevMid=null;});
+  el.addEventListener("wheel",e=>{
+    e.preventDefault();
+    const r=el.getBoundingClientRect();
+    zoomer(e.deltaY>0?1.12:1/1.12, vb.x+(e.clientX-r.left)/r.width*vb.w, vb.y+(e.clientY-r.top)/r.height*vb.h);
+  },{passive:false});
+  $("zp").onclick=()=>zoomer(1/1.5);
+  $("zm").onclick=()=>zoomer(1.5);
+  $("zr").onclick=resetVB;
+}
+
+/* ---------- carte : dessin ---------- */
+const RING=[{f:"#06302E",r:2,s:"#FFFFFF"},{f:"#13807A",r:1.8,s:"#FFFFFF"},{f:"#FFFFFF",r:1.55,s:"#0B3F3C"}];
+function dessiner(liste){
+  LISTE=liste;
+  const v=vv(), s=[], k=Math.max(.42,vb.w/VB0.w), z=x=>(x*k).toFixed(2), zf=VB0.w/vb.w;
+  s.push('<image href="'+RELIEF+'" x="0" y="0" width="100" height="96.25" preserveAspectRatio="none"/>');
+  const vx=px(v.lon), vy=py(v.lat), rep=[];
+  REPERES.forEach(([n,la,lo,pos])=>{
+    const x=px(lo), y=py(la);
+    if(Math.hypot(x-vx,y-vy)<9*k) return;
+    rep.push('<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="'+z(.5)+'" fill="#FFFFFF" opacity=".85"/>');
+    const an=pos==="o"?"end":pos==="e"?"start":"middle";
+    const dx=(pos==="o"?-1.6:pos==="e"?1.6:0)*k, dy=(pos==="s"?3.6:.9)*k;
+    rep.push('<text x="'+(x+dx).toFixed(1)+'" y="'+(y+dy).toFixed(1)+'" font-size="'+z(2.1)+'" fill="#F2FBFF" text-anchor="'+an+'" letter-spacing=".12" paint-order="stroke" stroke="rgba(6,38,44,.65)" stroke-width="'+z(.8)+'" stroke-linejoin="round">'+esc(n).toUpperCase()+'</text>');
+  });
+  s.push(rep.join(""));
+
+  liste.forEach((a,i)=>{
+    const x=px(a.lon), y=py(a.lat), on=sel===a.n, R=RING[cercle(mn(a))];
+    if(on && !doux) s.push('<circle cx="'+x.toFixed(2)+'" cy="'+y.toFixed(2)+'" fill="none" stroke="#D29B2E" stroke-width="'+z(.9)+'"><animate attributeName="r" values="'+z(2.6)+';'+z(6.5)+'" dur="1.9s" repeatCount="indefinite"/><animate attributeName="opacity" values=".55;0" dur="1.9s" repeatCount="indefinite"/></circle>');
+    s.push('<circle class="pt" data-i="'+i+'" cx="'+x.toFixed(2)+'" cy="'+y.toFixed(2)+'" r="'+z(on?2.4:R.r)+'" fill="'+(on?"#D29B2E":R.f)+'" stroke="'+(on?"#FFFFFF":R.s)+'" stroke-width="'+z(on?1.3:1.05)+'"/>');
+    s.push('<circle class="pt" data-i="'+i+'" cx="'+x.toFixed(2)+'" cy="'+y.toFixed(2)+'" r="'+z(3.8)+'" fill="transparent"/>');
+  });
+
+  /* noms des lieux : apparaissent au zoom, par priorité, sans se chevaucher */
+  if(zf>=1.7){
+    const boites=[], fs=2.4*k, dedans=o=>o.x>vb.x-3&&o.x<vb.x+vb.w+3&&o.y>vb.y-3&&o.y<vb.y+vb.h+3;
+    liste.map((a,i)=>({a,i,x:px(a.lon),y:py(a.lat),m:mn(a)}))
+      .filter(dedans)
+      .sort((p,q)=>(q.a.n===sel)-(p.a.n===sel)||p.m-q.m)
+      .slice(0,16)
+      .forEach(o=>{
+        const nom=court(o.a.n), on=o.a.n===sel;
+        const w=nom.length*fs*.52, h=fs*1.3;
+        const droite=o.x<vb.x+vb.w*.62;
+        const bx=droite?o.x+3*k:o.x-3*k-w, by=o.y-h*.72;
+        if(boites.some(p=>!(bx+w<p.x||p.x+p.w<bx||by+h<p.y||p.y+p.h<by))) return;
+        boites.push({x:bx,y:by,w,h});
+        s.push('<text class="nom" data-i="'+o.i+'" x="'+(droite?o.x+3*k:o.x-3*k).toFixed(2)+'" y="'+(o.y+fs*.36).toFixed(2)+'" font-size="'+fs.toFixed(2)+'" font-weight="'+(on?700:600)+'" fill="'+(on?"#FFE6AE":"#FFFFFF")+'" text-anchor="'+(droite?"start":"end")+'" paint-order="stroke" stroke="rgba(6,38,44,.65)" stroke-width="'+z(1.1)+'" stroke-linejoin="round">'+esc(nom)+'</text>');
+      });
+  }
+
+  s.push('<g transform="translate('+vx.toFixed(2)+' '+vy.toFixed(2)+')"><rect x="'+z(-2)+'" y="'+z(-2)+'" width="'+z(4)+'" height="'+z(4)+'" transform="rotate(45)" fill="#E6BE6A" stroke="#FFFFFF" stroke-width="'+z(.7)+'"/></g>');
+  const vax=vx>62?"end":"start", vdx=(vx>62?-3.4:3.4)*k;
+  s.push('<text x="'+(vx+vdx).toFixed(2)+'" y="'+(vy+1*k).toFixed(2)+'" font-size="'+z(2.9)+'" font-weight="700" fill="#FFFFFF" text-anchor="'+vax+'" paint-order="stroke" stroke="rgba(6,38,44,.65)" stroke-width="'+z(1)+'" stroke-linejoin="round">'+esc(v.n)+'</text>');
+
+  if(sel){
+    const a=liste.find(x=>x.n===sel);
+    if(a) s.push('<line x1="'+vx.toFixed(2)+'" y1="'+vy.toFixed(2)+'" x2="'+px(a.lon).toFixed(2)+'" y2="'+py(a.lat).toFixed(2)+'" stroke="#FFD98A" stroke-width="'+z(.6)+'" stroke-dasharray="'+z(1.6)+' '+z(1.4)+'"/>');
+  }
+
+  svgEl().innerHTML=s.join("");
+  svgEl().querySelectorAll(".pt,.nom").forEach(c=>c.addEventListener("click",e=>{
+    const a=liste[+e.target.getAttribute("data-i")];
+    if(sel===a.n){ fermerSheet(); } else { sel=a.n; dessiner(liste); ouvrirSheet(a); }
+  }));
+}
+
+/* ---------- bottom sheet ---------- */
+const parlerDispo = typeof window!=="undefined" && "speechSynthesis" in window;
+function parler(a){
+  if(!parlerDispo) return;
+  const sy=window.speechSynthesis;
+  if(sy.speaking){ sy.cancel(); return; }
+  const u=new SpeechSynthesisUtterance(a.n+". "+a.c+", à environ "+mn(a)+" minutes de route. "+a.note+(a.warn?" À savoir : "+a.warn:""));
+  u.lang="fr-FR"; u.rate=.95; sy.speak(u);
+}
+function ouvrirSheet(a){
+  $("sheetin").innerHTML='<div class="poignee"></div><button class="fermer" type="button" id="btnfermer" aria-label="Fermer">×</button>'
+    +vignette(a)
+    +'<div class="kicker"><span class="pt"></span>'+esc(a.c)+' · '+esc(SECT[a.s])+'</div>'
+    +'<h3>'+esc(a.n)+'</h3>'
+    +'<p class="n">'+esc(a.note)+'</p>'
+    +(a.warn?'<div class="warn">'+esc(a.warn)+'</div>':'')
+    +'<p class="exact">≈ '+mn(a)+' min de route depuis '+esc(vv().n)+' · '+esc(a.dt)+' sur place · '+budg(a.b)
+    +'<br>Temps moyen hors circulation — Waze vous donnera le temps exact du moment.</p>'
+    +'<div class="actions">'
+    +'<a class="btn p" href="'+waze(a)+'" target="_blank" rel="noopener">Y aller — Waze</a>'
+    +'<a class="btn s" href="'+maps(a)+'" target="_blank" rel="noopener">Google Maps</a>'
+    +'<a class="btn o" href="'+wa(a)+'" target="_blank" rel="noopener">Demander à Soleya</a>'
+    +(parlerDispo?'<button class="btn s" type="button" id="btnvoix">Écouter</button>':'')
+    +'</div>';
+  $("btnfermer").onclick=fermerSheet;
+  if(parlerDispo) $("btnvoix").onclick=()=>parler(a);
+  $("sheet").classList.add("open");
+  $("sheet").setAttribute("aria-hidden","false");
+}
+function fermerSheet(){
+  sel=null;
+  $("sheet").classList.remove("open");
+  $("sheet").setAttribute("aria-hidden","true");
+  if(parlerDispo && window.speechSynthesis.speaking) window.speechSynthesis.cancel();
+  dessiner(LISTE);
+}
+document.addEventListener("keydown",e=>{ if(e.key==="Escape") fermerSheet(); });
+
+const CARTE_SRC={
+  fichier:"Martinique relief location map.jpg",
+  auteur:"\u2014 \u00e0 compl\u00e9ter depuis la page du fichier",
+  licence:"CC BY-SA 3.0",
+  url:"https://creativecommons.org/licenses/by-sa/3.0/deed.fr"
+};
+function ouvrirCredits(){
+  $("sheetin").innerHTML='<div class="poignee"></div><button class="fermer" type="button" id="btnfermer" aria-label="Fermer">×</button>'
+    +'<div class="kicker"><span class="pt"></span>Crédits</div>'
+    +'<h3>Fond de carte</h3>'
+    +'<p class="n">Relief de la Martinique, d\'après le fichier «\u00a0'+esc(CARTE_SRC.fichier)+'\u00a0» publié sur Wikimedia Commons.</p>'
+    +'<p class="exact">Auteur : '+esc(CARTE_SRC.auteur)+'<br>Licence : <a href="'+CARTE_SRC.url+'" target="_blank" rel="noopener">'+esc(CARTE_SRC.licence)+'</a>'
+    +'<br>Œuvre modifiée par Soleya Conciergerie : recadrage, suppression des libellés et de la graticule, étalonnage colorimétrique. La carte modifiée est diffusée sous la même licence.</p>';
+  $("btnfermer").onclick=fermerSheet;
+  $("sheet").classList.add("open"); $("sheet").setAttribute("aria-hidden","false");
+}
+
+function vignette(a){
+  const b=a.top?'<span class="badge">Choix Soleya</span>':'';
+  if(a.img) return '<div class="vign"><img src="'+esc(a.img)+'" alt="'+esc(a.imgAlt||a.n)+'" loading="lazy" decoding="async">'+b+'</div>';
+  return '<div class="vign sans">'+ico(a)+b+'</div>';
+}
+function carteFiche(a){
+  return '<button class="fiche" data-n="'+esc(a.n)+'">'
+    +vignette(a)
+    +'<div class="corps">'
+    +'<div class="ou">'+esc(a.c)+' · \u2248 '+mn(a)+' min</div>'
+    +'<h4>'+esc(a.n)+'</h4>'
+    +'<p class="d">'+esc(a.note)+'</p>'
+    +'<div class="pied"><span>'+budg(a.b)+' · '+esc(a.dt)+'</span><span class="fl">\u2197</span></div>'
+    +'</div></button>';
+}
+
+const TITRES=[
+ ["Autour de vous","Moins de 20 minutes de route"],
+ ["Pour une demi-journée","Entre 20 et 45 minutes"],
+ ["Pour la journée entière","Plus loin, mais ça valait le détour"]
+];
+
+const obs = ("IntersectionObserver" in window) ? new IntersectionObserver((ents,o)=>{
+  ents.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add("vu"); o.unobserve(en.target); } });
+},{rootMargin:"0px 0px -8% 0px",threshold:.08}) : null;
+
+function rendre(){
+  const v=vv();
+  calerAmbiance();
+  $("kv").textContent=v.n+" · "+v.c;
+  $("lede").textContent="Nos idées sont classées par temps de route moyen depuis "+v.n+". Choisissez votre envie, et la carte s'ajuste.";
+  const liste=A.filter(garde).sort((a,b)=>mn(a)-mn(b));
+  if(sel && !liste.some(x=>x.n===sel)){ sel=null; $("sheet").classList.remove("open"); $("sheet").setAttribute("aria-hidden","true"); }
+  const proche=liste.filter(a=>cercle(mn(a))===0).length;
+  $("pastille").textContent=liste.length+" idée"+(liste.length>1?"s":"")+" · "+proche+" tout près";
+  dessiner(liste);
+
+  const g=[[],[],[]];
+  liste.forEach(a=>g[cercle(mn(a))].push(a));
+  let h="";
+  g.forEach((arr,i)=>{
+    if(!arr.length) return;
+    h+='<section class="bloc"><div class="bloc-head"><h2>'+TITRES[i][0]+'</h2><div class="c">'+arr.length+' idée'+(arr.length>1?'s':'')+'</div></div>'
+      +'<p class="bloc-sous">'+TITRES[i][1]+'</p><div class="grille">'+arr.map(carteFiche).join("")+'</div></section>';
+  });
+  if(!liste.length) h='<div class="vide">Rien ne correspond à cette combinaison. Enlevez un filtre, ou écrivez-nous : on vous trouvera quelque chose.</div>';
+  $("listes").innerHTML=h;
+  $("listes").querySelectorAll(".fiche").forEach((b,i)=>{
+    b.style.transitionDelay=(Math.min(i,8)*55)+"ms";
+    if(obs) obs.observe(b); else b.classList.add("vu");
+    b.addEventListener("click",()=>{
+      const a=liste.find(x=>x.n===b.getAttribute("data-n"));
+      if(!a) return;
+      sel=a.n; cadrerSur(a); dessiner(liste); ouvrirSheet(a);
+    });
+  });
+  $("btnwa").href=WA+encodeURIComponent("Bonjour Soleya, nous sommes à "+v.n+". Nous aimerions organiser quelque chose pendant notre séjour.");
+}
+
+function filtres(){
+  $("p-envie").innerHTML=ENVIES.map(([k,l])=>'<button class="pill'+(envie===k?" on":"")+'" data-k="'+k+'">'+l+'</button>').join("")
+    +'<button class="pill'+(envie===null?" on":"")+'" data-k="">Tout voir</button>';
+  $("p-envie").querySelectorAll(".pill").forEach(b=>b.addEventListener("click",()=>{const k=b.getAttribute("data-k");envie=k||null;filtres();rendre();}));
+  $("p-qui").innerHTML=QUI.map(([k,l])=>'<button class="pill'+(qui===k?" on":"")+'" data-k="'+k+'">'+l+'</button>').join("");
+  $("p-qui").querySelectorAll(".pill").forEach(b=>b.addEventListener("click",()=>{qui=b.getAttribute("data-k");filtres();rendre();}));
+  $("p-tps").innerHTML=TPS.map(([k,l])=>'<button class="pill'+(tps===k?" on or":"")+'" data-k="'+k+'">'+l+'</button>').join("");
+  $("p-tps").querySelectorAll(".pill").forEach(b=>b.addEventListener("click",()=>{tps=+b.getAttribute("data-k");filtres();rendre();}));
+}
+
+$("selvilla").innerHTML=V.map(v=>'<option value="'+v.id+'">'+v.n+'</option>').join("");
+$("selvilla").value=villa;
+$("selvilla").addEventListener("change",e=>{villa=e.target.value;sel=null;fermerSheet();resetVB();rendre();if(live)rafraichirMeteo();});
+$("selmeteo").addEventListener("change",e=>{meteo=e.target.value;sel=null;fermerSheet();rendre();});
+function rafraichirMeteo(){ meteoLive().then(()=>rendre()).catch(()=>{ live=false; $("bulletin").hidden=true; $("selmeteo").hidden=false; calerAmbiance(); }); }
+$("btncredits").onclick=ouvrirCredits;
+// villa imposee par l'adresse : ?villa=mae  (ou #mae). Le voyageur ne choisit plus.
+(function(){
+  let q="";
+  try{ q=new URLSearchParams(location.search).get("villa")||""; }catch(e){}
+  if(!q && location.hash) q=decodeURIComponent(location.hash.slice(1));
+  q=(q||"").trim().toLowerCase();
+  if(q && V.some(v=>v.id===q)){
+    villa=q; $("selvilla").value=q;
+    const bar=document.querySelector(".apercu"); if(bar) bar.hidden=true;
+  }
+})();
+brancherZoom(); appliquerVB(); filtres(); rendre(); rafraichirMeteo();
+</script>
+
+</body>
+</html>
