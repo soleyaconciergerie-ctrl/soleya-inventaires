@@ -716,6 +716,7 @@ function ouvrirSheet(a){
     +'</div>';
   $("btnfermer").onclick=fermerSheet;
   if(parlerDispo) $("btnvoix").onclick=()=>parler(a);
+  chargerImgs($("sheetin"));
   $("sheet").classList.add("open");
   $("sheet").setAttribute("aria-hidden","false");
 }
@@ -730,9 +731,9 @@ document.addEventListener("keydown",e=>{ if(e.key==="Escape") fermerSheet(); });
 
 const CARTE_SRC={
   fichier:"Martinique relief location map.jpg",
-  auteur:"\u2014 \u00e0 compl\u00e9ter depuis la page du fichier",
-  licence:"CC BY-SA 3.0",
-  url:"https://creativecommons.org/licenses/by-sa/3.0/deed.fr"
+  auteur:"Eric Gaba (Sting), modifi\u00e9 par geoethno \u2014 donn\u00e9es NASA SRTM3 et NGDC ETOPO1 (domaine public)",
+  licence:"CC BY-SA 3.0 DE",
+  url:"https://creativecommons.org/licenses/by-sa/3.0/de/deed.fr"
 };
 function ouvrirCredits(){
   $("sheetin").innerHTML='<div class="poignee"></div><button class="fermer" type="button" id="btnfermer" aria-label="Fermer">×</button>'
@@ -742,13 +743,18 @@ function ouvrirCredits(){
     +'<p class="exact">Auteur : '+esc(CARTE_SRC.auteur)+'<br>Licence : <a href="'+CARTE_SRC.url+'" target="_blank" rel="noopener">'+esc(CARTE_SRC.licence)+'</a>'
     +'<br>Œuvre modifiée par Soleya Conciergerie : recadrage, suppression des libellés et de la graticule, étalonnage colorimétrique. La carte modifiée est diffusée sous la même licence.</p>';
   $("btnfermer").onclick=fermerSheet;
+  chargerImgs($("sheetin"));
   $("sheet").classList.add("open"); $("sheet").setAttribute("aria-hidden","false");
 }
 
 function vignette(a){
   const b=a.top?'<span class="badge">Choix Soleya</span>':'';
-  if(a.img) return '<div class="vign"><img src="'+esc(a.img)+'" alt="'+esc(a.imgAlt||a.n)+'" loading="lazy" decoding="async">'+b+'</div>';
+  if(a.img) return '<div class="vign"><img data-src="'+esc(a.img)+'" alt="'+esc(a.imgAlt||a.n)+'" decoding="async" width="1280" height="720">'+b+'</div>';
   return '<div class="vign sans">'+ico(a)+b+'</div>';
+}
+function chargerImgs(el){
+  if(!el) return;
+  el.querySelectorAll("img[data-src]").forEach(i=>{ i.src=i.getAttribute("data-src"); i.removeAttribute("data-src"); });
 }
 function carteFiche(a){
   return '<button class="fiche" data-n="'+esc(a.n)+'">'
@@ -768,9 +774,14 @@ const TITRES=[
 ];
 
 const obs = ("IntersectionObserver" in window) ? new IntersectionObserver((ents,o)=>{
-  ents.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add("vu"); o.unobserve(en.target); } });
+  ents.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add("vu"); chargerImgs(en.target); o.unobserve(en.target); } });
 },{rootMargin:"0px 0px -8% 0px",threshold:.08}) : null;
 
+let filetPose=false;
+function poserFilet(){
+  if(filetPose) return; filetPose=true;
+  setTimeout(()=>chargerImgs(document.getElementById("listes")), 2500);
+}
 function rendre(){
   const v=vv();
   calerAmbiance();
@@ -791,10 +802,10 @@ function rendre(){
       +'<p class="bloc-sous">'+TITRES[i][1]+'</p><div class="grille">'+arr.map(carteFiche).join("")+'</div></section>';
   });
   if(!liste.length) h='<div class="vide">Rien ne correspond à cette combinaison. Enlevez un filtre, ou écrivez-nous : on vous trouvera quelque chose.</div>';
-  $("listes").innerHTML=h;
+  $("listes").innerHTML=h; filetPose=false; poserFilet();
   $("listes").querySelectorAll(".fiche").forEach((b,i)=>{
     b.style.transitionDelay=(Math.min(i,8)*55)+"ms";
-    if(obs) obs.observe(b); else b.classList.add("vu");
+    if(obs) obs.observe(b); else { b.classList.add("vu"); chargerImgs(b); }
     b.addEventListener("click",()=>{
       const a=liste.find(x=>x.n===b.getAttribute("data-n"));
       if(!a) return;
