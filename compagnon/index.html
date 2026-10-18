@@ -96,13 +96,24 @@ h1 em.s{font-size:1.04em}
 .bulletin .col{min-width:0}
 .bulletin .lab{font-size:13.5px;font-weight:600;line-height:1.3}
 .bulletin .sub{font-size:12.5px;color:var(--txt70);line-height:1.35}
+.prevision{display:flex;gap:8px;overflow-x:auto;margin:0 0 22px;padding-bottom:4px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.prevision::-webkit-scrollbar{display:none}
+.prev{flex:none;min-width:66px;text-align:center;border-radius:16px;padding:10px 8px 9px;
+  background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.24);
+  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);text-shadow:none}
+.prev.maintenant{background:rgba(255,255,255,.26);border-color:rgba(255,255,255,.42)}
+.prev .q{font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--txt70)}
+.prev .i{display:block;margin:5px auto 3px;color:var(--txt)}
+.prev .t{font-size:12.5px;font-weight:700;white-space:nowrap}
+.prev .t small{font-weight:500;opacity:.62;font-size:11.5px}
 .bulletin .live{margin-left:auto;flex:none;font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--kick);border:1px solid currentColor;border-radius:999px;padding:3px 7px}
 
 .carte-card{position:relative;background:var(--blanc);border-radius:22px;overflow:hidden;box-shadow:0 18px 44px rgba(10,46,43,.18)}
 .carte-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:16px 18px 10px;flex-wrap:wrap}
 .carte-head .t{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--encre-55);font-weight:600}
 .pastille{flex:none;background:var(--encre);color:#F3FAF8;border-radius:999px;padding:7px 13px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:600}
-.carte-zone{position:relative;background:#0A55A6;line-height:0}
+.carte-zone{position:relative;background:#0A55A6;line-height:0;touch-action:pan-y}
+.carte-zone.zoome{touch-action:none}
 svg#carte{display:block;width:100%;height:auto;max-width:min(100%,560px);margin:0 auto;touch-action:pan-y;cursor:grab}
 svg#carte.zoome{touch-action:none;cursor:grab}
 svg#carte.tire{cursor:grabbing}
@@ -220,6 +231,7 @@ svg#carte .nom{cursor:pointer}
       <span class="col"><span class="lab" id="mlab"></span><br><span class="sub" id="msub"></span></span>
       <span class="live" id="mlive" hidden>en direct</span>
     </div>
+    <div class="prevision" id="prevision" hidden></div>
     <h1>Aujourd'hui,<br><em class="s">on va où&nbsp;?</em></h1>
     <p class="lede" id="lede"></p>
   </header>
@@ -243,7 +255,7 @@ svg#carte .nom{cursor:pointer}
       <span class="k"><i class="r1"></i>20 à 45 min</span>
       <span class="k"><i class="r2"></i>+ de 45 min</span>
     </div>
-    <p class="astuce">Touchez un point pour l'ouvrir. Pincez à deux doigts ou appuyez sur&nbsp;+ pour zoomer : les noms des lieux apparaissent, et un doigt suffit alors à déplacer la carte.</p>
+    <p class="astuce">Touchez un point pour l'ouvrir. Pour zoomer : pincez à deux doigts, appuyez deux fois, ou utilisez&nbsp;+. Une fois zoomée, la carte se déplace avec un seul doigt.</p>
   </section>
 
   <section class="filtres">
@@ -370,7 +382,10 @@ function calerAmbiance(){
 async function meteoLive(){
   const v=vv();
   const u="https://api.open-meteo.com/v1/forecast?latitude="+v.lat+"&longitude="+v.lon
-    +"&current=temperature_2m,weather_code&hourly=precipitation_probability&timezone=America%2FMartinique&forecast_days=1";
+    +"&current=temperature_2m,weather_code"
+    +"&hourly=precipitation_probability,temperature_2m,weather_code"
+    +"&daily=weather_code,temperature_2m_max,temperature_2m_min"
+    +"&timezone=America%2FMartinique&forecast_days=7";
   const r=await fetch(u);
   if(!r.ok) throw new Error("meteo");
   const d=await r.json();
@@ -396,6 +411,38 @@ async function meteoLive(){
   $("mlab").textContent=dateDuJour();
   $("msub").textContent=lab+" · "+sub;
   $("selmeteo").hidden=true;
+  bandePrevision(d);
+}
+
+function icoPrev(code,nuit){
+  const k=(WMO[code]||["nuage"])[0];
+  return '<svg class="i" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+    +(nuit&&k==="soleil"?ICM.soiree:ICM[k]||ICM.nuage)+'</svg>';
+}
+function bandePrevision(d){
+  const H=d.hourly, D=d.daily;
+  if(!H||!D) return;
+  const hh=heureLocale(), bloc=[];
+  // la journée en cours : matin, après-midi, nuit — on n'affiche que ce qui reste
+  const moments=[["Matin",9,false],["Après-midi",15,false],["Nuit",22,true]];
+  moments.forEach(([nom,h,nuit])=>{
+    if(hh>=h+2) return;
+    const i=H.time.findIndex(x=>parseInt(x.slice(8,10),10)===parseInt(H.time[0].slice(8,10),10)&&parseInt(x.slice(11,13),10)===h);
+    if(i<0) return;
+    bloc.push('<div class="prev"><span class="q">'+nom+'</span>'+icoPrev(H.weather_code[i],nuit)
+      +'<span class="t">'+Math.round(H.temperature_2m[i])+'°</span></div>');
+  });
+  // puis les jours suivants
+  const jours=["Dim.","Lun.","Mar.","Mer.","Jeu.","Ven.","Sam."];
+  for(let j=0;j<D.time.length;j++){
+    const dt=new Date(D.time[j]+"T12:00:00");
+    const nom=(j===0)?"Aujourd'hui":jours[dt.getDay()];
+    if(j===0 && bloc.length) continue;
+    bloc.push('<div class="prev'+(j===0?" maintenant":"")+'"><span class="q">'+nom+'</span>'+icoPrev(D.weather_code[j],false)
+      +'<span class="t">'+Math.round(D.temperature_2m_max[j])+'° <small>'+Math.round(D.temperature_2m_min[j])+'°</small></span></div>');
+  }
+  $("prevision").innerHTML=bloc.join("");
+  $("prevision").hidden=false;
 }
 const WA="https://wa.me/596696111869?text=";
 
@@ -442,7 +489,9 @@ const svgEl=()=>$("carte");
 function appliquerVB(){
   svgEl().setAttribute("viewBox",vb.x.toFixed(3)+" "+vb.y.toFixed(3)+" "+vb.w.toFixed(3)+" "+vb.h.toFixed(3));
   // zoome : un doigt deplace la carte. Au cadrage complet : un doigt fait defiler la page.
+  const zz=document.querySelector(".carte-zone");
   svgEl().classList.toggle("zoome", vb.w < VB0.w-0.01);
+  if(zz) zz.classList.toggle("zoome", vb.w < VB0.w-0.01);
   $("zp").disabled = vb.w<=VB0.w/5.9;
   $("zm").disabled = vb.w>=VB0.w-.01;
 }
@@ -469,12 +518,13 @@ function deplacer(dxPx,dyPx,r){
   borner(); appliquerVB(); dessiner(LISTE);
 }
 function brancherZoom(){
-  const el=svgEl();
-  el.addEventListener("touchstart",e=>{
+  const el=svgEl();                                   // geometrie
+  const z=document.querySelector(".carte-zone");      // gestes
+  z.addEventListener("touchstart",e=>{
     if(e.touches.length===2){ dist0=null; prevMid=null; t1=null; e.preventDefault(); }
     else if(e.touches.length===1 && vb.w<VB0.w-0.01){ t1={x:e.touches[0].clientX,y:e.touches[0].clientY}; }
   },{passive:false});
-  el.addEventListener("touchmove",e=>{
+  z.addEventListener("touchmove",e=>{
     if(e.touches.length===1 && t1){
       e.preventDefault();
       const r=el.getBoundingClientRect(), p=e.touches[0];
@@ -492,10 +542,10 @@ function brancherZoom(){
     if(prevMid){ vb.x-=(mx-prevMid.x)/r.width*vb.w; vb.y-=(my-prevMid.y)/r.height*vb.h; borner(); appliquerVB(); dessiner(LISTE); }
     dist0=d; prevMid={x:mx,y:my};
   },{passive:false});
-  el.addEventListener("touchend",()=>{dist0=null;prevMid=null;t1=null;});
-  el.addEventListener("touchcancel",()=>{dist0=null;prevMid=null;t1=null;});
+  z.addEventListener("touchend",()=>{dist0=null;prevMid=null;t1=null;});
+  z.addEventListener("touchcancel",()=>{dist0=null;prevMid=null;t1=null;});
   // souris : glisser-deposer quand on est zoome
-  el.addEventListener("mousedown",e=>{ if(vb.w<VB0.w-0.01){ souris={x:e.clientX,y:e.clientY,bouge:0}; el.classList.add("tire"); e.preventDefault(); } });
+  z.addEventListener("mousedown",e=>{ if(vb.w<VB0.w-0.01){ souris={x:e.clientX,y:e.clientY,bouge:0}; el.classList.add("tire"); e.preventDefault(); } });
   window.addEventListener("mousemove",e=>{
     if(!souris) return;
     const r=el.getBoundingClientRect();
@@ -506,7 +556,7 @@ function brancherZoom(){
   window.addEventListener("mouseup",()=>{ if(souris){ el.classList.remove("tire"); setTimeout(()=>{souris=null;},0); } });
   // double tap / double clic : zoom avant, puis retour au cadrage complet
   let dernier=0;
-  el.addEventListener("click",e=>{
+  z.addEventListener("click",e=>{
     const t=Date.now();
     if(t-dernier<320){
       const r=el.getBoundingClientRect();
@@ -515,11 +565,22 @@ function brancherZoom(){
     }
     dernier=t;
   });
-  el.addEventListener("wheel",e=>{
+  z.addEventListener("wheel",e=>{
     e.preventDefault();
     const r=el.getBoundingClientRect();
     zoomer(e.deltaY>0?1.12:1/1.12, vb.x+(e.clientX-r.left)/r.width*vb.w, vb.y+(e.clientY-r.top)/r.height*vb.h);
   },{passive:false});
+  let ech=1;
+  z.addEventListener("gesturestart",e=>{ e.preventDefault(); ech=e.scale||1; },{passive:false});
+  z.addEventListener("gesturechange",e=>{
+    e.preventDefault();
+    const r=el.getBoundingClientRect(), s=e.scale||1;
+    const cx=vb.x+((e.clientX||r.left+r.width/2)-r.left)/r.width*vb.w;
+    const cy=vb.y+((e.clientY||r.top+r.height/2)-r.top)/r.height*vb.h;
+    if(s>0) zoomer(ech/s,cx,cy);
+    ech=s;
+  },{passive:false});
+  z.addEventListener("gestureend",e=>{ e.preventDefault(); ech=1; },{passive:false});
   $("zp").onclick=()=>zoomer(1/1.5);
   $("zm").onclick=()=>zoomer(1.5);
   $("zr").onclick=resetVB;
