@@ -480,6 +480,7 @@ function dateDuJour(){
 }
 function calerAmbiance(){
   amb = ambForce || momentDuJour() || ambCiel || meteo;
+  if(amb==="grains") amb="pluie";   // "grains" pilote le contenu, pas l'habillage
   document.body.dataset.amb=amb;
 }
 async function meteoLive(){
@@ -487,7 +488,7 @@ async function meteoLive(){
   const u="https://api.open-meteo.com/v1/forecast?latitude="+v.lat+"&longitude="+v.lon
     +"&current=temperature_2m,weather_code"
     +"&hourly=precipitation_probability,temperature_2m,weather_code"
-    +"&daily=weather_code,temperature_2m_max,temperature_2m_min"
+    +"&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_hours"
     +"&timezone=America%2FMartinique&forecast_days=7";
   const r=await fetch(u);
   if(!r.ok) throw new Error("meteo");
@@ -521,6 +522,21 @@ async function meteoLive(){
 }
 
 function classeCiel(code){ const w=WMO[code]; return w?(w[2]||w[0]):"nuage"; }
+
+/* Sous les alizes, une averse de dix minutes n'annule pas une plage.
+   On ne declare "pluie" que si elle s'installe : sinon c'est "grains",
+   un etat qui ne filtre rien et se contente de rassurer. */
+const PLUIE_MM=12, PLUIE_H=5;
+function niveauPluie(j){
+  const D=METEO_D&&METEO_D.daily; if(!D) return null;
+  const base=(WMO[D.weather_code[j]]||["nuage"])[0];
+  if(base!=="pluie") return base;
+  const mm=(D.precipitation_sum||[])[j], h=(D.precipitation_hours||[])[j];
+  if(mm==null||h==null) return "pluie";
+  if(classeCiel(D.weather_code[j])==="orage") return "pluie";
+  return (mm<PLUIE_MM && h<=PLUIE_H) ? "grains" : "pluie";
+}
+const MOT_GRAINS="Quelques averses portées par les alizés. Elles ne durent pas : profitez de votre journée, le soleil revient vite.";
 const JOURS=["dimanche","lundi","mardi","mercredi","jeudi","vendredi","samedi"];
 function nomJour(j,court){
   if(j===0) return court?"Auj.":"Aujourd'hui";
@@ -539,22 +555,30 @@ function appliquerJour(){
   const nuitMaintenant = momentDuJour()==="nuit";
 
   if(jourSel===0){
-    meteo = (WMO[METEO_D.current.weather_code]||["nuage"])[0];
-    ambCiel = (WMO[METEO_D.current.weather_code]||["nuage"])[2] || meteo;
+    const instant = (WMO[METEO_D.current.weather_code]||["nuage"])[0];
+    meteo = niveauPluie(0) || instant;      // contenu : la journee
+    ambCiel = (WMO[METEO_D.current.weather_code]||["nuage"])[2] || instant;  // fond : l'instant
     ambForce = null;
     $("titrejour").textContent = "Aujourd'hui,";
-    $("notejour").hidden = !nuitMaintenant;
-    if(nuitMaintenant) $("notejour").textContent =
-      "Il fait nuit : musées, distilleries et jardins sont fermés. Regardez demain dans la bande météo.";
+    if(nuitMaintenant){
+      $("notejour").hidden=false;
+      $("notejour").textContent =
+        "Il fait nuit : musées, distilleries et jardins sont fermés. Regardez demain dans la bande météo.";
+    }else if(meteo==="grains"){
+      $("notejour").hidden=false;
+      $("notejour").textContent = MOT_GRAINS;
+    }else{
+      $("notejour").hidden=true;
+    }
   }else{
-    meteo = k;
+    meteo = niveauPluie(jourSel) || k;
     // la nuit on garde le ciel nocturne en fond ; sinon le fond suit le jour consulte
     ambForce = nuitMaintenant ? "nuit" : (classeCiel(code)==="orage" ? "orage" : k);
     $("titrejour").textContent = nomJour(jourSel,false)+",";
     $("notejour").hidden=false;
     $("notejour").textContent = "Prévu "+nomJour(jourSel,false).toLowerCase()+" : "+lab.toLowerCase()
       +", "+Math.round(D.temperature_2m_max[jourSel])+"° / "+Math.round(D.temperature_2m_min[jourSel])+"°. "
-      +"Les idées ci-dessous sont adaptées à cette météo.";
+      +(meteo==="grains" ? MOT_GRAINS : "Les idées ci-dessous sont adaptées à cette météo.");
   }
   bandePrevision(METEO_D);
   rendre();
