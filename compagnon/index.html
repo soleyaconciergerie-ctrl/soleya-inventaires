@@ -119,6 +119,18 @@ h1 em.s{font-size:1.04em}
 }
 .prevision{display:flex;gap:8px;overflow-x:auto;margin:0 0 22px;padding-bottom:4px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
 .prevision::-webkit-scrollbar{display:none}
+/* Alerte Soleya : vigilance, sargasses, route coupee. Ecrite a la main par
+   Johalann dans l'app equipe, relayee par l'Edge Function "alerte-publique". */
+.alerte{margin:16px 0 0;border-radius:16px;padding:14px 16px;display:flex;gap:12px;align-items:flex-start;
+  box-shadow:0 8px 24px rgba(0,20,30,.18);color:#241A05}
+.alerte .pic{flex:none;font-size:19px;line-height:1.1}
+.alerte .cps{display:block;min-width:0}
+.alerte .t{display:block;font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;font-weight:800;opacity:.72}
+.alerte .m{display:block;margin-top:3px;font-size:14.5px;line-height:1.45;font-weight:500}
+.alerte.n-jaune{background:#FDE9A8;border:1px solid #E8C04A}
+.alerte.n-orange{background:#FBCF9B;border:1px solid #DE8B33;color:#3A1F02}
+.alerte.n-rouge{background:#F6B3B3;border:1px solid #D04A4A;color:#3A0909}
+.alerte.n-info{background:#BFE6DE;border:1px solid #4FA996;color:#06302A}
 .notejour{margin:-6px 0 14px;font-size:13px;color:var(--txt70);
   background:var(--sur);border:1px solid var(--surb);border-radius:12px;padding:9px 12px;
   -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
@@ -310,6 +322,8 @@ body.fige{overflow:hidden}
 </div>
 
 <div class="wrap">
+
+  <div class="alerte" id="alerte" hidden></div>
 
   <header>
     <div class="bulletin" id="bulletin">
@@ -1072,7 +1086,31 @@ document.addEventListener("keydown",e=>{ if(e.key==="Escape" && retourCarte) fer
     const bar=document.querySelector(".apercu"); if(bar) bar.hidden=true;
   }
 })();
-brancherZoom(); appliquerVB(); filtres(); rendre(); rafraichirMeteo();
+/* ---------- alerte Soleya ----------
+   Le compagnon n'a aucune cle Supabase : il interroge une Edge Function
+   publique qui ne renvoie que le message. Si elle ne repond pas, on
+   n'affiche rien plutot qu'une alerte douteuse. */
+const ALERTE_URL="https://ihcqrqcmtcmunlnymaip.supabase.co/functions/v1/alerte-publique";
+const PICTO={jaune:"\u26A0\uFE0F",orange:"\u26A0\uFE0F",rouge:"\u26D4",info:"\u2139\uFE0F"};
+const TITRE={jaune:"Vigilance",orange:"Vigilance",rouge:"Alerte",info:"Bon \u00e0 savoir"};
+async function chargerAlerte(){
+  const el=$("alerte"); if(!el) return;
+  try{
+    const r=await fetch(ALERTE_URL,{cache:"no-store"});
+    if(!r.ok) throw 0;
+    const a=await r.json();
+    if(!a||!a.actif||!a.texte){ el.hidden=true; return; }
+    const niv=["jaune","orange","rouge","info"].includes(a.niveau)?a.niveau:"info";
+    el.className="alerte n-"+niv;
+    el.innerHTML='<span class="pic" aria-hidden="true">'+PICTO[niv]+'</span>'
+      +'<span class="cps"><span class="t">'+TITRE[niv]+' \u00b7 Soleya</span>'
+      +'<span class="m">'+esc(a.texte)+'</span></span>';
+    el.hidden=false;
+  }catch(e){ el.hidden=true; }
+}
+
+brancherZoom(); appliquerVB(); filtres(); rendre(); rafraichirMeteo(); chargerAlerte();
+setInterval(chargerAlerte, 10*60*1000);
 </script>
 
 </body>
