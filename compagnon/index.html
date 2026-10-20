@@ -101,11 +101,28 @@ em.s{font-family:"Instrument Serif",Georgia,serif; font-style:italic; font-weigh
 /* Sejour reconnu par la cle du lien : on ne demande plus la villa, on l'affiche. */
 .apercu-sej{font-size:13px;font-weight:600;color:#EAF4F1;
   border:1px solid rgba(234,244,241,.3);border-radius:999px;padding:5px 11px}
+/* Menu colle en haut : un client qui ne cherche qu'une pharmacie ne doit pas
+   derouler cinquante-six idees pour la trouver. */
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+.nav{position:sticky;top:0;z-index:6;background:rgba(6,30,42,.72);
+  -webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);
+  border-bottom:1px solid rgba(255,255,255,.14)}
+.nav-in{max-width:860px;margin:0 auto;display:flex;gap:6px;overflow-x:auto;
+  scrollbar-width:none;-webkit-overflow-scrolling:touch;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:8px}
+.nav-in::-webkit-scrollbar{display:none}
+.nav-in a{flex:none;text-decoration:none;color:rgba(234,244,241,.84);font-size:13px;font-weight:600;
+  border:1px solid rgba(234,244,241,.26);border-radius:999px;padding:6px 13px;white-space:nowrap}
+.nav-in a.ici{background:#EAF4F1;color:#0A2E2B;border-color:#EAF4F1}
+#idees,#essentiel,#services,#actus{scroll-margin-top:58px}
 
 header{padding-block:26px 26px;text-shadow:0 2px 20px rgba(0,0,0,.30)}
 h1{text-shadow:0 2px 18px rgba(0,20,30,.35);margin:0;font-size:clamp(34px,8.5vw,58px);line-height:1.02;font-weight:700;letter-spacing:-.02em;text-wrap:balance}
 h1 em.s{font-size:1.04em}
-.lede{text-shadow:0 1px 12px rgba(0,20,30,.3);margin:14px 0 0;max-width:46ch;color:var(--txt70);font-size:15.5px}
+/* 46ch coupait la phrase juste avant le dernier mot sur grand ecran. */
+.lede{text-shadow:0 1px 12px rgba(0,20,30,.3);margin:14px 0 0;max-width:78ch;color:var(--txt70);font-size:15.5px;text-wrap:pretty}
 .bulletin{display:flex;align-items:center;gap:13px;margin:0 0 22px;background:var(--sur);-webkit-backdrop-filter:blur(16px) saturate(1.3);backdrop-filter:blur(16px) saturate(1.3);border:1px solid var(--surb);border-radius:20px;padding:14px 16px;max-width:430px;box-shadow:0 10px 30px rgba(0,25,40,.18)}
 .bulletin .ic{flex:none;color:var(--txt);opacity:.95}
 .bulletin .deg{font-size:30px;font-weight:700;letter-spacing:-.02em;line-height:1}
@@ -141,6 +158,30 @@ h1 em.s{font-size:1.04em}
   -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
 .notepluie button{display:inline;margin:0;padding:0;border:0;background:none;font:inherit;
   color:var(--txt);font-weight:700;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+/* Adresses utiles : une carte par besoin, qui ouvre le plan centre sur la villa.
+   Pas d'adresse en dur : un commerce qui ferme ne laisse pas une fiche fausse. */
+.utiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:9px;margin:4px 0 0}
+.utile{display:flex;align-items:center;gap:11px;background:#fff;border-radius:14px;padding:12px 14px;
+  text-decoration:none;color:#0E3A33;box-shadow:0 6px 18px rgba(0,25,40,.10)}
+.utile .u-e{font-size:20px;line-height:1;flex:none}
+.utile .u-n{font-size:14px;font-weight:700;line-height:1.25}
+.utile .u-s{display:block;font-size:11.5px;font-weight:500;color:#5E7A74;margin-top:1px}
+.utile .u-f{margin-left:auto;color:#9AB0AA;font-size:13px;flex:none}
+.autour-t{margin:16px 0 8px;font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:800;opacity:.72}
+.autour{display:flex;flex-wrap:wrap;gap:7px}
+.atr{display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-size:12.5px;font-weight:600;
+  color:inherit;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.24);
+  border-radius:999px;padding:6px 12px}
+.urgences{margin:18px 0 0;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.26);
+  border-radius:16px;padding:13px 15px}
+.urg-t{font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:800;opacity:.75;margin-bottom:9px}
+.urg-g{display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));gap:7px}
+.urg{display:flex;align-items:baseline;gap:8px;text-decoration:none;color:inherit;
+  background:rgba(255,255,255,.12);border-radius:10px;padding:8px 11px}
+.urg b{font-size:15px;font-weight:800;letter-spacing:.01em;white-space:nowrap}
+.urg.large{grid-column:1/-1}
+.urg span{font-size:11.5px;opacity:.82}
+.urg-n{margin:9px 0 0;font-size:11.5px;opacity:.72;line-height:1.45}
 .notejour{margin:-6px 0 14px;font-size:13px;color:var(--txt70);
   background:var(--sur);border:1px solid var(--surb);border-radius:12px;padding:9px 12px;
   -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
@@ -168,8 +209,11 @@ h1 em.s{font-size:1.04em}
 .carte-card{position:relative;background:var(--blanc);border-radius:22px;overflow:hidden;box-shadow:0 18px 44px rgba(10,46,43,.18)}
 .carte-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:16px 18px 10px;flex-wrap:wrap}
 .carte-head .t{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--encre-55);font-weight:600}
-.pastille{flex:none;background:var(--encre);color:#F3FAF8;border-radius:999px;padding:9px 15px;font-weight:700;
-  font-size:13px;letter-spacing:.01em;text-transform:none;display:flex;align-items:baseline;gap:6px}
+/* La pastille porte maintenant une phrase, plus seulement un chiffre : elle doit
+   pouvoir passer a la ligne sur telephone au lieu de deborder de la carte. */
+.pastille{flex:1 1 auto;min-width:0;background:var(--encre);color:#F3FAF8;border-radius:20px;padding:9px 15px;font-weight:700;
+  font-size:13px;letter-spacing:.01em;text-transform:none;display:flex;align-items:baseline;
+  gap:3px 6px;flex-wrap:wrap}
 .pastille b{font-size:17px;letter-spacing:-.02em}
 .pastille span{font-size:11.5px;font-weight:600;opacity:.78}
 .carte-zone{position:relative;background:#0A55A6;line-height:0;touch-action:pan-y}
@@ -332,6 +376,15 @@ body.fige{overflow:hidden}
   </div>
 </div>
 
+<nav class="nav" id="nav" aria-label="Sections de la page">
+  <div class="nav-in">
+    <a href="#idees">Les idées</a>
+    <a href="#essentiel">L'essentiel</a>
+    <a href="#services">Services Soleya</a>
+    <a href="#actus">L'actualité</a>
+  </div>
+</nav>
+
 <div class="wrap">
 
   <div class="alerte" id="alerte" hidden></div>
@@ -349,7 +402,9 @@ body.fige{overflow:hidden}
     <p class="lede" id="lede"></p>
   </header>
 
-  <section class="carte-card">
+  <p class="notepluie" id="notepluie" hidden></p>
+
+  <section class="carte-card" id="idees">
     <div class="carte-head">
       <div class="t">Toute la Martinique</div>
       <div class="pastille" id="pastille"></div>
@@ -387,10 +442,23 @@ body.fige{overflow:hidden}
     </div>
   </section>
 
-  <p class="notepluie" id="notepluie" hidden></p>
   <div id="listes"></div>
 
-  <section class="conc">
+  <section class="conc prat" id="essentiel">
+    <div class="kicker"><span class="pt"></span>L'essentiel</div>
+    <h2>Les adresses utiles<br><em class="s">autour de la villa.</em></h2>
+    <p>Ni la météo ni l'heure n'y changent rien : voici où aller, à partir de votre villa.</p>
+    <div class="utiles" id="utiles"></div>
+    <div class="autour-t">Chercher autre chose autour de la villa</div>
+    <div class="autour" id="autour"></div>
+    <div class="urgences">
+      <div class="urg-t">En cas d'urgence</div>
+      <div class="urg-g" id="urgences"></div>
+      <p class="urg-n">Depuis un portable étranger, le 112 fonctionne toujours et met en relation avec le bon service.</p>
+    </div>
+  </section>
+
+  <section class="conc" id="services">
     <div class="kicker"><span class="pt"></span>Services Soleya</div>
     <h2>On peut aussi tout organiser<br><em class="s">pour vous.</em></h2>
     <p>Courses livrées, chef à domicile, massage à la villa, transfert aéroport, excursion privée. Un message suffit.</p>
@@ -400,7 +468,7 @@ body.fige{overflow:hidden}
     </div>
   </section>
 
-  <section class="conc actus">
+  <section class="conc actus" id="actus">
     <div class="kicker"><span class="pt"></span>Pendant votre séjour</div>
     <h2>Suivez l'actualité de l'île<br><em class="s">en direct.</em></h2>
     <p>Météo, alertes, événements et vie locale — les sources que l'on consulte ici tous les jours.</p>
@@ -1031,8 +1099,12 @@ function rendre(){
   const liste=A.filter(garde).sort((a,b)=>mn(a)-mn(b));
   if(sel && !liste.some(x=>x.n===sel)){ sel=null; $("sheet").classList.remove("open"); $("sheet").setAttribute("aria-hidden","true"); }
   const proche=liste.filter(a=>cercle(mn(a))===0).length;
+  // La pastille dit d'ou vient le chiffre : sinon "16" ressemble a une perte.
+  const filtre = (meteo==="pluie" && !pluieOff), tout = filtre ? sansPluie() : liste.length;
   $("pastille").innerHTML='<b>'+liste.length+'</b> idée'+(liste.length>1?'s':'')
-    +'<span>dont '+proche+' à moins de 20 min</span>';
+    +(filtre?' adaptées à la météo':'')
+    +'<span>dont '+proche+' à moins de 20 min'
+    +(filtre?' · '+tout+' par tout temps':'')+'</span>';
   dessiner(liste);
   noterPluie(liste.length);
 
@@ -1055,6 +1127,7 @@ function rendre(){
       sel=a.n; cadrerSur(a); dessiner(liste); ouvrirSheet(a);
     });
   });
+  rendreUtiles();   // les liens de plan sont centres sur la villa : ils suivent le choix
   $("btnwa").href=WA+encodeURIComponent("Bonjour Soleya, nous sommes à "+v.n+". Nous aimerions organiser quelque chose pendant notre séjour.");
 }
 
@@ -1152,6 +1225,94 @@ async function chargerAlerte(){
     el.hidden=false;
   }catch(e){ el.hidden=true; }
 }
+
+/* ---------- adresses utiles ----------
+   On n'ecrit aucune adresse en dur : un supermarche qui change d'horaires ou
+   ferme laisserait une fiche fausse, et c'est precisement le genre de detail
+   qui declenche un message WhatsApp. Chaque carte ouvre le plan centre sur la
+   villa du client : la reponse est toujours a jour, et il voit ce qui est
+   ouvert maintenant, a cote de lui. */
+// Les adresses que Johalann donne deja dans chaque livret d'accueil : ce sont
+// les siennes, verifiees sur le terrain. On les affiche en premier, avec le
+// temps de trajet qu'elle a mesure.
+const TI=[
+  ["💊","Pharmacie de la Pointe du Bout","Marina — 5 min à pied","Pharmacie Pointe du Bout Les Trois-Îlets"],
+  ["🛒","La Boutik","Supérette du village — 5 min à pied","La Boutik Pointe du Bout Les Trois-Îlets"],
+  ["🛒","U Express et Caraïbe Price","Vatable — 10 min en voiture, l'un en face de l'autre","U Express Vatable Les Trois-Îlets"],
+  ["🛒","Carrefour Génipa","15 min en voiture","Carrefour Génipa Ducos Martinique"],
+  ["⛽","Station-service","5 min","station service Les Trois-Îlets"]
+];
+const DIA=[
+  ["🛒","Super U Le Diamant","","Super U Le Diamant Martinique"],
+  ["💊","Pharmacie Centre Diamant","","Pharmacie Le Diamant Martinique"],
+  ["⛽","Station-service","10 min","station service Le Diamant Martinique"]
+];
+const PRAT={
+  lili:TI, mae:TI, ontherock:DIA, blackstone:DIA,
+  natureparadise:[
+    ["🛒","Épicerie Mack 2","Quartier Josseaud","Épicerie Mack 2 Josseaud Rivière-Pilote"],
+    ["🛒","Carrefour Contact","Le Vauclin","Carrefour Contact Le Vauclin Martinique"]
+  ],
+  happybay:[
+    ["🛒","Ecomax","Sortie de Saint-Pierre","Ecomax Saint-Pierre Martinique"],
+    ["🛒","Super U Saint-Pierre","","Super U Saint-Pierre Martinique"],
+    ["🧺","Marché de Saint-Pierre","Tous les jours 6h-14h — fruits, légumes, poissons","Marché Saint-Pierre Martinique"],
+    ["💊","Pharmacie du bourg","Bourg de Saint-Pierre","Pharmacie Saint-Pierre Martinique"]
+  ]
+};
+// Pour tout le reste, on ne fige rien : le plan centre sur la villa reste a jour.
+const AUTOUR=[
+  ["🛒","Supermarchés","supermarché"],
+  ["⛽","Stations-service","station service"],
+  ["💊","Pharmacies","pharmacie"],
+  ["🥖","Boulangeries","boulangerie"],
+  ["🏧","Distributeurs","distributeur de billets"],
+  ["🩺","Médecins","médecin"]
+];
+// Numeros verifies le 20 octobre 2026 (sante.fr / ARS Martinique).
+const URGENCES=[
+  ["15","SAMU","tel:15"],
+  ["18","Pompiers","tel:18"],
+  ["17","Police","tel:17"],
+  ["112","Urgence européenne","tel:112"],
+  ["196","Secours en mer","tel:196"],
+  ["3237","Pharmacie de garde","tel:3237"],
+  ["05 96 63 33 33","SOS Médecins — consultation hors horaires de cabinet","tel:+596596633333",1]
+];
+function plan(q){
+  const v=vv(); if(!v) return "#";
+  return "https://www.google.com/maps/search/"+encodeURIComponent(q)
+    +"/@"+v.lat.toFixed(4)+","+v.lon.toFixed(4)+",14z";
+}
+function rendreUtiles(){
+  const u=$("utiles");
+  if(u) u.innerHTML=(PRAT[villa]||[]).map(([e,n,note,q])=>
+    '<a class="utile" href="'+plan(q)+'" target="_blank" rel="noopener">'
+    +'<span class="u-e" aria-hidden="true">'+e+'</span>'
+    +'<span class="u-n">'+esc(n)+(note?'<span class="u-s">'+esc(note)+'</span>':'')+'</span>'
+    +'<span class="u-f" aria-hidden="true">↗</span></a>').join("");
+  const a=$("autour");
+  if(a) a.innerHTML=AUTOUR.map(([e,n,q])=>
+    '<a class="atr" href="'+plan(q)+'" target="_blank" rel="noopener">'
+    +'<span aria-hidden="true">'+e+'</span>'+esc(n)+'</a>').join("");
+  const g=$("urgences");
+  if(g) g.innerHTML=URGENCES.map(([n,l,h,large])=>
+    '<a class="urg'+(large?" large":"")+'" href="'+h+'"><b>'+esc(n)+'</b><span>'+esc(l)+'</span></a>').join("");
+}
+
+/* Menu : la pastille active suit la section qu'on regarde. */
+(function(){
+  const liens=Array.prototype.slice.call(document.querySelectorAll(".nav-in a"));
+  const cibles=liens.map(a=>document.querySelector(a.getAttribute("href"))).filter(Boolean);
+  if(!("IntersectionObserver" in window) || !cibles.length) return;
+  const io=new IntersectionObserver(es=>{
+    es.forEach(e=>{
+      if(!e.isIntersecting) return;
+      liens.forEach(a=>a.classList.toggle("ici", a.getAttribute("href")==="#"+e.target.id));
+    });
+  },{rootMargin:"-58px 0px -68% 0px",threshold:0});
+  cibles.forEach(c=>io.observe(c));
+})();
 
 /* ---------- sejour du voyageur ----------
    Le lien envoye au client porte sa cle dans le fragment : …/compagnon/#lacle.
