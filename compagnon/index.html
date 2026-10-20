@@ -203,7 +203,7 @@ h1 em.s{font-size:1.04em}
 .sarg{display:block;margin:12px 0 0;background:#FBF6E9;border:1px solid #E3D6AE;border-radius:14px;padding:12px 14px;color:#4A3B16}
 .sarg .st{display:block;font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:800;color:#8A7330}
 .sarg .sm{display:block;margin-top:5px;font-size:13.5px;line-height:1.5}
-.sarg .sa{display:inline-block;margin-top:9px;font-size:13px;font-weight:700;color:#4A3B16;text-decoration:underline;text-underline-offset:3px}
+.sarg .sa{display:block;margin-top:9px;font-size:13px;font-weight:700;color:#4A3B16;text-decoration:underline;text-underline-offset:3px}
 .sarg .ss{display:block;margin-top:8px;font-size:11px;color:#8A7330}
 .mombloc{display:block;margin:12px 0 0;background:#F2F8F5;border:1px solid #D8E8E0;border-radius:14px;padding:12px 14px;color:#0E3A33}
 .mombloc .mt{display:block;font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:800;color:#5E8B7C}
@@ -1051,17 +1051,22 @@ const SARG_STATION={
   "Le Marigot":["le bourg","29"],      "Le Vauclin":["Pointe Faula","27"],
   "Le François":["la Presqu'île","8"], "Sainte-Marie":["le Marigot","29"]
 };
-const SARG_URL="https://www.madininair.fr/mesures-sargasses";
+const SARG_MESURE="https://www.madininair.fr/mesures-sargasses";
+const SARG_PREVI="https://meteofrance.mq/fr/sargasses";
 function sargasses(a){
   if(a.cote!=="Atlantique") return "";
   const st=SARG_STATION[a.c];
   const ou=st?("relevée à "+st[0]):"relevée sur la côte atlantique";
+  // Deux questions differentes : "est-ce que ca va arriver" (prevision Meteo-France,
+  // carte par zone a 4 jours) et "est-ce que ca sent aujourd'hui" (mesure Madininair).
   return '<div class="sarg">'
     +'<span class="st">Sargasses</span>'
-    +'<span class="sm">Côte atlantique : des échouages peuvent survenir et dégager une odeur. '
-    +'Madininair publie chaque jour la mesure '+esc(ou)+'.</span>'
-    +'<a class="sa" href="'+SARG_URL+'" target="_blank" rel="noopener">Voir la mesure du jour ↗</a>'
-    +'<span class="ss">Source : Madininair — Observatoire de la qualité de l\'air en Martinique</span>'
+    +'<span class="sm">Côte atlantique : des échouements peuvent survenir et dégager une odeur. '
+    +'Avant de partir, deux sources à consulter.</span>'
+    +'<a class="sa" href="'+SARG_PREVI+'" target="_blank" rel="noopener">Carte des échouements prévus ↗</a>'
+    +'<a class="sa" href="'+SARG_MESURE+'" target="_blank" rel="noopener">Mesure du jour '+esc(ou)+' ↗</a>'
+    +'<span class="ss">Sources : Météo-France Martinique (prévision à 4 jours) et '
+    +'Madininair — Observatoire de la qualité de l\'air en Martinique (mesure)</span>'
     +'</div>';
 }
 function pratique(a){
@@ -1419,7 +1424,10 @@ const SUIVRE=[
    url:"https://www.instagram.com/zayactu/"},
   {type:"source", t:"Météo-France Martinique", eti:"Officiel", etiX:true,
    d:"Prévisions et niveaux de vigilance cyclonique.",
-   url:"https://meteofrance.mq/"}
+   url:"https://meteofrance.mq/"},
+  {type:"source", t:"Sargasses — carte des échouements", eti:"Météo-France", etiX:true,
+   d:"Prévision à 4 jours, zone par zone, et les bancs repérés par satellite.",
+   url:"https://meteofrance.mq/fr/sargasses"}
   // {type:"evenement", t:"Tour des Yoles", eti:"29 juil. — 5 août", etiX:true,
   //  d:"…", url:"…", debut:"2027-07-29", fin:"2027-08-05", commune:"Le Robert", s:"S9"}
 ];
