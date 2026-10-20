@@ -98,6 +98,9 @@ em.s{font-family:"Instrument Serif",Georgia,serif; font-style:italic; font-weigh
 .apercu-lab{font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:rgba(234,244,241,.65);font-weight:600}
 .apercu select{font:inherit;font-size:13px;background:transparent;color:#EAF4F1;border:1px solid rgba(234,244,241,.3);border-radius:999px;padding:5px 10px}
 .apercu select option{color:#0A2E2B;background:#fff}
+/* Sejour reconnu par la cle du lien : on ne demande plus la villa, on l'affiche. */
+.apercu-sej{font-size:13px;font-weight:600;color:#EAF4F1;
+  border:1px solid rgba(234,244,241,.3);border-radius:999px;padding:5px 11px}
 
 header{padding-block:26px 26px;text-shadow:0 2px 20px rgba(0,0,0,.30)}
 h1{text-shadow:0 2px 18px rgba(0,20,30,.35);margin:0;font-size:clamp(34px,8.5vw,58px);line-height:1.02;font-weight:700;letter-spacing:-.02em;text-wrap:balance}
@@ -315,8 +318,9 @@ body.fige{overflow:hidden}
 
 <div class="apercu">
   <div class="apercu-in">
-    <span class="apercu-lab">Je suis à la villa</span>
+    <span class="apercu-lab" id="villa-lab">Je suis à la villa</span>
     <select id="selvilla" aria-label="Villa"></select>
+    <span class="apercu-sej" id="apercu-sej" hidden></span>
     <select id="selmeteo" aria-label="Météo">
       <option value="soleil">☀️ Grand soleil</option>
       <option value="nuage">⛅ Ciel couvert</option>
@@ -652,6 +656,9 @@ let villa="ontherock", meteo="soleil", envie=null, qui="tous", tps=24, sel=null;
    sous l'averse. Mais on le DIT, et on laisse revoir le reste — sinon le client
    croit que la conciergerie n'a que treize idees. */
 let pluieOff=false;
+/* Sejour reconnu : rempli par chargerSejour() si le lien porte une cle valide.
+   Tant qu'il vaut null, la page est la version generique, avec choix de villa. */
+let sejour=null;
 const $=i=>document.getElementById(i);
 const doux = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const vv=()=>V.find(x=>x.id===villa);
@@ -1018,7 +1025,9 @@ function poserFilet(){
 function rendre(){
   const v=vv();
   calerAmbiance();
-  $("lede").textContent="Des idées adaptées à votre villa, votre météo et votre temps disponible.";
+  $("lede").textContent = (sejour && sejour.prenom)
+    ? "Bonjour "+sejour.prenom+", voici nos idées du jour, adaptées à votre villa et à la météo."
+    : "Des idées adaptées à votre villa, votre météo et votre temps disponible.";
   const liste=A.filter(garde).sort((a,b)=>mn(a)-mn(b));
   if(sel && !liste.some(x=>x.n===sel)){ sel=null; $("sheet").classList.remove("open"); $("sheet").setAttribute("aria-hidden","true"); }
   const proche=liste.filter(a=>cercle(mn(a))===0).length;
@@ -1144,7 +1153,66 @@ async function chargerAlerte(){
   }catch(e){ el.hidden=true; }
 }
 
-brancherZoom(); appliquerVB(); filtres(); rendre(); rafraichirMeteo(); chargerAlerte();
+/* ---------- sejour du voyageur ----------
+   Le lien envoye au client porte sa cle dans le fragment : …/compagnon/#lacle.
+   Un fragment ne quitte jamais le navigateur — il n'apparait ni dans les logs du
+   serveur, ni dans le Referer des sites ouverts ensuite. La cle est echangee
+   contre quatre informations, et rien de plus : villa, dates, prenom.
+   Si la fonction ne repond pas, on retombe sur la page generique. */
+const SEJOUR_URL="https://ihcqrqcmtcmunlnymaip.supabase.co/functions/v1/sejour-publique";
+const CLE_RE=/^[0-9a-z]{10,32}$/;
+// Les noms de villa de l'app equipe ne sont pas les identifiants du compagnon.
+const VILLA_ID={"mae":"mae","maé":"mae","villa mae":"mae","villa maé":"mae",
+  "lili":"lili","villa lili":"lili","on the rock":"ontherock","ontherock":"ontherock",
+  "blackstone":"blackstone","black stone":"blackstone",
+  "nature paradise":"natureparadise","happy bay":"happybay",
+  "sainte philomene":"happybay","sainte philomène":"happybay"};
+const MOIS=["janvier","février","mars","avril","mai","juin","juillet","août",
+  "septembre","octobre","novembre","décembre"];
+function jourMois(ymd){
+  const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(ymd||""); if(!m) return "";
+  return (+m[3])+" "+MOIS[(+m[2])-1];
+}
+function poserSejour(s){
+  const lab=$("villa-lab"), sv=$("selvilla"), el=$("apercu-sej");
+  if(lab) lab.hidden=true;
+  if(sv){ sv.value=villa; sv.hidden=true; }
+  if(el){
+    const v=vv();
+    el.textContent=(v?v.n:"")+(s.co?" · jusqu'au "+jourMois(s.co):"");
+    el.hidden=false;
+  }
+}
+async function chargerSejour(){
+  const k=(location.hash||"").replace(/^#/,"").trim().toLowerCase();
+  if(!CLE_RE.test(k)) return;
+  try{
+    // 4 s au maximum : mieux vaut la page generique qu'une page qui ne vient pas.
+    const ctl=new AbortController(), t=setTimeout(()=>ctl.abort(),4000);
+    const r=await fetch(SEJOUR_URL+"?k="+encodeURIComponent(k),{cache:"no-store",signal:ctl.signal});
+    clearTimeout(t);
+    if(!r.ok) return;
+    const s=await r.json();
+    if(!s||!s.ok) return;
+    const id=VILLA_ID[String(s.villa||"").trim().toLowerCase()];
+    if(!id||!V.some(v=>v.id===id)) return;
+    sejour=s; villa=id; poserSejour(s);
+  }catch(e){}
+}
+
+(async function(){
+  brancherZoom(); appliquerVB();
+  const k=(location.hash||"").replace(/^#/,"").trim().toLowerCase();
+  if(CLE_RE.test(k)){
+    // On masque la barre le temps de la reponse : sinon le client voit
+    // une villa qui n'est pas la sienne, puis la bonne.
+    const bar=document.querySelector(".apercu");
+    if(bar) bar.style.visibility="hidden";
+    await chargerSejour();
+    if(bar) bar.style.visibility="";
+  }
+  filtres(); rendre(); rafraichirMeteo(); chargerAlerte();
+})();
 setInterval(chargerAlerte, 10*60*1000);
 </script>
 
