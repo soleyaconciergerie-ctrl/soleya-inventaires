@@ -394,6 +394,12 @@ body.fige{overflow:hidden}
 .m-fm.resx{background:#E9F1EE;color:#2E4F4A}
 .m-s{display:block;margin-top:4px;font-size:13px;color:#4B5F5B;line-height:1.4}
 .m-f{position:absolute;right:14px;top:14px;color:var(--or-trait);font-size:15px}
+.media.fixe{padding-right:16px;cursor:default}
+.media.fixe:hover{border-color:#EDE4D2;box-shadow:none}
+.m-gr{grid-column:1/-1;margin:4px 0 -2px;font-size:11px;font-weight:800;
+  letter-spacing:.14em;text-transform:uppercase;color:#8A5E12}
+.m-gr+.m-gr{margin-top:14px}
+.medias .m-gr:first-child{margin-top:0}
 .conc .kicker{color:#8A5E12}
 .conc .liens a{background:transparent;-webkit-backdrop-filter:none;backdrop-filter:none;color:var(--encre);border-color:#DCD2BD}
 .liens a{-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);background:var(--sur);font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--txt);text-decoration:none;border:1px solid var(--surb);border-radius:999px;padding:8px 13px}
@@ -519,13 +525,13 @@ body.fige{overflow:hidden}
   <section class="conc actus" id="actus">
     <div class="kicker"><span class="pt"></span>Restez informés</div>
     <h2>Restez connecté<br><em class="s">à la vie de l'île.</em></h2>
-    <p>Radios, météo, alertes et sources locales à consulter pendant votre séjour.</p>
+    <p>Ce qui se passe pendant votre séjour, et les sources locales à suivre au jour le jour.</p>
     <div class="medias" id="medias"></div>
   </section>
 
   <div class="liens" style="margin-top:12px"><button class="credit" type="button" id="btncredits">Crédits cartographiques</button></div>
 
-  <div class="sig">Soleya Conciergerie · Compagnon de séjour<br><span class="ver">22/10/2026 04h49 · 58 fiches · e1db85</span></div>
+  <div class="sig">Soleya Conciergerie · Compagnon de séjour<br><span class="ver">22/10/2026 13h17 · 58 fiches · e1db85</span></div>
 </div>
 
 <div class="plein" id="plein" hidden>
@@ -1347,12 +1353,21 @@ document.addEventListener("keydown",e=>{ if(e.key==="Escape" && retourCarte) fer
 const ALERTE_URL="https://ihcqrqcmtcmunlnymaip.supabase.co/functions/v1/alerte-publique";
 const PICTO={jaune:"\u26A0\uFE0F",orange:"\u26A0\uFE0F",rouge:"\u26D4",info:"\u2139\uFE0F"};
 const TITRE={jaune:"Vigilance",orange:"Vigilance",rouge:"Alerte",info:"Bon \u00e0 savoir"};
+/* Les evenements arrivent par le meme appel que l'alerte : Johalann les saisit
+   dans l'app equipe, rien n'est reupload ici. Tant que la fonction n'a pas
+   repondu, la liste reste vide et la section n'affiche que les sources. */
+let EVENEMENTS=[];
 async function chargerAlerte(){
-  const el=$("alerte"); if(!el) return;
+  const el=$("alerte");
   try{
     const r=await fetch(ALERTE_URL,{cache:"no-store"});
     if(!r.ok) throw 0;
     const a=await r.json();
+    const ev=Array.isArray(a&&a.evenements)?a.evenements:[];
+    const avant=EVENEMENTS.map(e=>e.id).join("|");
+    EVENEMENTS=ev.filter(e=>e&&e.t&&e.debut&&e.fin);
+    if(EVENEMENTS.map(e=>e.id).join("|")!==avant) rendreSuivre();
+    if(!el) return;
     if(!a||!a.actif||!a.texte){ el.hidden=true; return; }
     const niv=["jaune","orange","rouge","info"].includes(a.niveau)?a.niveau:"info";
     el.className="alerte n-"+niv;
@@ -1463,18 +1478,40 @@ const SUIVRE=[
   //  d:"…", url:"…", debut:"2027-07-29", fin:"2027-08-05", commune:"Le Robert", s:"S9"}
 ];
 // Un evenement n'apparait que s'il croise le sejour ; une source est permanente.
+// Sans cle de sejour (quelqu'un qui ouvre le lien seul), on retient ce qui tombe
+// dans les 30 jours : au-dela, annoncer une fete de l'ete prochain n'aide personne.
+const HORIZON_SANS_SEJOUR=30;
+// Date du jour a l'heure de la Martinique : sans ca, un client qui ouvre la page
+// depuis Paris a 2 h du matin verrait la journee d'apres.
+const todayYMD=()=>{try{
+  return new Intl.DateTimeFormat("en-CA",{timeZone:"America/Martinique"}).format(new Date());
+}catch(e){ return new Date().toISOString().slice(0,10); }};
+const ymdPlus=(y,n)=>new Date(Date.parse(y+"T12:00:00Z")+n*864e5).toISOString().slice(0,10);
 function suivreVisible(e){
   if(e.type!=="evenement") return true;
-  if(!sejour||!e.debut||!e.fin) return true;
-  return !(e.fin < sejour.ci || e.debut > sejour.co);
+  if(!e.debut||!e.fin) return false;
+  if(sejour&&sejour.ci&&sejour.co) return !(e.fin<sejour.ci||e.debut>sejour.co);
+  const auj=todayYMD(), loin=ymdPlus(auj,HORIZON_SANS_SEJOUR);
+  return e.fin>=auj && e.debut<=loin;
+}
+function carteSuivre(e){
+  const t='<span class="m-t"><b>'+esc(e.t)+'</b>'
+    +(e.eti?'<i class="m-fm'+(e.etiX?" resx":"")+'">'+esc(e.eti)+'</i>':'')+'</span>'
+    +'<span class="m-s">'+esc(e.d)+(e.commune?' · '+esc(e.commune):'')+'</span>';
+  // Un evenement sans lien reste une carte : l'info vaut d'etre lue meme sans page a ouvrir.
+  return e.url
+    ? '<a class="media" href="'+esc(e.url)+'" target="_blank" rel="noopener">'+t+'<span class="m-f">↗</span></a>'
+    : '<div class="media fixe">'+t+'</div>';
 }
 function rendreSuivre(){
   const el=$("medias"); if(!el) return;
-  el.innerHTML=SUIVRE.filter(suivreVisible).map(e=>
-    '<a class="media" href="'+esc(e.url)+'" target="_blank" rel="noopener">'
-    +'<span class="m-t"><b>'+esc(e.t)+'</b>'
-    +(e.eti?'<i class="m-fm'+(e.etiX?" resx":"")+'">'+esc(e.eti)+'</i>':'')+'</span>'
-    +'<span class="m-s">'+esc(e.d)+'</span><span class="m-f">↗</span></a>').join("");
+  const evs=EVENEMENTS.map(e=>({type:"evenement",t:e.t,eti:e.eti,etiX:true,d:e.d,
+    url:e.url||"",commune:e.commune||"",debut:e.debut,fin:e.fin})).filter(suivreVisible);
+  const src=SUIVRE.filter(suivreVisible).map(carteSuivre).join("");
+  el.innerHTML=(evs.length
+      ? '<div class="m-gr">Pendant votre séjour</div>'+evs.map(carteSuivre).join("")
+        +'<div class="m-gr">Suivre l\'actualité</div>'
+      : "")+src;
 }
 
 /* Menu : la pastille active suit la section qu'on regarde. */
