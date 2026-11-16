@@ -116,7 +116,7 @@ html{scroll-behavior:smooth}
 .nav-in a{flex:none;text-decoration:none;color:rgba(234,244,241,.84);font-size:13px;font-weight:600;
   border:1px solid rgba(234,244,241,.26);border-radius:999px;padding:6px 13px;white-space:nowrap}
 .nav-in a.ici{background:#EAF4F1;color:#0A2E2B;border-color:#EAF4F1}
-#idees,#essentiel,#services,#actus{scroll-margin-top:58px}
+#idees,#essentiel,#services,#actus,#noel,#nl-agenda{scroll-margin-top:64px}
 
 header{padding-block:26px 26px;text-shadow:0 2px 20px rgba(0,0,0,.30)}
 h1{text-shadow:0 2px 18px rgba(0,20,30,.35);margin:0;font-size:clamp(34px,8.5vw,58px);line-height:1.02;font-weight:700;letter-spacing:-.02em;text-wrap:balance}
@@ -413,7 +413,8 @@ body.fige{overflow:hidden}
 
 /* ---------- bascule FR | EN ---------- */
 .nav{display:flex;align-items:center}
-.nav-in{flex:1;min-width:0}
+.nav-in{flex:1;min-width:0;-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 28px),transparent)}
+.lang{margin-left:8px!important}
 .lang{display:inline-flex;flex:none;margin-right:max(16px,env(safe-area-inset-right,0px));margin-left:4px;
   border:1px solid rgba(234,244,241,.4);border-radius:999px;overflow:hidden}
 .lang a,.lang span{display:block;padding:6px 10px;font-size:11.5px;font-weight:700;letter-spacing:.08em;
@@ -467,6 +468,173 @@ body.fige{overflow:hidden}
   </header>
 
   <p class="notepluie" id="notepluie" hidden></p>
+
+  <!-- ===== Page saisonnière : Noël en Martinique (25/11 → 6/01, ou ?noel=1) ===== -->
+  <style>
+#noel{margin-top:34px;scroll-margin-top:64px;color:var(--encre)}
+#noel [hidden]{display:none!important}
+#noel .nl-hero{position:relative;overflow:hidden;border-radius:24px;color:#FFF8E7;display:flex;flex-direction:column;justify-content:flex-end;
+  min-height:min(560px,calc(100svh - 120px));padding:24px 20px 28px;
+  background:linear-gradient(180deg,rgba(8,30,28,0) 0%,rgba(8,30,28,.05) 38%,rgba(8,30,28,.72) 66%,rgba(8,30,28,.94) 100%),
+    url("/compagnon/assets/noel-chante-terrasse-m.webp") center 18%/cover,#0A2E2B;box-shadow:0 14px 34px rgba(10,46,43,.22)}
+#noel .nl-kick{font-size:10.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--or-vif);display:flex;align-items:center;gap:7px}
+#noel .nl-kick i{width:5px;height:5px;border-radius:50%;background:currentColor}
+#noel .nl-hero h2{margin:8px 0 0;font-size:30px;line-height:1.08;font-weight:700;letter-spacing:-.02em;color:#FFF8E7;max-width:15ch;text-shadow:0 2px 14px rgba(0,0,0,.35)}
+#noel .nl-hero h2 em{font-family:"Instrument Serif",Georgia,serif;font-style:italic;font-weight:400;color:var(--or-vif)}
+#noel .nl-hero p{margin:10px 0 0;font-size:14.5px;line-height:1.5;color:rgba(255,248,231,.9);max-width:36ch}
+#noel .nl-cta{margin-top:16px;align-self:flex-start;display:inline-flex;align-items:center;gap:8px;background:var(--or-vif);color:#3A2806;border:0;border-radius:999px;
+  padding:12px 20px;font:inherit;font-size:12.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;cursor:pointer}
+#noel .nl-madras{position:absolute;left:0;right:0;bottom:0;height:6px;
+  background:repeating-linear-gradient(90deg,#C8402F 0 14px,#E6BE6A 14px 20px,#1F7A5A 20px 30px,#E6BE6A 30px 34px,#C8402F 34px 44px),#C8402F}
+#noel .nl-carte{background:var(--creme);border-radius:22px;padding:20px 18px;box-shadow:0 10px 26px rgba(10,46,43,.12);min-width:0}
+#noel .nl-carte h3{margin:0;font-size:20px;line-height:1.2;font-weight:700;letter-spacing:-.01em;color:var(--encre)}
+#noel .nl-carte p{margin:8px 0 0;font-size:14.5px;line-height:1.5;color:#3E524D}
+#noel .nl-tag{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--or);margin-bottom:8px}
+#noel .nl-une{margin-top:14px}
+#noel .nl-une h3{font-size:23px}
+#noel .nl-btn{margin-top:14px;display:flex;justify-content:center;align-items:center;width:100%;background:var(--encre);color:#F6FBF9;border-radius:999px;
+  padding:12px 16px;font-size:12.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;border:0;font-family:inherit;cursor:pointer;
+  box-shadow:0 6px 16px rgba(10,46,43,.22);text-align:center;line-height:1.3}
+#noel .nl-lien{display:inline-block;margin-top:12px;color:var(--or);font-weight:700;font-size:13.5px;text-decoration:none;background:none;border:0;padding:0;font-family:inherit;cursor:pointer}
+#noel .nl-apps{margin-top:12px;border-radius:16px;background:#fff;border:1px solid #EFE6D3;padding:4px 14px}
+#noel .nl-app{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 0;flex-wrap:wrap}
+#noel .nl-app+.nl-app{border-top:1px solid #EFE6D3}
+#noel .nl-app b{font-size:14.5px;color:var(--encre)}
+#noel .nl-app small{display:block;font-size:12px;color:#5B6B66;font-weight:500}
+#noel .nl-store{display:flex;gap:6px}
+#noel .nl-store a{font-size:12px;font-weight:700;color:var(--encre);text-decoration:none;border:1px solid #E3DAC6;border-radius:999px;padding:7px 11px;background:var(--creme)}
+#noel .nl-agenda{scroll-margin-top:64px;margin-top:14px;background:var(--creme);border-radius:22px;padding:20px 18px 10px;box-shadow:0 10px 26px rgba(10,46,43,.12)}
+#noel .nl-agenda h3{margin:0;font-size:21px;color:var(--encre)}
+#noel .nl-filtres{display:flex;gap:8px;margin:14px 0 6px}
+#noel .nl-filtres button{flex:1;font:inherit;font-size:13px;font-weight:700;border-radius:999px;padding:10px 12px;border:1px solid #E3DAC6;background:#fff;color:var(--encre);cursor:pointer}
+#noel .nl-filtres button[aria-pressed="true"]{background:var(--encre);color:#F6FBF9;border-color:var(--encre)}
+#noel .nl-liste{list-style:none;margin:0;padding:0}
+#noel .nl-ev{display:flex;gap:12px;padding:14px 0;border-top:1px solid #EAE2D0}
+#noel .nl-ev:first-child{border-top:0}
+#noel .nl-date{flex:none;width:52px;text-align:center;border-radius:12px;background:#F4EBD6;padding:7px 0 6px;align-self:flex-start}
+#noel .nl-date b{display:block;font-size:20px;line-height:1;color:var(--encre)}
+#noel .nl-date span{display:block;margin-top:3px;font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--or)}
+#noel .nl-ev-c{min-width:0;flex:1}
+#noel .nl-ev-c b{display:block;font-size:15px;line-height:1.3;color:var(--encre)}
+#noel .nl-ev-c .l{display:block;margin-top:3px;font-size:13px;color:#3E524D;line-height:1.4}
+#noel .nl-ev-c .h{display:block;margin-top:2px;font-size:13px;color:#5B6B66}
+#noel .nl-ev-c .h.conf{font-style:italic}
+#noel .nl-ev-c .c{display:inline-block;margin-top:6px;font-size:12px;font-weight:600;color:#7A5410;background:#FFF4D6;border-radius:8px;padding:3px 8px}
+#noel .nl-ev-c a{display:inline-block;margin-top:7px;font-size:13px;font-weight:700;color:var(--encre);text-decoration:none;border-bottom:1.5px solid var(--or-vif)}
+#noel .nl-vide{padding:14px 0;font-size:14px;color:#5B6B66}
+#noel .nl-grille{display:grid;grid-template-columns:minmax(0,1fr);gap:14px;margin-top:14px}
+#noel .nl-plats{display:flex;gap:10px;overflow-x:auto;margin:14px -18px 0;padding:2px 18px 6px;scroll-snap-type:x mandatory;scroll-padding:0 18px;-webkit-overflow-scrolling:touch}
+#noel .nl-plats::-webkit-scrollbar{display:none}
+#noel .nl-plat{flex:0 0 72%;scroll-snap-align:start;background:#fff;border:1px solid #EFE6D3;border-radius:16px;padding:13px 14px}
+#noel .nl-plat b{display:block;font-size:15px;color:var(--encre)}
+#noel .nl-plat span{display:block;margin-top:4px;font-size:13px;line-height:1.4;color:#5B6B66}
+#noel .nl-plat.or{background:#FFF7E4;border-color:#F0DDAE}
+#noel .nl-prat{margin-top:14px;background:var(--creme);border-radius:22px;padding:18px 18px 8px;box-shadow:0 10px 26px rgba(10,46,43,.12)}
+#noel .nl-prat h3{margin:0 0 6px;font-size:18px;color:var(--encre)}
+#noel details{border-top:1px solid #EAE2D0}
+#noel details:first-of-type{border-top:0}
+#noel summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px 0;font-size:15.5px;font-weight:600;color:var(--encre)}
+#noel summary::-webkit-details-marker{display:none}
+#noel summary::after{content:"+";flex:none;width:26px;height:26px;border-radius:50%;background:#F1EADB;color:var(--encre);display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:500}
+#noel details[open] summary::after{content:"–"}
+#noel details p{margin:0 0 14px;font-size:14.5px;line-height:1.5;color:#3E524D}
+#noel details a{color:var(--or);font-weight:700;text-decoration:none}
+#noel .nl-fin{position:relative;overflow:hidden;margin-top:14px;border-radius:24px;padding:26px 20px 28px;background:radial-gradient(110% 90% at 80% 0%,#1F5A50 0%,#0F3A35 50%,#0A2E2B 100%);color:#FFF8E7;box-shadow:0 14px 34px rgba(10,46,43,.22)}
+#noel .nl-fin h3{margin:0;font-size:24px;line-height:1.15;font-weight:700;color:#FFF8E7}
+#noel .nl-fin h3 em{font-family:"Instrument Serif",Georgia,serif;font-style:italic;font-weight:400;color:var(--or-vif)}
+#noel .nl-fin p{margin:10px 0 0;font-size:14.5px;line-height:1.5;color:rgba(255,248,231,.86)}
+#noel .nl-fin ul{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:8px}
+#noel .nl-fin li{font-size:14px;color:#FFF8E7;display:flex;gap:9px;align-items:baseline}
+#noel .nl-fin li::before{content:"";flex:none;width:6px;height:6px;border-radius:50%;background:var(--or-vif);transform:translateY(-2px)}
+#noel .nl-fin .nl-btn{background:var(--or-vif);color:#3A2806;box-shadow:none;margin-top:20px}
+@media (min-width:620px){
+  #noel .nl-hero{min-height:440px;padding:40px 36px 40px;
+    background:linear-gradient(90deg,rgba(8,30,28,.9) 0%,rgba(8,30,28,.62) 38%,rgba(8,30,28,0) 68%),url("/compagnon/assets/noel-chante-terrasse.webp") 60% 30%/cover,#0A2E2B}
+  #noel .nl-hero h2{font-size:42px}
+  #noel .nl-grille{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  #noel .nl-plat{flex-basis:46%}
+  #noel .nl-btn{width:auto;display:inline-flex}
+  #noel .nl-btn+.nl-lien,#noel .nl-apps+.nl-lien{margin-left:16px}
+}
+  </style>
+
+  <section id="noel" aria-labelledby="nl-titre" hidden>
+    <div class="nl-hero">
+      <div class="nl-kick"><i></i><span data-k="kick">Noël en Martinique</span></div>
+      <h2 id="nl-titre" data-k="titre" data-html>Les fêtes, <em>version martiniquaise</em></h2>
+      <p data-k="accroche">Un chanté Nwel, un verre de schrubb, des amis autour de la table… En décembre, découvrez la Martinique au rythme des fêtes.</p>
+      <a class="nl-cta" href="#nl-agenda"><span data-k="cta">Voir les dates</span> <span aria-hidden="true">↓</span></a>
+      <div class="nl-madras" aria-hidden="true"></div>
+    </div>
+
+    <article class="nl-carte nl-une">
+      <span class="nl-tag" data-k="tag1">L'immanquable</span>
+      <h3 data-k="ch_t">Vivre un chanté Nwel</h3>
+      <p data-k="ch_p">Des cantiques de Noël chantés en créole, au son du tambour et du ti-bwa, souvent avec un verre de schrubb à la main. Ouverts à tous : on vous accueille, on vous tend le livret, et vous chantez.</p>
+      <button class="nl-btn" type="button" id="nl-btn-paroles" aria-expanded="false" aria-controls="nl-apps" data-k="paroles">Suivre les paroles</button>
+      <div class="nl-apps" id="nl-apps" hidden>
+        <div class="nl-app"><span><b>Chanté Nwèl RCI</b><small data-k="app1">Paroles et programme des chanté RCI</small></span>
+          <span class="nl-store"><a href="https://play.google.com/store/apps/details?id=fr.rcigroup.chantenwel" target="_blank" rel="noopener">Android</a><a href="https://apps.apple.com/fr/app/chant%C3%A9-nw%C3%A8l-rci/id6670763784" target="_blank" rel="noopener">iPhone</a></span></div>
+        <div class="nl-app"><span><b>Didier Chanté Nwel</b><small data-k="app2">Le recueil de cantiques sur votre téléphone</small></span>
+          <span class="nl-store"><a href="https://play.google.com/store/apps/details?id=com.goodbarber.didierchantenwel972.com" target="_blank" rel="noopener">Android</a><a href="https://apps.apple.com/fr/app/didier-chant%C3%A9-nwel/id6738172411" target="_blank" rel="noopener">iPhone</a></span></div>
+      </div>
+      <button class="nl-lien" type="button" data-filtre-va="chante" data-k="ch_dates">Voir les dates des chanté Nwel ›</button>
+    </article>
+
+    <section class="nl-agenda" id="nl-agenda" aria-labelledby="nl-ag-t">
+      <h3 id="nl-ag-t" data-k="ag_t">L'agenda des fêtes 2026</h3>
+      <div class="nl-filtres" role="group" data-k-aria="ag_aria" aria-label="Filtrer l'agenda">
+        <button type="button" data-filtre="chante" aria-pressed="true" data-k="f_ch">Chanté Nwel</button>
+        <button type="button" data-filtre="marche" aria-pressed="false" data-k="f_ma">Marchés de Noël</button>
+      </div>
+      <ul class="nl-liste" id="nl-liste"></ul>
+    </section>
+
+    <div class="nl-grille">
+      <article class="nl-carte">
+        <span class="nl-tag" data-k="tag2">À flâner</span>
+        <h3 data-k="ma_t">Les marchés de Noël</h3>
+        <p data-k="ma_p">Artisanat, produits du terroir, douceurs et idées cadeaux : une jolie façon de rapporter un morceau de Martinique.</p>
+        <button class="nl-lien" type="button" data-filtre-va="marche" data-k="ma_dates">Voir les dates des marchés ›</button>
+      </article>
+      <article class="nl-carte">
+        <span class="nl-tag" data-k="tag3">À goûter</span>
+        <h3 data-k="go_t">Le Noël martiniquais à table</h3>
+        <p data-k="go_p">Quelques incontournables des tables de fête, à découvrir chez l'habitant, au restaurant ou sur les marchés.</p>
+        <div class="nl-plats" role="list">
+          <div class="nl-plat or" role="listitem"><b data-k="p1">Jambon de Noël</b><span data-k="p1d">Le roi du réveillon, glacé et piqué de clous de girofle.</span></div>
+          <div class="nl-plat or" role="listitem"><b data-k="p2">Pois d'Angole</b><span data-k="p2d">Mijotés, ils accompagnent le jambon sur toutes les tables.</span></div>
+          <div class="nl-plat or" role="listitem"><b>Schrubb</b><span data-k="p3d">Liqueur d'écorces d'orange, servie pendant les chanté Nwel.</span></div>
+          <div class="nl-plat" role="listitem"><b data-k="p4">Ragoût de cochon</b><span data-k="p4d">Le plat mijoté des grandes tablées.</span></div>
+          <div class="nl-plat" role="listitem"><b data-k="p5">Pâté en pot</b><span data-k="p5d">Une soupe généreuse et parfumée.</span></div>
+          <div class="nl-plat" role="listitem"><b data-k="p6">Boudin créole</b><span data-k="p6d">Pimenté juste ce qu'il faut, à l'apéritif.</span></div>
+          <div class="nl-plat" role="listitem"><b data-k="p7">Punch coco</b><span data-k="p7d">Doux et crémeux, pour trinquer.</span></div>
+        </div>
+      </article>
+    </div>
+
+    <div class="nl-prat">
+      <h3 data-k="pr_t">Préparer les fêtes</h3>
+      <details><summary data-k="pr1">Faire ses courses</summary><p data-k="pr1p" data-html>Les magasins sont très fréquentés à l'approche des réveillons. Anticipez vos courses de quelques jours, surtout pour les produits frais. Soleya peut aussi vous faire livrer à la villa. Voir les <a href="#essentiel">adresses utiles</a>.</p></details>
+      <details><summary data-k="pr2">Vérifier les horaires</summary><p data-k="pr2p">Les horaires changent souvent pendant les fêtes et les jours fériés. Vérifiez-les directement auprès du commerce, du restaurant ou du site avant de vous déplacer.</p></details>
+      <details><summary data-k="pr3">Réserver un restaurant</summary><p data-k="pr3p" data-html>Pour les soirées de réveillon et les jours de fête, réservez le plus tôt possible : les bonnes tables partent vite. Besoin d'une adresse ? <a href="#" class="nl-wa" data-msg="resto">Demandez-nous</a>.</p></details>
+    </div>
+
+    <div class="nl-fin">
+      <h3 data-k="fi_t" data-html>Et si on fêtait Noël <em>à la villa ?</em></h3>
+      <p data-k="fi_p">Profitez du réveillon sans rien organiser : on s'occupe de tout, pour que vous n'ayez qu'à passer à table.</p>
+      <ul>
+        <li data-k="fi1">Un chef à domicile pour votre repas de fête</li>
+        <li data-k="fi2">Vos courses livrées à la villa</li>
+        <li data-k="fi3">Un massage à la villa pour souffler</li>
+        <li data-k="fi4">Un transfert ou une excursion privée</li>
+      </ul>
+      <a class="nl-btn nl-wa" href="#" target="_blank" rel="noopener" data-msg="reveillon" data-k="fi_btn">Parler de mon réveillon à Soleya</a>
+    </div>
+  </section>
+
+
+
 
   <section class="carte-card" id="idees">
     <div class="carte-head">
@@ -1599,6 +1767,109 @@ async function chargerSejour(){
   filtres(); rendre(); rafraichirMeteo(); chargerAlerte();
 })();
 setInterval(chargerAlerte, 10*60*1000);
+</script>
+
+
+<script>
+/* ---------- Noël : page saisonnière (FR / EN) ----------
+   Visible du 25 novembre au 6 janvier (heure de Martinique), ou avec ?noel=1.
+   L'agenda ci-dessous est vérifié par Johalann ; les événements saisis dans l'app
+   (EVENEMENTS) dont le titre parle de chanté Nwel ou de marché de Noël s'y ajoutent. */
+(function(){
+  var forcer=/[?&]noel=1\b/.test(location.search);
+  var dj=new Date(Date.now()-4*3600e3),m=dj.getUTCMonth()+1,j=dj.getUTCDate();
+  if(!(forcer||(m===11&&j>=25)||m===12||(m===1&&j<=6)))return;
+  var sec=document.getElementById("noel");if(!sec)return;sec.hidden=false;
+  var EN=(document.documentElement.lang||"").slice(0,2)==="en"||/\/en\//.test(location.pathname);
+  var L=EN?"en":"fr";
+  var TX={en:{kick:"Christmas in Martinique",titre:"The holidays, <em>Martinique style</em>",
+    accroche:"A chanté Nwel, a glass of schrubb, friends around the table… In December, discover Martinique to the rhythm of the holidays.",
+    cta:"See the dates",tag1:"Not to be missed",ch_t:"Join a chanté Nwel",
+    ch_p:"Creole Christmas carols sung to the beat of the drum and the ti-bwa, often with a glass of schrubb in hand. Everyone is welcome: you'll be handed a songbook, and you sing along.",
+    paroles:"Follow the lyrics",app1:"Lyrics and programme of the RCI chanté",app2:"The carol book on your phone",ch_dates:"See the chanté Nwel dates ›",
+    ag_t:"Holiday calendar 2026",ag_aria:"Filter the calendar",f_ch:"Chanté Nwel",f_ma:"Christmas markets",
+    tag2:"Wander",ma_t:"Christmas markets",ma_p:"Crafts, local produce, sweets and gift ideas: a lovely way to take a piece of Martinique home.",ma_dates:"See the market dates ›",
+    tag3:"Taste",go_t:"A Martinique Christmas feast",go_p:"A few holiday-table classics, to try with locals, at restaurants or at the markets.",
+    p1:"Christmas ham",p1d:"The star of Christmas Eve, glazed and studded with cloves.",p2:"Pigeon peas",p2d:"Slow-cooked, they go with the ham on every table.",
+    p3d:"Orange-peel liqueur, served at chanté Nwel.",p4:"Pork stew",p4d:"The slow-cooked dish of big family tables.",p5:"Pâté en pot",p5d:"A generous, fragrant soup.",
+    p6:"Creole blood sausage",p6d:"Just spicy enough, served as an appetiser.",p7:"Coconut punch",p7d:"Sweet and creamy, for a toast.",
+    pr_t:"Getting ready for the holidays",pr1:"Grocery shopping",pr1p:'Shops get very busy ahead of Christmas Eve and New Year\'s Eve. Plan your shopping a few days ahead, especially for fresh produce. Soleya can also have groceries delivered to the villa. See <a href="#essentiel">useful addresses</a>.',
+    pr2:"Checking opening hours",pr2p:"Opening hours often change over the holidays and on public holidays. Check directly with the shop, restaurant or venue before you go.",
+    pr3:"Booking a restaurant",pr3p:'For Christmas Eve, New Year\'s Eve and holiday dinners, book as early as possible: the best tables go fast. Need a recommendation? <a href="#" class="nl-wa" data-msg="resto">Ask us</a>.',
+    fi_t:"Why not celebrate Christmas <em>at the villa?</em>",fi_p:"Enjoy the festive dinner without organising a thing: we take care of everything, so all you have to do is sit down.",
+    fi1:"A private chef for your festive dinner",fi2:"Groceries delivered to the villa",fi3:"A massage at the villa to unwind",fi4:"An airport transfer or private excursion",fi_btn:"Talk to Soleya about my holiday dinner",
+    nav:"🎄 Christmas",confirm:"Time to be confirmed",prog:"See the programme",resa:"Book",vide:"No more dates announced for now. Ask us what's on during your stay.",
+    wa_intro:"Hello Soleya, we are staying at ",wa_ch:" and we would like to join a chanté Nwel during our stay. Can you help?",wa_resto:" and we are looking for a restaurant for the holidays. Can you help?",wa_rev:" and we would like to organise our holiday dinner at the villa. Can you help?"},
+  fr:{nav:"🎄 Noël",confirm:"Horaire à confirmer",prog:"Voir le programme",resa:"Réserver",vide:"Plus de dates annoncées pour l'instant. Demandez-nous ce qui se passe pendant votre séjour.",
+    wa_intro:"Bonjour Soleya, nous sommes à ",wa_ch:" et nous aimerions participer à un chanté Nwel pendant notre séjour. Pouvez-vous nous aider ?",
+    wa_resto:" et nous cherchons un restaurant pour les fêtes. Pouvez-vous nous aider ?",wa_rev:" et nous aimerions organiser notre réveillon à la villa. Pouvez-vous nous aider ?"}};
+  function tx(k){return (TX[L]&&TX[L][k])||TX.fr[k]||"";}
+  if(EN){sec.querySelectorAll("[data-k]").forEach(function(el){var v=TX.en[el.getAttribute("data-k")];if(v==null)return;if(el.hasAttribute("data-html"))el.innerHTML=v;else el.textContent=v;});
+    sec.querySelectorAll("[data-k-aria]").forEach(function(el){var v=TX.en[el.getAttribute("data-k-aria")];if(v)el.setAttribute("aria-label",v);});}
+  var nav=document.querySelector(".nav-in");
+  if(nav&&!nav.querySelector('a[href="#noel"]')){var a=document.createElement("a");a.href="#noel";a.textContent=tx("nav");nav.insertBefore(a,nav.firstChild);}
+
+  /* ---- agenda vérifié (h et c : horaire et conditions, par langue) ---- */
+  var RCI="https://rci.fm/martinique/infos/Informations-pratiques/Chante-Nwel-RCI-2026-lapplication-revient";
+  var GRAT={fr:"Gratuit · ouvert à tous",en:"Free · open to all"};
+  var AG=[
+    {d:"2026-11-21",ty:["chante","marche"],t:"Marché et Chanté Nwel HSE",lieu:"Habitation Saint-Étienne",co:"Gros-Morne",h:{fr:"Marché de 9 h à 16 h · chanté à 14 h",en:"Market 9 am–4 pm · chanté at 2 pm"},u:"https://bellemartinique.com/agenda/marche-local/marche-chante-nwel-hse/"},
+    {d:"2026-11-28",ty:["chante"],t:"Caravane du Sud avec Rassin’ Nwèl",lieu:"Place des Fêtes",co:"Ducos",h:{fr:"19 h – 21 h",en:"7–9 pm"},u:"https://www.villededucos.fr/fr/actu/la-caravane-tour-chante-nwel-du-sud-fait-escale-a-ducos"},
+    {d:"2026-12-04",ty:["chante"],t:"Chanté Nwel RCI",lieu:"Place des Fêtes",co:"Le François",h:{fr:"19 h",en:"7 pm"},c:GRAT,u:RCI},
+    {d:"2026-12-06",ty:["chante"],t:"Rassin’ Nwèl",lieu:"Foyer rural de Là-Haut",co:"Rivière-Salée",h:{fr:"19 h 30 – 21 h 30",en:"7:30–9:30 pm"},u:"https://www.martinique.org/fr/agenda?booking=&event_category=&event_municipality=&free=&l=fr&page=11"},
+    {d:"2026-12-11",ty:["chante"],t:"Chanté Nwel RCI",lieu:"Place des Fêtes",co:"Sainte-Luce",h:{fr:"19 h",en:"7 pm"},c:GRAT,u:RCI},
+    {d:"2026-12-12",ty:["chante"],t:"Chanté Nwel de Tous Créoles !",lieu:"Domaine Château Gaillard",co:"Les Trois-Îlets",h:{fr:"19 h – 23 h 30",en:"7–11:30 pm"},c:{fr:"25 € · gratuit pour les moins de 12 ans · inscription obligatoire",en:"€25 · free under 12 · booking required"},u:"https://www.helloasso.com/associations/association-tous-creoles/evenements/chante-nwel-2026",resa:true},
+    {d:"2026-12-12",ty:["chante"],t:"Chanté Nwel RCI",lieu:"Place des Arawaks",co:"Schœlcher",h:{fr:"19 h",en:"7 pm"},c:GRAT,u:RCI},
+    {d:"2026-12-18",ty:["chante"],t:"Chanté Nwel RCI",lieu:"Village de Noël au Malécon",co:"Fort-de-France",h:{fr:"19 h",en:"7 pm"},c:GRAT,u:RCI},
+    {d:"2026-12-22",ty:["chante"],t:"Chanté Nwel RCI · Nwel Misik Festival",lieu:null,co:"Le Carbet",h:{fr:"18 h",en:"6 pm"},c:GRAT,u:RCI},
+    {d:"2026-12-12",ty:["marche"],t:"Saveurs & traditions péyi",lieu:"Village de la Poterie",co:"Les Trois-Îlets",h:null,u:"https://www.martinique-tour.com/pratique/agenda-2/marche-de-noel-village-de-la-poterie-les-trois-ilets-fr-4564927/"},
+    {d:"2026-12-12",f:"2026-12-13",ty:["marche"],t:"Shopping Noël",lieu:"Hôtel Karibéa",co:"Sainte-Luce",h:{fr:"9 h – 20 h",en:"9 am–8 pm"},c:{fr:"Entrée gratuite",en:"Free entry"},u:"https://www.bizouk.com/events/details/shopping-noel/130065"},
+    {d:"2026-12-13",ty:["marche"],t:"Marché de Noël FS Villas",lieu:"Cap Belle Étoile",co:"Le Marin",h:{fr:"10 h – 17 h",en:"10 am–5 pm"},c:{fr:"Entrée gratuite",en:"Free entry"},u:"https://www.bizouk.com/events/details/fs-villas-vous-invite-a-son-1er-marche-d/133325"},
+    {d:"2026-12-19",ty:["marche"],t:"Marché de Noël des Anses-d’Arlet",lieu:null,co:"Les Anses-d’Arlet",h:null,u:"https://www.intramuros.org/case-pilote/agenda/897739"},
+    {d:"2026-12-19",ty:["marche"],t:"Village de Noël de Ducos",lieu:"Rue Zizine et des Étages",co:"Ducos",h:null,u:"https://www.villededucos.fr/fr/actu/rappel-village-de-noel-2026-appel-aux-exposants"}
+  ];
+  var filtre="chante";
+  function jour(s){return new Date(s+"T12:00:00");}
+  function moisC(s){return jour(s).toLocaleDateString(EN?"en-GB":"fr-FR",{month:"short"}).replace(".","");}
+  function jourLong(s){return jour(s).toLocaleDateString(EN?"en-GB":"fr-FR",{weekday:"long",day:"numeric",month:"long"});}
+  function tous(){
+    var auj=new Date(Date.now()-4*3600e3).toISOString().slice(0,10);
+    var app=(typeof EVENEMENTS!=="undefined"?EVENEMENTS:[]).map(function(e){
+      var ty=[];if(/chant[ée]?\s*n[wo]?[eèé]l/i.test(e.t))ty.push("chante");if(/(march[ée]s?|village)\s+de\s+no[eë]l/i.test(e.t))ty.push("marche");
+      return ty.length?{d:e.debut,f:e.fin&&e.fin!==e.debut?e.fin:null,ty:ty,t:e.t,co:e.commune||null,lieu:null,h:null,u:e.url||null,app:true}:null;}).filter(Boolean)
+      .filter(function(e){return !AG.some(function(x){return x.d===e.d&&x.t.toLowerCase()===e.t.toLowerCase();});});
+    return AG.concat(app).filter(function(e){return (e.f||e.d)>=auj;}).sort(function(a,b){return a.d<b.d?-1:a.d>b.d?1:0;});
+  }
+  function rendreAgenda(){
+    var l=tous().filter(function(e){return e.ty.indexOf(filtre)>=0;});
+    var ul=document.getElementById("nl-liste");
+    ul.innerHTML=l.length?l.map(function(e){
+      var jours=e.f?jour(e.d).getDate()+"–"+jour(e.f).getDate():String(jour(e.d).getDate());
+      var lieu=[e.lieu,e.co].filter(Boolean).map(esc).join(" · ");
+      var h=e.h?'<span class="h">'+esc(e.h[L]||e.h.fr)+'</span>':(e.app?"":'<span class="h conf">'+tx("confirm")+'</span>');
+      var c=e.c?'<span class="c">'+esc(e.c[L]||e.c.fr)+'</span><br>':"";
+      var lien=e.u?'<a href="'+esc(e.u)+'" target="_blank" rel="noopener">'+(e.resa?tx("resa"):tx("prog"))+' ›</a>':"";
+      return '<li class="nl-ev"><div class="nl-date" aria-hidden="true"><b>'+jours+'</b><span>'+esc(moisC(e.d))+'</span></div>'
+        +'<div class="nl-ev-c"><span class="sr" style="position:absolute;left:-9999px">'+esc(jourLong(e.d))+'</span><b>'+esc(e.t)+'</b>'
+        +(lieu?'<span class="l">'+lieu+'</span>':"")+h+c+lien+'</div></li>';
+    }).join(""):'<li class="nl-vide">'+tx("vide")+'</li>';
+    sec.querySelectorAll("[data-filtre]").forEach(function(b){b.setAttribute("aria-pressed",String(b.getAttribute("data-filtre")===filtre));});
+  }
+  sec.querySelectorAll("[data-filtre]").forEach(function(b){b.addEventListener("click",function(){filtre=b.getAttribute("data-filtre");rendreAgenda();});});
+  function doux(){return window.matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth";}
+  sec.querySelectorAll("[data-filtre-va]").forEach(function(b){b.addEventListener("click",function(){filtre=b.getAttribute("data-filtre-va");rendreAgenda();document.getElementById("nl-agenda").scrollIntoView({behavior:doux(),block:"start"});});});
+  var cta=sec.querySelector(".nl-cta");if(cta)cta.addEventListener("click",function(ev){ev.preventDefault();document.getElementById("nl-agenda").scrollIntoView({behavior:doux(),block:"start"});});
+  var bp=document.getElementById("nl-btn-paroles"),ap=document.getElementById("nl-apps");
+  if(bp&&ap)bp.addEventListener("click",function(){var o=ap.hidden;ap.hidden=!o;bp.setAttribute("aria-expanded",String(o));});
+
+  /* ---- liens WhatsApp : même numéro que le reste du Compagnon, avec la villa ---- */
+  var MSG={resto:"wa_resto",reveillon:"wa_rev",chante:"wa_ch"};
+  function majWa(){var v=(typeof vv==="function"&&vv())||{n:EN?"the villa":"la villa"};
+    sec.querySelectorAll(".nl-wa").forEach(function(el){el.href=WA+encodeURIComponent(tx("wa_intro")+v.n+tx(MSG[el.getAttribute("data-msg")]||"wa_rev"));el.target="_blank";el.rel="noopener";});}
+  rendreAgenda();majWa();
+  var n=0,t=setInterval(function(){n++;rendreAgenda();majWa();if(n>8)clearInterval(t);},1500);
+  var sel=document.getElementById("selvilla");if(sel)sel.addEventListener("change",majWa);
+})();
 </script>
 
 </body>
