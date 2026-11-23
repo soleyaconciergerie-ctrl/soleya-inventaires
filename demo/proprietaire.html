@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Espace propriétaire Démo</title>
+<link rel="icon" type="image/png" href="img/logo.png">
+<link rel="apple-touch-icon" href="img/logo.png">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<style>
+:root{--sombre:#1F3A3A;--sombre2:#2C5050;--vert:#2E7D5B;--or:#D9A441;--fond:#F6F3EE;--carte:#FFFFFF;--texte:#1F2A2A;--doux:#7A8585;--bord:#ECE7DF;
+--c-sejour:#E8F1EC;--c-sejour-t:#2E7D5B;--c-proprio:#FBF1DC;--c-proprio-t:#9A6B12;--c-menage:#E6EEF8;--c-menage-t:#2D5B8C;--c-ci:#F3E8F5;--c-ci-t:#7A3D86;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fond);color:var(--texte);font-family:'DM Sans',system-ui,sans-serif;font-size:15px;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font-family:inherit;font-size:inherit}
+.entete{background:linear-gradient(135deg,var(--sombre),var(--sombre2));color:#fff;padding:14px 16px 12px}
+.entete .ligne{display:flex;align-items:center;justify-content:space-between;gap:10px;max-width:640px;margin:0 auto}
+.marque{display:flex;align-items:center;gap:10px}
+.marque img{width:38px;height:38px;border-radius:11px;object-fit:cover;border:2px solid rgba(255,255,255,.25)}
+.marque b{font-family:'Playfair Display',serif;color:var(--or);font-size:1.05rem;display:block;line-height:1.1}
+.marque span{font-size:.62rem;letter-spacing:1px;text-transform:uppercase;opacity:.6}
+.bouton-sortie{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:18px;padding:5px 11px;font-size:.72rem;cursor:pointer}
+.onglets{background:#fff;border-bottom:1px solid var(--bord);display:flex;overflow-x:auto;position:sticky;top:0;z-index:5}
+.onglets .in{display:flex;max-width:640px;margin:0 auto;width:100%}
+.onglets button{flex:1;padding:12px 8px;border:none;background:none;border-bottom:2px solid transparent;color:var(--doux);font-weight:600;font-size:.8rem;cursor:pointer;white-space:nowrap}
+.onglets button.actif{color:var(--vert);border-bottom-color:var(--vert);font-weight:800}
+main{max-width:640px;margin:0 auto;padding:14px 14px 40px}
+.carte{background:var(--carte);border-radius:14px;padding:14px;margin-bottom:12px;box-shadow:0 1px 6px rgba(0,0,0,.05)}
+h2{font-family:'Playfair Display',serif;font-size:1.35rem;margin:4px 0 2px;color:var(--sombre)}
+h3{font-size:.9rem;margin:0 0 8px;color:var(--sombre);font-weight:800}
+.sous{color:var(--doux);font-size:.8rem;margin-bottom:12px}
+.vide{color:var(--doux);font-size:.82rem;padding:6px 0}
+.item{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-top:1px solid var(--bord)}
+.item:first-of-type{border-top:none}
+.pastille{flex-shrink:0;width:46px;text-align:center;border-radius:10px;padding:5px 0;background:var(--fond)}
+.pastille b{display:block;font-size:1.05rem;color:var(--sombre)}
+.pastille span{font-size:.62rem;text-transform:uppercase;color:var(--doux)}
+.item .txt{flex:1;min-width:0}
+.item .t{font-weight:700;font-size:.88rem}
+.item .s{font-size:.74rem;color:var(--doux);margin-top:2px}
+.badge{display:inline-block;font-size:.66rem;font-weight:800;border-radius:20px;padding:2px 8px;margin-left:4px;vertical-align:1px}
+.b-ok{background:#E3F2EA;color:var(--vert)}.b-prevu{background:#F1F1F1;color:#666}.b-attente{background:#FCF0D9;color:#9A6B12}.b-rouge{background:#FBE4E1;color:#A3392B}
+.btn{border:none;border-radius:10px;padding:10px 14px;font-weight:800;font-size:.8rem;cursor:pointer;background:var(--sombre);color:#fff}
+.btn.clair{background:#F1EEE8;color:var(--sombre)}
+.btn.vert{background:var(--vert)}
+.btn.petit{padding:7px 10px;font-size:.72rem}
+.btn:disabled{opacity:.5}
+.ligne-btn{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.champ{display:block;margin-bottom:10px}
+.champ span{display:block;font-size:.74rem;font-weight:700;color:var(--doux);margin-bottom:4px}
+.champ input,.champ select,.champ textarea{width:100%;padding:10px 11px;border:1.5px solid var(--bord);border-radius:10px;background:#fff}
+.deux{display:flex;gap:8px}.deux>*{flex:1}
+.cases label{display:inline-flex;align-items:center;gap:6px;margin:0 12px 8px 0;font-size:.84rem}
+.bascule{display:flex;background:#EFEBE4;border-radius:10px;padding:3px;gap:3px;margin-bottom:10px}
+.bascule button{flex:1;border:none;background:none;border-radius:8px;padding:7px;font-weight:700;font-size:.78rem;color:var(--doux);cursor:pointer}
+.bascule button.actif{background:#fff;color:var(--sombre);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.mois-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.mois-nav b{text-transform:capitalize;font-size:.95rem}
+.mois-nav button{border:none;background:#F1EEE8;border-radius:8px;width:34px;height:30px;cursor:pointer;font-size:1rem}
+.grille{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+.grille .jsem{font-size:.62rem;text-align:center;color:var(--doux);font-weight:700;padding:2px 0}
+.jour{min-height:62px;background:#FBFAF7;border-radius:8px;padding:3px;font-size:.62rem;overflow:hidden}
+.jour.autre{opacity:.35}.jour.auj{outline:2px solid var(--or)}
+.jour .n{font-weight:800;font-size:.7rem;color:var(--sombre);margin-bottom:2px}
+.puce{border-radius:4px;padding:1px 3px;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:700}
+.p-sejour{background:var(--c-sejour);color:var(--c-sejour-t)}.p-sejour_proprio{background:var(--c-proprio);color:var(--c-proprio-t)}
+.p-menage{background:var(--c-menage);color:var(--c-menage-t)}.p-checkin,.p-checkout{background:var(--c-ci);color:var(--c-ci-t)}
+.legende{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;font-size:.68rem}
+.legende span{display:inline-flex;align-items:center;gap:4px}.legende i{width:10px;height:10px;border-radius:3px;display:inline-block}
+.connexion{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:linear-gradient(155deg,var(--sombre) 0%,var(--sombre2) 60%,#C9B48A 100%)}
+.connexion .boite{background:#fff;border-radius:18px;padding:24px 20px;width:100%;max-width:360px;text-align:center}
+.connexion img{width:72px;height:72px;border-radius:20px;object-fit:cover}
+.connexion h1{font-family:'Playfair Display',serif;color:var(--sombre);margin:8px 0 2px;font-size:1.5rem}
+.erreur{background:#FBE4E1;color:#A3392B;border-radius:10px;padding:9px 11px;font-size:.8rem;margin:10px 0;text-align:left}
+.info{background:#E3F2EA;color:var(--vert);border-radius:10px;padding:9px 11px;font-size:.8rem;margin:10px 0}
+a.lien{color:var(--vert);font-weight:700;text-decoration:none}
+.lien-bouton{background:none;border:none;color:var(--vert);font-weight:700;font-size:.82rem;cursor:pointer;padding:6px;margin-top:10px;font-family:inherit;text-decoration:underline}
+.coche{display:flex;align-items:flex-start;gap:9px;font-size:.84rem;margin:4px 0 14px;cursor:pointer}.coche input{margin-top:3px;width:18px;height:18px;flex:none}
+.montant{font-weight:800;white-space:nowrap}
+.voile{position:fixed;inset:0;background:rgba(20,30,30,.55);z-index:50;display:flex;align-items:flex-end;justify-content:center}
+.feuille{background:var(--fond);width:100%;max-width:640px;max-height:92vh;overflow:auto;border-radius:18px 18px 0 0;padding:16px 14px 30px}
+.photos{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.photos figure{margin:0}.photos img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px;cursor:zoom-in}
+.photos figcaption{font-size:.7rem;color:var(--doux);margin-top:3px}
+.ok-gros{background:#E3F2EA;color:var(--vert);border-radius:12px;padding:12px;font-weight:800;text-align:center}
+.mdp{position:relative}.mdp input{padding-right:44px!important}
+.oeil{position:absolute;right:6px;bottom:6px;border:none;background:none;cursor:pointer;font-size:1.05rem;padding:4px 6px;line-height:1}
+.chargement{text-align:center;color:var(--doux);padding:40px 0}
+.demo-bar{background:#E6BE6A;color:#3A2806;font-size:.74rem;font-weight:700;text-align:center;padding:7px 12px;line-height:1.35}
+.astuce{background:#FFFDF6;border:1.5px dashed #D9A441;border-radius:14px;padding:11px 13px;margin-bottom:12px;font-size:.8rem;line-height:1.5;color:#4A3A12;display:flex;gap:10px;align-items:flex-start}
+.astuce b{color:#1F3A3A}.astuce button{margin-left:auto;flex:none;border:none;background:none;color:#9A6B12;font-weight:800;cursor:pointer;font-size:.72rem;padding:2px 4px}
+</style>
+</head>
+<body>
+<div class="demo-bar">Démo · villa et données fictives · rien n’est envoyé</div>
+<div id="app"><div class="chargement">Chargement…</div></div>
+<script>
+// ===== Mode démonstration : aucune donnée réelle, aucun envoi =====
+(function(){
+const J=n=>{const d=new Date(Date.now()-4*3600e3);d.setUTCDate(d.getUTCDate()+n);return d.toISOString().slice(0,10);};
+const ym=n=>{const d=new Date(Date.now()-4*3600e3);d.setUTCDate(1);d.setUTCMonth(d.getUTCMonth()+n);return d.toISOString().slice(0,7);};
+const V="Villa Démo";
+const D={ok:true,nom:"Mme Martin — Démo",lienFactures:"",notifsMail:true,villas:[{nom:V,guide:""}],aujourdhui:J(0),
+evenements:[
+ {type:"sejour",villa:V,debut:J(-9),fin:J(-2),titre:"Séjour voyageurs"},
+ {type:"checkout",villa:V,debut:J(-2),fin:J(-2),titre:"Départ et contrôle",heure:"10:00",statut:"fait",id:"co1",rapportDispo:true},
+ {type:"menage",villa:V,debut:J(-2),fin:J(-2),titre:"Ménage",heure:"11:00",statut:"fait",id:"me1",rapportDispo:true},
+ {type:"sejour",villa:V,debut:J(3),fin:J(10),titre:"Séjour voyageurs"},
+ {type:"checkin",villa:V,debut:J(3),fin:J(3),titre:"Accueil des voyageurs",heure:"16:00",statut:"confirme"},
+ {type:"checkout",villa:V,debut:J(10),fin:J(10),titre:"Départ et contrôle",heure:"10:00",statut:"prevu"},
+ {type:"menage",villa:V,debut:J(10),fin:J(10),titre:"Ménage",heure:"11:00",statut:"prevu"},
+ {type:"menage",villa:V,debut:J(17),fin:J(17),titre:"Ménage",heure:"09:00",statut:"prevu"},
+ {type:"sejour_proprio",id:"sp1",villa:V,debut:J(18),fin:J(25),titre:"Votre séjour",details:{type_sejour:"famille",besoin_menage:true,besoin_linge:true,besoin_checkin:false,besoin_checkout:false,en_attente:false}},
+ {type:"sejour",villa:V,debut:J(31),fin:J(38),titre:"Séjour voyageurs"}],
+suivi:[
+ {id:"a1",villa:V,date:J(-2),titre:"Joint de douche à refaire — salle de bain parentale",description:"Le joint autour du bac se décolle sur 40 cm. Devis de notre artisan : reprise complète du joint silicone, intervention de 1 h.",statut:"a_traiter",montant:85,demandeAccord:true,reponse:null},
+ {id:"a2",villa:V,date:J(-6),titre:"Filtre de climatisation à nettoyer — chambre 2",description:"Bruit inhabituel signalé par les voyageurs. Nettoyage prévu au prochain passage.",statut:"en_cours",montant:null,demandeAccord:false,reponse:null},
+ {id:"a3",villa:V,date:J(-14),titre:"Ampoule de la terrasse remplacée",description:"",statut:"resolu",montant:null,demandeAccord:false,reponse:null}],
+factures:[{mois:ym(0),libelle:"Gestion et interventions — en cours",montant:420,payee:false,lien:""},{mois:ym(-1),libelle:"Gestion et interventions",montant:640,payee:true,lien:""}],
+documents:[
+ {id:"d1",villa:V,type_doc:"facture_achat",nom:"Climatiseur chambre 2",date_doc:J(-120),fournisseur:"Fournisseur exemple",montant:899,equipement:"Climatisation",fin_garantie:J(610),url:""},
+ {id:"d2",villa:V,type_doc:"notice",nom:"Notice de la pompe de piscine",date_doc:J(-300),fournisseur:"",montant:null,equipement:"Piscine",fin_garantie:null,url:""}],
+aFaire:[]};
+D.aFaire=[{type:"accord",texte:"Votre accord est attendu : Joint de douche à refaire — salle de bain parentale",montant:85,anomalie:"a1"},{type:"facture",texte:"Facture Gestion et interventions à régler",montant:420,lien:""}];
+const R={
+ me1:{id:"me1",villa:V,date:J(-2),heureDebut:"11:00",heureFin:"14:15",type:"menage",titre:"Rapport de ménage",degats:"",lingeRemarque:"",
+  fournitures:["Liquide vaisselle","Sacs poubelle 50 L"],photosParWhatsapp:false,
+  photos:[{label:"Chambre parentale",src:"img/chambre-vue.webp"},{label:"Chambre 2",src:"img/chambre.webp"},{label:"Terrasse",src:"img/terrasse.webp"},{label:"Piscine",src:"img/piscine.webp"}],
+  constats:[{description:"Toile d'un transat déchirée sur 10 cm",statut:"signalé",photo:"img/terrasse.webp"}],
+  observation:"Villa prête pour les prochains voyageurs. Bouquet de fleurs fraîches déposé sur la table du salon."},
+ co1:{id:"co1",villa:V,date:J(-2),heureDebut:"10:00",heureFin:"10:40",type:"checkout",titre:"Rapport de départ",controles:14,
+  pointsSignales:[{texte:"Machine à café vidée",note:"Capsules restées dans la machine, vidée par nos soins."}],lingePieces:38,checklist:{coches:22,total:22,pct:100},
+  observation:"Voyageurs partis à l'heure, clés rendues dans la boîte à clés. Aucun dégât constaté."}};
+const rep=(o,st)=>Promise.resolve(new Response(JSON.stringify(o),{status:st||200,headers:{"Content-Type":"application/json"}}));
+window.fetch=function(u,o){
+ u=String(u);o=o||{};const m=(o.method||"GET").toUpperCase();
+ if(u.includes("/functions/v1/espace-proprio")){
+  const q=u.split("rapport=")[1];
+  if(q)return rep({ok:true,rapport:R[decodeURIComponent(q)]});
+  if(m==="POST")return rep({ok:true});
+  return rep(JSON.parse(JSON.stringify(D)));}
+ if(u.includes("/rest/v1/reponses_proprio")&&m==="POST"){const b=JSON.parse(o.body);const a=D.suivi.find(x=>x.id===b.anomalie_id);if(a)a.reponse={reponse:b.reponse};D.aFaire=D.aFaire.filter(x=>x.anomalie!==b.anomalie_id);return rep({},201);}
+ if(u.includes("/rest/v1/sejours_proprio")&&m==="POST"){const b=JSON.parse(o.body);
+   if(b.type_sejour==="voyageurs")D.evenements.push({type:"sejour_proprio",id:"sp"+Date.now(),villa:b.villa,debut:b.arrivee,fin:b.depart,titre:"Demande",details:{...b}});
+   else D.evenements.push({type:"sejour_proprio",id:"sp"+Date.now(),villa:b.villa,debut:b.arrivee,fin:b.depart,titre:b.nom?"Séjour — "+b.nom:"Votre séjour",details:{...b,en_attente:false}});
+   return rep({},201);}
+ if(u.includes("/rest/v1/sejours_proprio")&&m==="PATCH"){const id=decodeURIComponent((u.split("id=eq.")[1]||""));const b=JSON.parse(o.body);
+   if(b.annule)D.evenements=D.evenements.filter(e=>e.id!==id);else{const e=D.evenements.find(x=>x.id===id);if(e)Object.assign(e.details,b);}return rep({},204);}
+ return rep({ok:true});};
+try{localStorage.setItem("soleya-proprio-session",JSON.stringify({access_token:"demo",refresh_token:"demo",expires_at:Date.now()+864e5*365}));}catch(e){}
+window.__DEMO_RAPPORT=(location.hash||"").indexOf("rapport")>=0;
+})();
+</script>
+<script>
+"use strict";
+// ================= Configuration (même projet Supabase que l'appli Soleya) =================
+const SUPA={url:"https://ihcqrqcmtcmunlnymaip.supabase.co",anon:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImloY3FycWNtdGNtdW5sbnltYWlwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg3NzQzMTcsImV4cCI6MjA5NDM1MDMxN30.KKBH2Nl4iwYagifjDp8qNGD3NTnm4ky1Uby9f2s6660"};
+const CLE_SESSION="soleya-proprio-session";
+const MOIS=["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"];
+const MOISC=["janv.","févr.","mars","avr.","mai","juin","juil.","août","sept.","oct.","nov.","déc."];
+const JOURS=["dim.","lun.","mar.","mer.","jeu.","ven.","sam."];
+
+// ================= Utilitaires =================
+const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const eur=n=>(Math.round((Number(n)||0)*100)/100).toLocaleString("fr-FR",{minimumFractionDigits:2,maximumFractionDigits:2})+" €";
+const dObj=ymd=>new Date(ymd+"T12:00:00");
+const jj=ymd=>ymd?ymd.slice(8,10)+"/"+ymd.slice(5,7):"";
+const jourCourt=ymd=>{const d=dObj(ymd);return JOURS[d.getDay()]+" "+d.getDate()+" "+MOISC[d.getMonth()];};
+const ymdDe=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+const lireStock=k=>{try{return JSON.parse(localStorage.getItem(k)||"null");}catch(e){return null;}};
+const ecrireStock=(k,v)=>{try{v===null?localStorage.removeItem(k):localStorage.setItem(k,JSON.stringify(v));}catch(e){}};
+
+// ================= Session =================
+let session=lireStock(CLE_SESSION)||{access_token:"demo",refresh_token:"demo",expires_at:Date.now()+864e5};
+async function connexion(email,mdp){
+  const r=await fetch(SUPA.url+"/auth/v1/token?grant_type=password",{method:"POST",headers:{"Content-Type":"application/json",apikey:SUPA.anon},body:JSON.stringify({email,password:mdp})});
+  const j=await r.json().catch(()=>({}));
+  if(!r.ok)throw new Error(j.error_description||j.msg||"Connexion impossible");
+  session={access_token:j.access_token,refresh_token:j.refresh_token,expires_at:Date.now()+(j.expires_in||3600)*1000};
+  ecrireStock(CLE_SESSION,session);
+}
+async function jetonValide(){
+  if(!session||!session.refresh_token)return null;
+  if(session.expires_at&&Date.now()<session.expires_at-60000)return session.access_token;
+  const r=await fetch(SUPA.url+"/auth/v1/token?grant_type=refresh_token",{method:"POST",headers:{"Content-Type":"application/json",apikey:SUPA.anon},body:JSON.stringify({refresh_token:session.refresh_token})});
+  if(!r.ok){deconnexion();return null;}
+  const j=await r.json();
+  session={access_token:j.access_token,refresh_token:j.refresh_token,expires_at:Date.now()+(j.expires_in||3600)*1000};
+  ecrireStock(CLE_SESSION,session);return session.access_token;
+}
+function deconnexion(){session=null;ecrireStock(CLE_SESSION,null);donnees=null;rendre();}
+async function api(chemin,options){
+  const t=await jetonValide();if(!t)throw new Error("non_connecte");
+  const o=options||{};
+  const r=await fetch(SUPA.url+chemin,{...o,headers:{apikey:SUPA.anon,Authorization:"Bearer "+t,"Content-Type":"application/json",...(o.headers||{})}});
+  if(r.status===401){deconnexion();throw new Error("non_connecte");}
+  return r;
+}
+
+// Prévenir Soleya (notification push sur l'appli de Johalann)
+async function prevenirSoleya(titre,texte){try{const t=await jetonValide();await fetch(SUPA.url+"/functions/v1/send-push",{method:"POST",headers:{"Content-Type":"application/json",apikey:SUPA.anon,Authorization:"Bearer "+(t||SUPA.anon)},body:JSON.stringify({to:"johalann",title:titre,body:texte,url:"/"})});}catch(e){}}
+
+// ================= État de la page =================
+let modeAuth=null,messageAuth=null,messageCompte=null,donnees=null,erreur="",onglet=lireStock("soleya-proprio-onglet")||"accueil",vueCal="liste",moisAff=null,villaFiltre="",formSejour=null,formBesoins=null,rapportOuvert=null,messageInfo="";
+
+async function charger(){
+  erreur="";
+  try{
+    const r=await api("/functions/v1/espace-proprio");
+    const j=await r.json().catch(()=>({}));
+    if(!r.ok||!j.ok){erreur=j.erreur==="pas_proprietaire"?"Ce compte n'est pas encore relié à une villa. Contactez Soleya Conciergerie.":"Impossible de charger vos informations pour le moment. Réessayez dans un instant. (code "+r.status+(j.erreur?" · "+j.erreur:"")+(j.detail?" · "+j.detail:"")+(j.message?" · "+j.message:"")+(j.msg?" · "+j.msg:"")+")";donnees=null;}
+    else{donnees=j;if(!moisAff)moisAff=j.aujourdhui.slice(0,7);}
+  }catch(e){if(e.message!=="non_connecte")erreur="Connexion au serveur impossible. Vérifiez votre réseau.";}
+  rendre();
+}
+
+// ================= Écrans =================
+function ecranConnexion(){
+  return `<div class="connexion"><div class="boite">
+    <img src="img/logo.png" alt="">
+    <h1>Soleya</h1><div class="sous">Espace propriétaire</div>
+    ${erreur?`<div class="erreur">${esc(erreur)}</div>`:""}
+    <label class="champ"><span>Email</span><input id="c-email" type="email" autocomplete="username"></label>
+    <label class="champ mdp"><span>Mot de passe</span><input id="c-mdp" type="password" autocomplete="current-password"><button type="button" class="oeil" data-oeil="c-mdp" aria-label="Afficher le mot de passe">👁</button></label>
+    <button class="btn" style="width:100%" id="c-ok">Se connecter</button>
+    <button type="button" class="lien-bouton" id="c-oubli">Mot de passe oublié ?</button>
+  </div></div>`;
+}
+function ecranOubli(){
+  return `<div class="connexion"><div class="boite">
+    <img src="img/logo.png" alt="">
+    <h1>Soleya</h1><div class="sous">Mot de passe oublié</div>
+    ${messageAuth?`<div class="${messageAuth.ok?"info":"erreur"}">${esc(messageAuth.t)}</div>`:""}
+    ${messageAuth&&messageAuth.ok?"":`<div class="sous" style="margin-bottom:10px">Indiquez l'email de votre espace : vous recevrez un lien pour choisir un nouveau mot de passe.</div>
+    <label class="champ"><span>Email</span><input id="o-email" type="email" autocomplete="username"></label>
+    <button class="btn" style="width:100%" id="o-ok">Recevoir le lien</button>`}
+    <button type="button" class="lien-bouton" id="o-retour">← Retour à la connexion</button>
+  </div></div>`;
+}
+function ecranNouveauMdp(){
+  return `<div class="connexion"><div class="boite">
+    <img src="img/logo.png" alt="">
+    <h1>Soleya</h1><div class="sous">Choisissez un nouveau mot de passe</div>
+    ${messageAuth?`<div class="${messageAuth.ok?"info":"erreur"}">${esc(messageAuth.t)}</div>`:""}
+    <label class="champ mdp"><span>Nouveau mot de passe (8 caractères minimum)</span><input type="password" id="n-mdp1" autocomplete="new-password"><button type="button" class="oeil" data-oeil="n-mdp1" aria-label="Afficher le mot de passe">👁</button></label>
+    <label class="champ mdp"><span>Confirmer</span><input type="password" id="n-mdp2" autocomplete="new-password"><button type="button" class="oeil" data-oeil="n-mdp2" aria-label="Afficher le mot de passe">👁</button></label>
+    <button class="btn" style="width:100%" id="n-ok">Enregistrer et entrer</button>
+  </div></div>`;
+}
+
+const estDemande=e=>e.type==="sejour_proprio"&&e.details&&e.details.type_sejour==="voyageurs";
+function demandePour(e){return (donnees.evenements||[]).filter(x=>estDemande(x)&&x.villa===e.villa&&x.debut===e.debut&&x.fin===e.fin).pop()||null;}
+function libBesoins(d){const l=[d.besoin_checkin&&"accueil",d.besoin_menage&&"ménage",d.besoin_linge&&"linge",d.besoin_checkout&&"départ"].filter(Boolean);return l.length?l.join(", "):"pas d'intervention Soleya";}
+function evtsFiltres(){return (donnees.evenements||[]).filter(e=>!estDemande(e)).filter(e=>!villaFiltre||e.villa===villaFiltre).slice().sort((a,b)=>a.debut<b.debut?-1:a.debut>b.debut?1:0);}
+function badgeStatut(e){
+  if(e.type==="sejour_proprio"&&e.details&&e.details.en_attente)return `<span class="badge b-attente">En attente de validation</span>`;
+  if(e.type==="sejour"||e.type==="sejour_proprio")return "";
+  if(e.statut==="fait")return `<span class="badge b-ok">Fait ✓</span>`;
+  if(e.statut==="confirme")return `<span class="badge b-ok">Confirmé ✓</span>`;
+  return `<span class="badge b-prevu">Prévu</span>`;
+}
+function ligneEvt(e,plusieursVillas){
+  const d=e.debut;const fin=e.fin&&e.fin!==e.debut?` → ${jourCourt(e.fin)}`:"";
+  const sous=[plusieursVillas?e.villa:"",e.heure?("à "+e.heure.replace(":","h")):"",fin?("jusqu'au "+jourCourt(e.fin)):""].filter(Boolean).join(" · ");
+  let actions=e.type==="sejour_proprio"?`<div class="ligne-btn"><button class="btn clair petit" data-annuler="${esc(e.id)}">Annuler ce séjour</button></div>`:"";
+  if(e.rapportDispo)actions=`<div class="ligne-btn"><button class="btn clair petit" data-rapport="${esc(e.id)}">Voir le rapport</button></div>`;
+  if(e.type==="sejour"){
+    const dm=demandePour(e);const cle=e.villa+"|"+e.debut+"|"+e.fin;
+    if(formBesoins&&formBesoins.cle===cle)actions=formulaireBesoins();
+    else actions=(dm?`<div class="s" style="color:var(--vert);font-weight:700">Votre demande : ${esc(libBesoins(dm.details))}</div>`:"")+`<div class="ligne-btn"><button class="btn clair petit" data-besoins="${esc(cle)}">${dm?"Modifier ma demande":"Mes besoins Soleya"}</button></div>`;
+  }
+  return `<div class="item"><div class="pastille"><b>${dObj(d).getDate()}</b><span>${MOISC[dObj(d).getMonth()].replace(".","")}</span></div>
+  <div class="txt"><div class="t">${esc(e.titre)} ${badgeStatut(e)}</div>${sous?`<div class="s">${esc(sous)}</div>`:""}${actions}</div></div>`;
+}
+
+function ecranAccueil(){
+  const auj=donnees.aujourdhui;const plus=donnees.villas.length>1;
+  const prochains=evtsFiltres().filter(e=>(e.fin||e.debut)>=auj).slice(0,6);
+  const af=donnees.aFaire||[];
+  return `<h2>Bonjour${donnees.nom?" "+esc(donnees.nom.split(/\s+[—–-]\s+/)[0].trim()):""}</h2>
+  <div class="sous">${donnees.villas.map(v=>esc(v.nom)).join(" · ")}</div>
+  <div class="carte"><h3>À faire de votre côté</h3>
+    ${af.length?af.map(a=>`<div class="item"><div class="txt"><div class="t">${esc(a.texte)}</div>${a.montant?`<div class="s">${eur(a.montant)}</div>`:""}
+      <div class="ligne-btn">${(a.lien||(a.type==="facture"&&donnees.lienFactures))?`<a class="btn petit" href="${esc(a.lien||donnees.lienFactures)}" target="_blank" rel="noopener">Voir la facture</a>`:""}${a.anomalie?`<button class="btn petit" data-aller="suivi">Répondre</button>`:""}</div></div></div>`).join("")
+      :`<div class="vide">Rien en attente. Tout est à jour ✓</div>`}
+  </div>
+  ${(()=>{const r=evtsFiltres().filter(e=>e.rapportDispo&&e.debut<=auj).pop();return r?`<div class="carte"><h3>Dernier passage</h3>${ligneEvt(r,plus)}</div>`:"";})()}
+  <div class="carte"><h3>Prochainement</h3>
+    ${prochains.length?prochains.map(e=>ligneEvt(e,plus)).join(""):`<div class="vide">Aucun séjour ni intervention prévu pour le moment.</div>`}
+    <div class="ligne-btn"><button class="btn clair petit" data-aller="calendrier">Voir le calendrier</button></div>
+  </div>`;
+}
+
+function grilleMois(){
+  const [a,m]=moisAff.split("-").map(Number);const prem=new Date(a,m-1,1);const decal=(prem.getDay()+6)%7;
+  const debut=new Date(a,m-1,1-decal);const auj=donnees.aujourdhui;const evts=evtsFiltres();
+  let h=["lun","mar","mer","jeu","ven","sam","dim"].map(j=>`<div class="jsem">${j}</div>`).join("");
+  for(let i=0;i<42;i++){
+    const d=new Date(debut);d.setDate(debut.getDate()+i);const y=ymdDe(d);
+    const du=evts.filter(e=>y>=e.debut&&y<=(e.fin||e.debut)).filter(e=>!(e.type==="sejour"||e.type==="sejour_proprio")||true);
+    const puces=du.slice(0,3).map(e=>{const lib=e.type==="sejour"?(y===e.debut?"Arrivée":y===e.fin?"Départ":"Séjour"):e.type==="sejour_proprio"?(y===e.debut?"Vous ↘":y===e.fin?"Vous ↗":"Vous"):e.titre;return `<div class="puce p-${e.type}">${esc(lib)}</div>`;}).join("")+(du.length>3?`<div class="puce">+${du.length-3}</div>`:"");
+    h+=`<div class="jour${d.getMonth()!==m-1?" autre":""}${y===auj?" auj":""}"><div class="n">${d.getDate()}</div>${puces}</div>`;
+    if(i>=34&&d.getMonth()!==m-1&&d.getDay()===0)break;
+  }
+  return h;
+}
+function ecranCalendrier(){
+  const plus=donnees.villas.length>1;const auj=donnees.aujourdhui;
+  const [a,m]=moisAff.split("-").map(Number);
+  const choixVilla=plus?`<label class="champ"><span>Villa</span><select id="f-villa-filtre"><option value="">Toutes mes villas</option>${donnees.villas.map(v=>`<option ${villaFiltre===v.nom?"selected":""}>${esc(v.nom)}</option>`).join("")}</select></label>`:"";
+  const liste=evtsFiltres().filter(e=>(e.fin||e.debut)>=auj);
+  return `<div class="carte">
+    ${choixVilla}
+    <div class="bascule"><button class="${vueCal==="liste"?"actif":""}" data-vue="liste">Liste</button><button class="${vueCal==="mois"?"actif":""}" data-vue="mois">Mois</button></div>
+    ${vueCal==="mois"?`<div class="mois-nav"><button data-mois="-1">‹</button><b>${MOIS[m-1]} ${a}</b><button data-mois="1">›</button></div><div class="grille">${grilleMois()}</div>
+    <div class="legende"><span><i style="background:var(--c-sejour)"></i>Voyageurs</span><span><i style="background:var(--c-proprio)"></i>Vos séjours</span><span><i style="background:var(--c-menage)"></i>Ménage</span><span><i style="background:var(--c-ci)"></i>Accueil / départ</span></div>`
+    :(liste.length?liste.map(e=>ligneEvt(e,plus)).join(""):`<div class="vide">Rien de prévu pour le moment.</div>`)}
+  </div>
+  ${messageInfo?`<div class="info">${esc(messageInfo)}</div>`:""}
+  ${formSejour?formulaireSejour():`<button class="btn" style="width:100%" id="ouvrir-sejour">+ J'ajoute un séjour</button>`}`;
+}
+function formulaireBesoins(){
+  const f=formBesoins;
+  return `<div style="background:var(--fond);border-radius:10px;padding:10px;margin-top:8px">
+  <div class="s" style="margin-bottom:6px">Sur ce séjour, Soleya intervient pour :</div>
+  <div class="cases"><label><input type="checkbox" id="b-ci" ${f.ci?"checked":""}> Accueil</label><label><input type="checkbox" id="b-menage" ${f.menage?"checked":""}> Ménage</label><label><input type="checkbox" id="b-linge" ${f.linge?"checked":""}> Linge</label><label><input type="checkbox" id="b-co" ${f.co?"checked":""}> Départ</label></div>
+  <div class="s" style="margin-bottom:6px">Rien de coché = je gère ce séjour sans Soleya.</div>
+  <label class="champ"><span>Précision (facultatif)</span><input id="b-com" value="${esc(f.com)}"></label>
+  <div class="ligne-btn"><button class="btn vert petit" id="b-ok">Envoyer à Soleya</button><button class="btn clair petit" id="b-annuler">Fermer</button></div></div>`;
+}
+function formulaireSejour(){
+  const f=formSejour;const plus=donnees.villas.length>1;
+  return `<div class="carte"><h3>Ajouter un séjour</h3>
+  ${erreur?`<div class="erreur">${esc(erreur)}</div>`:""}
+  ${plus?`<label class="champ"><span>Villa</span><select id="s-villa">${donnees.villas.map(v=>`<option ${f.villa===v.nom?"selected":""}>${esc(v.nom)}</option>`).join("")}</select></label>`:""}
+  <div class="deux"><label class="champ"><span>Arrivée</span><input type="date" id="s-arrivee" value="${esc(f.arrivee)}"></label><label class="champ"><span>Départ</span><input type="date" id="s-depart" value="${esc(f.depart)}"></label></div>
+  <div class="deux"><label class="champ"><span>Type de séjour</span><select id="s-type">${[["personnel","Personnel"],["famille","Famille"],["amis","Amis"],["location","Location"]].map(([v,l])=>`<option value="${v}" ${f.type===v?"selected":""}>${l}</option>`).join("")}</select></label>
+  <label class="champ"><span>Voyageurs</span><input type="number" min="1" id="s-voy" value="${esc(f.voyageurs)}"></label></div>
+  <label class="champ"><span>Nom ou référence (facultatif)</span><input id="s-nom" value="${esc(f.nom)}"></label>
+  <div class="champ"><span>Besoin de Soleya</span><div class="cases">
+    <label><input type="checkbox" id="s-menage" ${f.menage?"checked":""}> Ménage</label>
+    <label><input type="checkbox" id="s-linge" ${f.linge?"checked":""}> Linge</label>
+    <label><input type="checkbox" id="s-ci" ${f.ci?"checked":""}> Accueil</label>
+    <label><input type="checkbox" id="s-co" ${f.co?"checked":""}> Départ</label></div></div>
+  <label class="champ"><span>Commentaire</span><textarea id="s-com" rows="2">${esc(f.com)}</textarea></label>
+  <div class="ligne-btn"><button class="btn vert" id="s-ok">Enregistrer</button><button class="btn clair" id="s-annuler">Annuler</button></div></div>`;
+}
+
+const LIB_REP={je_men_charge:"Je m'en charge",soleya:"Soleya s'en charge",a_discuter:"À discuter",j_autorise:"J'autorise",je_refuse:"Je refuse"};
+function ecranSuivi(){
+  const s=(donnees.suivi||[]).filter(a=>!villaFiltre||a.villa===villaFiltre);
+  const plus=donnees.villas.length>1;
+  const st={a_traiter:`<span class="badge b-rouge">À traiter</span>`,en_cours:`<span class="badge b-attente">En cours</span>`,resolu:`<span class="badge b-ok">Résolu ✓</span>`};
+  return `<div class="carte"><h3>Suivi de votre villa</h3>
+  ${s.length?s.map(a=>{
+    const choix=a.demandeAccord?["j_autorise","je_refuse","a_discuter"]:["je_men_charge","soleya","a_discuter"];
+    return `<div class="item"><div class="txt"><div class="t">${esc(a.titre)} ${st[a.statut]||""}</div>
+    <div class="s">${[plus?a.villa:"",a.date?"signalé le "+jj(a.date):""].filter(Boolean).map(esc).join(" · ")}</div>
+    ${a.description?`<div style="font-size:.82rem;margin-top:6px;white-space:pre-wrap">${esc(a.description)}</div>`:""}
+    ${a.demandeAccord&&a.montant?`<div style="margin-top:6px">Montant proposé : <span class="montant">${eur(a.montant)}</span></div>`:""}
+    ${a.reponse?`<div class="info" style="margin-bottom:0">Votre réponse : <b>${esc(LIB_REP[a.reponse.reponse]||a.reponse.reponse)}</b></div>`
+      :a.statut!=="resolu"?`<div class="ligne-btn">${choix.map(c=>`<button class="btn ${c==="j_autorise"?"vert":c==="je_refuse"||c==="a_discuter"?"clair":""} petit" data-rep="${esc(a.id)}|${esc(a.villa)}|${c}">${LIB_REP[c]}</button>`).join("")}</div>`:""}
+    </div></div>`;}).join("")
+    :`<div class="vide">Aucun point en cours sur votre villa.</div>`}
+  </div>`;
+}
+
+const TYPES_DOC={facture_achat:"Facture d'achat",garantie:"Garantie",notice:"Notice",devis:"Devis",autre:"Document"};
+function ecranDocuments(){
+  const f=donnees.factures||[];const docs=(donnees.documents||[]).filter(d=>!villaFiltre||d.villa===villaFiltre);
+  const guides=donnees.villas.filter(v=>v.guide);
+  const rapports=evtsFiltres().filter(e=>e.rapportDispo).reverse();
+  return `<div class="carte"><h3>Rapports de passage</h3>
+    ${rapports.length?rapports.map(e=>ligneEvt(e,donnees.villas.length>1)).join(""):`<div class="vide">Les rapports de ménage et de départ apparaîtront ici après chaque passage.</div>`}
+  </div>
+  ${donnees.lienFactures?`<a class="btn" style="display:block;text-align:center;text-decoration:none;margin-bottom:12px" href="${esc(donnees.lienFactures)}" target="_blank" rel="noopener">🧾 Mes factures et paiements</a>`:""}
+  <div class="carte"><h3>Bientôt dans votre espace</h3>
+    <div class="item"><div class="txt"><div class="t">Inventaire de la villa <span class="badge b-prevu">En cours</span></div><div class="s">Le détail des équipements et du linge, mis à jour à chaque contrôle.</div></div></div>
+    <div class="item"><div class="txt"><div class="t">Avis voyageurs <span class="badge b-prevu">En cours</span></div><div class="s">Les retours de vos voyageurs, réunis au même endroit.</div></div></div>
+  </div>
+  <div class="carte"><h3>Vos factures Soleya</h3>
+    ${f.length?f.map(x=>`<div class="item"><div class="txt"><div class="t">${esc(x.libelle||("Facture "+x.mois))} ${x.payee?`<span class="badge b-ok">Réglée ✓</span>`:`<span class="badge b-attente">À régler</span>`}</div>
+      <div class="s">${esc(MOIS[Number(x.mois.slice(5,7))-1]+" "+x.mois.slice(0,4))}</div>
+      ${x.lien?`<div class="ligne-btn"><a class="btn clair petit" href="${esc(x.lien)}" target="_blank" rel="noopener">Télécharger</a></div>`:""}</div><div class="montant">${eur(x.montant)}</div></div>`).join("")
+      :`<div class="vide">Aucune facture pour le moment.</div>`}
+  </div>
+  <div class="carte"><h3>Achats, garanties et notices</h3>
+    ${docs.length?docs.map(d=>{const g=d.fin_garantie?(d.fin_garantie>=donnees.aujourdhui?"garantie jusqu'au "+jj(d.fin_garantie)+"/"+d.fin_garantie.slice(0,4):"garantie expirée"):"";
+      return `<div class="item"><div class="txt"><div class="t">${esc(d.nom)}</div>
+      <div class="s">${[TYPES_DOC[d.type_doc]||"Document",d.fournisseur,d.date_doc?jj(d.date_doc)+"/"+d.date_doc.slice(0,4):"",d.equipement,g].filter(Boolean).map(esc).join(" · ")}</div>
+      ${d.url?`<div class="ligne-btn"><a class="btn clair petit" href="${esc(d.url)}" target="_blank" rel="noopener">Ouvrir</a></div>`:""}</div>${d.montant?`<div class="montant">${eur(d.montant)}</div>`:""}</div>`;}).join("")
+      :`<div class="vide">Aucun document pour le moment.</div>`}
+  </div>
+  ${guides.length?`<div class="carte"><h3>Guide d'entretien</h3><div class="sous" style="margin-bottom:6px">Le protocole de ménage suivi par nos intervenantes à chaque passage.</div>
+    ${guides.map(v=>`<div class="item"><div class="txt"><div class="t">${esc(v.nom)}</div></div><a class="lien" href="${esc(v.guide)}" target="_blank" rel="noopener">Ouvrir ›</a></div>`).join("")}</div>`:""}
+  <div class="carte"><h3>Mon compte</h3>
+    <label class="coche"><input type="checkbox" id="m-notifs" ${donnees.notifsMail!==false?"checked":""}><span>Recevoir un mail quand Soleya ajoute du nouveau dans mon espace (réservation, rapport, facture, point de suivi, document)</span></label>
+    ${messageCompte?`<div class="${messageCompte.ok?"info":"erreur"}">${esc(messageCompte.t)}</div>`:""}
+    <label class="champ mdp"><span>Nouveau mot de passe (8 caractères minimum)</span><input type="password" id="m-mdp1" autocomplete="new-password"><button type="button" class="oeil" data-oeil="m-mdp1" aria-label="Afficher le mot de passe">👁</button></label>
+    <label class="champ mdp"><span>Confirmer</span><input type="password" id="m-mdp2" autocomplete="new-password"><button type="button" class="oeil" data-oeil="m-mdp2" aria-label="Afficher le mot de passe">👁</button></label>
+    <button class="btn clair" id="m-ok">Changer mon mot de passe</button>
+  </div>`;
+}
+
+function feuilleRapport(){
+  const r=rapportOuvert;
+  if(r.chargement)return `<div class="voile" id="voile"><div class="feuille"><div class="chargement">Chargement du rapport…</div></div></div>`;
+  if(r.erreur)return `<div class="voile" id="voile"><div class="feuille"><div class="erreur">Rapport indisponible pour le moment.</div><button class="btn clair" data-fermer-rapport>Fermer</button></div></div>`;
+  const x=r.data;const h=[x.heureDebut,x.heureFin].filter(Boolean).join(" – ");
+  let corps="";
+  if(x.type==="checkout"){
+    corps+=x.pointsSignales.length?`<div class="carte"><h3>Points signalés</h3>${x.pointsSignales.map(p=>`<div class="item"><div class="txt"><div class="t">${esc(p.texte)}</div>${p.note?`<div class="s">${esc(p.note)}</div>`:""}</div></div>`).join("")}</div>`
+      :`<div class="ok-gros">Logement laissé propre et conforme ✓<div class="s" style="font-weight:600">${x.controles} points contrôlés</div></div>`;
+    if(x.checklist&&x.checklist.total)corps+=`<div class="carte" style="margin-top:12px"><h3>Checklist de la villa</h3><div class="s">${x.checklist.coches} / ${x.checklist.total} points vérifiés (${x.checklist.pct} %)</div></div>`;
+    if(x.lingePieces)corps+=`<div class="carte"><h3>Linge</h3><div class="s">${x.lingePieces} pièces récupérées pour la blanchisserie</div></div>`;
+  }else{
+    corps+=x.degats?`<div class="carte"><h3>Dégâts constatés</h3><div class="s">${esc(x.degats)}</div></div>`:`<div class="ok-gros">Aucun dégât constaté ✓</div>`;
+    if(x.photos.length)corps+=`<div class="carte" style="margin-top:12px"><h3>Photos du rendu</h3><div class="photos">${x.photos.map(p=>`<figure><a href="${p.src}" target="_blank" rel="noopener"><img src="${p.src}" alt="${esc(p.label)}"></a><figcaption>${esc(p.label)}</figcaption></figure>`).join("")}</div></div>`;
+    else if(x.photosParWhatsapp)corps+=`<div class="carte" style="margin-top:12px"><div class="s">Photos transmises à Soleya hors application.</div></div>`;
+    if(x.constats.length)corps+=`<div class="carte"><h3>Constats</h3>${x.constats.map(c=>`<div class="item"><div class="txt"><div class="t">${esc(c.description)} <span class="badge ${c.statut==="traité"?"b-ok":"b-attente"}">${esc(c.statut)}</span></div>${c.photo?`<a href="${c.photo}" target="_blank" rel="noopener"><img src="${c.photo}" style="width:70px;height:70px;object-fit:cover;border-radius:8px;margin-top:6px"></a>`:""}</div></div>`).join("")}</div>`;
+    if(x.lingeRemarque)corps+=`<div class="carte"><h3>Linge</h3><div class="s">${esc(x.lingeRemarque)}</div></div>`;
+    if(x.fournitures.length)corps+=`<div class="carte"><h3>Fournitures à prévoir</h3><div class="s">${x.fournitures.map(esc).join(", ")}</div></div>`;
+  }
+  if(x.observation)corps+=`<div class="carte"><h3>Observation</h3><div class="s" style="white-space:pre-wrap">${esc(x.observation)}</div></div>`;
+  return `<div class="voile" id="voile"><div class="feuille">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:12px"><div><h2 style="margin:0">${esc(x.titre)}</h2><div class="sous" style="margin:2px 0 0">${esc(x.villa)} · ${esc(jourCourt(x.date))}${h?" · "+esc(h):""}</div></div><button class="btn clair petit" data-fermer-rapport>Fermer</button></div>
+    ${corps}</div></div>`;
+}
+
+// ================= Rendu =================
+function rendre(){
+  const app=document.getElementById("app");
+  if(modeAuth==="nouveau"&&session){app.innerHTML=ecranNouveauMdp();brancher();return;}
+  if(!session){app.innerHTML=modeAuth==="oubli"?ecranOubli():ecranConnexion();brancher();return;}
+  if(!donnees){app.innerHTML=erreur?`<main><div class="erreur">${esc(erreur)}</div><button class="btn" id="reessayer">Réessayer</button> <button class="btn clair" id="sortir2">Se déconnecter</button></main>`:`<div class="chargement">Chargement…</div>`;brancher();return;}
+  const corps=onglet==="calendrier"?ecranCalendrier():onglet==="suivi"?ecranSuivi():onglet==="documents"?ecranDocuments():ecranAccueil();
+  const nbSuivi=(donnees.suivi||[]).filter(a=>a.statut!=="resolu"&&!a.reponse).length;
+  app.innerHTML=`<div class="entete"><div class="ligne"><div class="marque"><img src="img/logo.png" alt=""><div><b>Soleya</b><span>Espace propriétaire</span></div></div><a class="bouton-sortie" href="index.html" style="text-decoration:none">← Démo</a></div></div>
+  <nav class="onglets"><div class="in">${[["accueil","Accueil"],["calendrier","Calendrier"],["suivi","Suivi"+(nbSuivi?" ("+nbSuivi+")":"")],["documents","Documents"]].map(([k,l])=>`<button class="${onglet===k?"actif":""}" data-onglet="${k}">${l}</button>`).join("")}</div></nav>
+  <main>${corps}</main>${rapportOuvert?feuilleRapport():""}`;
+  brancher();
+}
+
+function brancher(){
+  const $=id=>document.getElementById(id);
+  const on=(sel,fn)=>document.querySelectorAll(sel).forEach(el=>el.addEventListener("click",fn));
+  if($("c-ok")){const go=async()=>{const b=$("c-ok");b.disabled=true;erreur="";try{await connexion($("c-email").value.trim().toLowerCase(),$("c-mdp").value);await charger();}catch(e){erreur=/invalid/i.test(e.message)?"Email ou mot de passe incorrect.":e.message;rendre();}};$("c-ok").onclick=go;$("c-mdp").onkeydown=e=>{if(e.key==="Enter")go();};}
+  document.querySelectorAll("[data-oeil]").forEach(b=>b.onclick=ev=>{ev.preventDefault();const i=$(b.dataset.oeil);if(!i)return;const v=i.type==="password";i.type=v?"text":"password";b.textContent=v?"🙈":"👁";});
+  if($("sortir"))$("sortir").onclick=deconnexion;
+  if($("c-oubli"))$("c-oubli").onclick=()=>{modeAuth="oubli";messageAuth=null;erreur="";rendre();};
+  if($("o-retour"))$("o-retour").onclick=()=>{modeAuth=null;messageAuth=null;rendre();};
+  if($("o-ok")){const go=async()=>{
+    const email=$("o-email").value.trim().toLowerCase();
+    if(!/^\S+@\S+\.\S+$/.test(email)){messageAuth={ok:false,t:"Indiquez une adresse email valide."};return rendre();}
+    $("o-ok").disabled=true;
+    try{
+      const r=await fetch(SUPA.url+"/auth/v1/recover?redirect_to="+encodeURIComponent(location.origin+location.pathname),{method:"POST",headers:{"Content-Type":"application/json",apikey:SUPA.anon},body:JSON.stringify({email})});
+      if(r.status===429){messageAuth={ok:false,t:"Trop de demandes. Réessayez dans quelques minutes."};}
+      else messageAuth={ok:true,t:"Si cette adresse correspond à un espace Soleya, un email vient de vous être envoyé. Pensez à regarder dans les indésirables."};
+    }catch(e){messageAuth={ok:false,t:"Envoi impossible. Vérifiez votre connexion."};}
+    rendre();};$("o-ok").onclick=go;$("o-email").onkeydown=e=>{if(e.key==="Enter")go();};}
+  if($("n-ok"))$("n-ok").onclick=async()=>{
+    const a=$("n-mdp1").value,b=$("n-mdp2").value;
+    if(a.length<8){messageAuth={ok:false,t:"8 caractères minimum."};return rendre();}
+    if(a!==b){messageAuth={ok:false,t:"Les deux mots de passe ne correspondent pas."};return rendre();}
+    $("n-ok").disabled=true;
+    try{const r=await api("/auth/v1/user",{method:"PUT",body:JSON.stringify({password:a})});
+      if(!r.ok){const j=await r.json().catch(()=>({}));messageAuth={ok:false,t:/same|different/i.test(j.msg||j.error_description||"")?"Choisissez un mot de passe différent de l'ancien.":"Enregistrement impossible. Choisissez un autre mot de passe."};return rendre();}
+      modeAuth=null;messageAuth=null;messageCompte={ok:true,t:"Nouveau mot de passe enregistré ✓"};prevenirSoleya("🔑 Mot de passe réinitialisé","Un propriétaire a choisi un nouveau mot de passe");await charger();
+    }catch(e){messageAuth={ok:false,t:"Le lien a expiré. Refaites une demande de mot de passe oublié."};modeAuth="oubli";session=null;ecrireStock(CLE_SESSION,null);rendre();}
+  };
+  if($("m-notifs"))$("m-notifs").onchange=async e=>{
+    const v=e.target.checked;
+    try{const r=await api("/functions/v1/espace-proprio",{method:"POST",body:JSON.stringify({notifs_mail:v})});if(!r.ok)throw new Error();donnees.notifsMail=v;messageCompte={ok:true,t:v?"Mails de nouveautés activés ✓":"Vous ne recevrez plus de mail de nouveautés."};}
+    catch(err){messageCompte={ok:false,t:"Modification impossible pour le moment."};}
+    rendre();};
+  if($("m-ok"))$("m-ok").onclick=async()=>{
+    const a=$("m-mdp1").value,b=$("m-mdp2").value;
+    if(a.length<8){messageCompte={ok:false,t:"8 caractères minimum."};return rendre();}
+    if(a!==b){messageCompte={ok:false,t:"Les deux mots de passe ne correspondent pas."};return rendre();}
+    $("m-ok").disabled=true;
+    try{const r=await api("/auth/v1/user",{method:"PUT",body:JSON.stringify({password:a})});
+      messageCompte=r.ok?{ok:true,t:"Mot de passe modifié ✓"}:{ok:false,t:"Modification impossible. Choisissez un autre mot de passe."};}
+    catch(e){messageCompte={ok:false,t:"Modification impossible pour le moment."};}
+    rendre();};
+  if($("sortir2"))$("sortir2").onclick=deconnexion;
+  if($("reessayer"))$("reessayer").onclick=charger;
+  on("[data-onglet]",e=>{onglet=e.currentTarget.dataset.onglet;ecrireStock("soleya-proprio-onglet",onglet);messageInfo="";erreur="";messageCompte=null;rendre();window.scrollTo(0,0);});
+  on("[data-aller]",e=>{onglet=e.currentTarget.dataset.aller;rendre();window.scrollTo(0,0);});
+  on("[data-vue]",e=>{vueCal=e.currentTarget.dataset.vue;rendre();});
+  on("[data-mois]",e=>{const [a,m]=moisAff.split("-").map(Number);const d=new Date(a,m-1+Number(e.currentTarget.dataset.mois),1);moisAff=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0");rendre();});
+  if($("f-villa-filtre"))$("f-villa-filtre").onchange=e=>{villaFiltre=e.target.value;rendre();};
+  if($("ouvrir-sejour"))$("ouvrir-sejour").onclick=()=>{messageInfo="";erreur="";formSejour={villa:donnees.villas[0].nom,arrivee:"",depart:"",type:"personnel",voyageurs:"",nom:"",menage:true,linge:false,ci:false,co:false,com:""};rendre();};
+  if($("s-annuler"))$("s-annuler").onclick=()=>{formSejour=null;erreur="";rendre();};
+  if($("s-ok"))$("s-ok").onclick=async()=>{
+    const f={villa:$("s-villa")?$("s-villa").value:donnees.villas[0].nom,arrivee:$("s-arrivee").value,depart:$("s-depart").value,type:$("s-type").value,voyageurs:$("s-voy").value,nom:$("s-nom").value.trim(),menage:$("s-menage").checked,linge:$("s-linge").checked,ci:$("s-ci").checked,co:$("s-co").checked,com:$("s-com").value.trim()};
+    formSejour=f;erreur="";
+    if(!f.arrivee||!f.depart){erreur="Indiquez les dates d'arrivée et de départ.";return rendre();}
+    if(f.depart<=f.arrivee){erreur="La date de départ doit être après la date d'arrivée (au moins une nuit).";return rendre();}
+    const chevauche=(donnees.evenements||[]).find(e=>(e.type==="sejour"||e.type==="sejour_proprio")&&e.villa===f.villa&&f.arrivee<(e.fin||e.debut)&&f.depart>e.debut);
+    if(chevauche&&false&&!confirm("Ces dates chevauchent un séjour déjà prévu ("+jj(chevauche.debut)+" → "+jj(chevauche.fin)+"). Votre séjour sera enregistré en attente de validation par Soleya. Continuer ?"))return;
+    const b=$("s-ok");b.disabled=true;
+    try{
+      const r=await api("/rest/v1/sejours_proprio",{method:"POST",headers:{Prefer:"return=minimal"},body:JSON.stringify({villa:f.villa,arrivee:f.arrivee,depart:f.depart,type_sejour:f.type,nom:f.nom||null,voyageurs:f.voyageurs?Number(f.voyageurs):null,besoin_menage:f.menage,besoin_linge:f.linge,besoin_checkin:f.ci,besoin_checkout:f.co,commentaire:f.com||null})});
+      if(!r.ok)throw new Error();
+      formSejour=null;messageInfo=chevauche?"Séjour enregistré, en attente de validation par Soleya.":"Séjour enregistré. Soleya en est informée.";prevenirSoleya(chevauche?"⚠️ Séjour propriétaire à valider (chevauchement)":"🏠 Nouveau séjour propriétaire",f.villa+" · "+jj(f.arrivee)+" → "+jj(f.depart)+(donnees.nom?" · "+donnees.nom:""));await charger();
+    }catch(e){erreur="Enregistrement impossible. Réessayez.";rendre();}
+  };
+  on("[data-rapport]",async e=>{
+    const id=e.currentTarget.dataset.rapport;rapportOuvert={chargement:true};rendre();
+    try{const r=await api("/functions/v1/espace-proprio?rapport="+encodeURIComponent(id));const j=await r.json();rapportOuvert=j.ok?{data:j.rapport}:{erreur:true};}
+    catch(err){rapportOuvert={erreur:true};}
+    rendre();
+  });
+  on("[data-fermer-rapport]",()=>{rapportOuvert=null;rendre();});
+  if($("voile"))$("voile").onclick=ev=>{if(ev.target.id==="voile"){rapportOuvert=null;rendre();}};
+  on("[data-besoins]",e=>{
+    const [villa,debut,fin]=e.currentTarget.dataset.besoins.split("|");
+    const dm=demandePour({villa,debut,fin});const d=dm?dm.details:{};
+    formBesoins={cle:e.currentTarget.dataset.besoins,villa,debut,fin,id:dm?dm.id:null,ci:!!d.besoin_checkin,menage:dm?!!d.besoin_menage:true,linge:!!d.besoin_linge,co:!!d.besoin_checkout,com:d.commentaire||""};
+    messageInfo="";rendre();
+  });
+  if($("b-annuler"))$("b-annuler").onclick=()=>{formBesoins=null;rendre();};
+  if($("b-ok"))$("b-ok").onclick=async()=>{
+    const f=formBesoins;$("b-ok").disabled=true;
+    const corps={besoin_checkin:$("b-ci").checked,besoin_menage:$("b-menage").checked,besoin_linge:$("b-linge").checked,besoin_checkout:$("b-co").checked,commentaire:$("b-com").value.trim()||null,vu_par_soleya:false,annule:false};
+    try{
+      const r=f.id?await api("/rest/v1/sejours_proprio?id=eq."+encodeURIComponent(f.id),{method:"PATCH",headers:{Prefer:"return=minimal"},body:JSON.stringify(corps)})
+        :await api("/rest/v1/sejours_proprio",{method:"POST",headers:{Prefer:"return=minimal"},body:JSON.stringify({...corps,villa:f.villa,arrivee:f.debut,depart:f.fin,type_sejour:"voyageurs",nom:"Séjour voyageurs"})});
+      if(!r.ok)throw new Error();
+      prevenirSoleya("🛎 Demande sur un séjour",f.villa+" · "+jj(f.debut)+" → "+jj(f.fin)+" : "+libBesoins(corps));
+      formBesoins=null;messageInfo="Demande envoyée à Soleya.";await charger();
+    }catch(e){rendre();}
+  };
+  on("[data-annuler]",async e=>{
+    
+    const id=e.currentTarget.dataset.annuler;
+    const r=await api("/rest/v1/sejours_proprio?id=eq."+encodeURIComponent(id),{method:"PATCH",headers:{Prefer:"return=minimal"},body:JSON.stringify({annule:true,vu_par_soleya:false})});
+    if(r.ok){const ev=(donnees.evenements||[]).find(x=>x.id===id);prevenirSoleya("❌ Séjour propriétaire annulé",ev?ev.villa+" · "+jj(ev.debut)+" → "+jj(ev.fin):"Un séjour a été annulé");}
+    messageInfo=r.ok?"Séjour annulé.":"";erreur=r.ok?"":"Annulation impossible.";await charger();
+  });
+  on("[data-rep]",async e=>{
+    const [id,villa,rep]=e.currentTarget.dataset.rep.split("|");
+    const com="";
+    e.currentTarget.disabled=true;
+    const r=await api("/rest/v1/reponses_proprio",{method:"POST",headers:{Prefer:"return=minimal"},body:JSON.stringify({anomalie_id:id,villa,reponse:rep,commentaire:com||null})});
+    if(!r.ok){}
+    else{const a=(donnees.suivi||[]).find(x=>x.id===id);prevenirSoleya("💬 Réponse propriétaire",villa+" · "+(a?a.titre:"anomalie")+" : "+(LIB_REP[rep]||rep)+(com?" — "+com:""));}
+    await charger();
+  });
+}
+
+// ================= Démarrage =================
+(function lienEmail(){
+  const h=new URLSearchParams((location.hash||"").replace(/^#/,""));
+  if(!h.get("access_token")&&!h.get("error")&&!h.get("error_description"))return;
+  history.replaceState(null,"",location.pathname+location.search);
+  if(h.get("error")||h.get("error_description")){modeAuth="oubli";messageAuth={ok:false,t:"Ce lien n'est plus valable (il expire au bout d'une heure et ne sert qu'une fois). Refaites une demande ci-dessous."};session=null;ecrireStock(CLE_SESSION,null);return;}
+  session={access_token:h.get("access_token"),refresh_token:h.get("refresh_token"),expires_at:Date.now()+(Number(h.get("expires_in"))||3600)*1000};
+  ecrireStock(CLE_SESSION,session);
+  if(h.get("type")==="recovery")modeAuth="nouveau";
+})();
+setTimeout(()=>{if(modeAuth==="nouveau"||!session)rendre();else charger();},0);
+</script>
+<script>
+(function(){
+const T={
+ accueil:"<b>L'accueil de votre espace.</b> Ce qui attend une réponse de votre part, le dernier passage de l'équipe et les prochaines arrivées. Essayez « Voir le rapport ».",
+ calendrier:"<b>Votre villa en un coup d'œil.</b> Réservations, accueils, ménages et vos propres séjours. Ajoutez un séjour : Soleya est prévenue tout de suite et organise le ménage et le linge.",
+ suivi:"<b>Rien ne se décide sans vous.</b> Chaque point repéré dans la villa est expliqué ici, avec le montant quand une dépense est nécessaire. Vous répondez en un clic.",
+ documents:"<b>Tout est archivé.</b> Rapports avec photos après chaque passage, factures, garanties et notices de vos équipements."};
+const vus={};
+const _r=rendre;
+rendre=function(){_r();const m=document.querySelector("main");if(!m||vus[onglet]||!T[onglet])return;
+ const d=document.createElement("div");d.className="astuce";d.innerHTML="<span>💡</span><span>"+T[onglet]+"</span><button type='button'>OK</button>";
+ d.querySelector("button").onclick=()=>{vus[onglet]=1;d.remove();};m.prepend(d);};
+if(window.__DEMO_RAPPORT){const t=setInterval(()=>{const b=document.querySelector('[data-rapport="me1"]');if(b){clearInterval(t);b.click();}},150);setTimeout(()=>clearInterval(t),5000);}
+})();
+</script>
+</body>
+</html>

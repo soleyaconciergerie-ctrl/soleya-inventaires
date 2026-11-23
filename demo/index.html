@@ -1,0 +1,205 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>body{margin:0}img{max-width:100%}</style></head><body>
+<title>Démo Soleya Propriétaires</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap">
+<style>
+/* Layout : bandeau photo, puis deux scènes (côté voyageurs / côté propriétaire), le déroulé, le contact. Look clair unique, couleurs de la marque Soleya. */
+:root{
+  --encre:#0A2E2B; --encre-2:#16443F; --creme:#FDFAF3; --sable:#F3ECDD; --or:#7A5410; --or-vif:#E6BE6A;
+  --texte:#1C2B29; --doux:#5E6B68; --trait:#E4DCCB; --blanc:#FFFFFF;
+  --f-titre:"Instrument Serif", Georgia, "Times New Roman", serif;
+  --f-texte:"Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{background:var(--creme);color:var(--texte);font-family:var(--f-texte);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.wrap{max-width:980px;margin:0 auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+.etiquette{font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--or)}
+h1,h2,h3{font-family:var(--f-titre);font-weight:400;text-wrap:balance;margin:0;color:var(--encre)}
+
+/* Bandeau */
+.bandeau{position:relative;color:var(--blanc);background:var(--encre)}
+.bandeau img{display:block;width:100%;height:clamp(300px,52vw,480px);object-fit:cover;opacity:.78}
+.bandeau .voile{position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,46,43,.15) 0%,rgba(10,46,43,.55) 55%,rgba(10,46,43,.92) 100%)}
+.bandeau .contenu{position:absolute;inset:auto 0 0 0;padding-block:28px}
+.marque{display:flex;align-items:center;gap:10px;margin-bottom:auto}
+.haut{position:absolute;top:0;left:0;right:0;padding-block:16px}
+.haut .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.marque img{width:40px;height:46px;object-fit:contain;background:var(--blanc);border-radius:10px;padding:3px;opacity:1}
+.marque span{font-weight:700;letter-spacing:.02em}
+.pastille-demo{font-size:.72rem;font-weight:700;background:var(--or-vif);color:#3A2806;border-radius:999px;padding:5px 11px;white-space:nowrap}
+.bandeau h1{color:var(--blanc);font-size:clamp(2.2rem,6vw,3.6rem);line-height:1.05;max-width:16ch}
+.bandeau h1 em{color:var(--or-vif)}
+.bandeau p{max-width:52ch;margin:12px 0 0;color:rgba(255,255,255,.9);font-size:1.02rem}
+
+/* Scènes */
+section{padding-block:44px}
+.tete{display:flex;flex-direction:column;gap:6px;margin-bottom:22px}
+.tete h2{font-size:clamp(1.8rem,4.2vw,2.5rem);line-height:1.1}
+.tete p{margin:0;color:var(--doux);max-width:60ch}
+.grille{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px}
+.carte{display:flex;flex-direction:column;background:var(--blanc);border:1px solid var(--trait);border-radius:16px;overflow:hidden;text-decoration:none;transition:transform .2s ease, box-shadow .2s ease}
+.carte:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(10,46,43,.12)}
+.carte:focus-visible{outline:3px solid var(--or-vif);outline-offset:3px}
+.carte .photo{aspect-ratio:16/9;max-width:100%;overflow:hidden;background:var(--sable)}
+.carte .photo img{width:100%;height:100%;object-fit:cover;display:block}
+.carte .corps{padding:18px 18px 20px;display:flex;flex-direction:column;gap:10px;flex:1;min-width:0}
+.carte h3{font-size:1.55rem;line-height:1.15}
+.carte p{margin:0;color:var(--doux);font-size:.95rem}
+.carte ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px;font-size:.92rem}
+.carte li{display:flex;gap:8px;align-items:baseline}
+.carte li::before{content:"";flex:none;width:6px;height:6px;border-radius:50%;background:var(--or-vif);transform:translateY(-2px)}
+.ouvrir{margin-top:auto;padding-top:6px;font-weight:700;color:var(--encre);display:inline-flex;align-items:center;gap:6px}
+.ouvrir small{font-weight:500;color:var(--doux)}
+.cote-proprio{background:var(--sable)}
+
+/* Déroulé */
+.etapes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:22px;counter-reset:etape}
+.etape{display:flex;flex-direction:column;gap:6px;border-top:2px solid var(--encre);padding-top:14px;min-width:0}
+.etape .quand{font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--or)}
+.etape h3{font-size:1.4rem}
+.etape p{margin:0;color:var(--doux);font-size:.94rem}
+
+/* Contact */
+.contact{background:var(--encre);color:var(--blanc)}
+.contact h2{color:var(--blanc);font-size:clamp(1.8rem,4.2vw,2.4rem)}
+.contact p{color:rgba(255,255,255,.82);margin:8px 0 0;max-width:56ch}
+.contact .actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:12px 20px;font-weight:700;text-decoration:none}
+.btn.or{background:var(--or-vif);color:#3A2806}
+.btn.ligne{border:1.5px solid rgba(255,255,255,.4);color:var(--blanc)}
+.tel{font-variant-numeric:tabular-nums;user-select:all;color:var(--or-vif);font-weight:700}
+.note{font-size:.8rem;color:var(--doux);padding-block:18px 28px;text-align:center}
+@media (prefers-reduced-motion:reduce){.carte{transition:none}.carte:hover{transform:none}}
+</style>
+
+<header class="bandeau">
+  <img src="img/piscine.webp" alt="Piscine à débordement d'une villa face à la mer en Martinique">
+  <div class="voile"></div>
+  <div class="haut"><div class="wrap">
+    <div class="marque"><img src="img/logo.png" alt=""><span>Soleya Conciergerie</span></div>
+    <span class="pastille-demo">Démo · villa fictive</span>
+  </div></div>
+  <div class="contenu"><div class="wrap">
+    <h1>Votre villa, <em>entre de bonnes mains</em>.</h1>
+    <p>Découvrez ce que vivent vos voyageurs à leur arrivée, et ce que vous suivez, vous, depuis votre espace propriétaire. Tout est cliquable.</p>
+  </div></div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="tete">
+      <span class="etiquette">Côté voyageurs</span>
+      <h2>Un accueil digne d'un hôtel, sans clé à remettre en main propre</h2>
+      <p>Chaque villa reçoit son livret d'accueil digital, préparé et photographié par Soleya lors de la mise en service.</p>
+    </div>
+    <div class="grille">
+      <a class="carte" href="livret.html">
+        <div class="photo"><img src="img/terrasse.webp" alt="Terrasse de villa avec piscine et transats"></div>
+        <div class="corps">
+          <span class="etiquette">Livret d'accueil</span>
+          <h3>L'arrivée et l'état des lieux signé</h3>
+          <ul>
+            <li>Itinéraire, accès et boîte à clés expliqués en photos</li>
+            <li>Wifi, règlement intérieur et règles de départ</li>
+            <li>Inventaire pièce par pièce, validé et signé par le voyageur à son arrivée</li>
+          </ul>
+          <span class="ouvrir">Ouvrir le livret →</span>
+        </div>
+      </a>
+      <a class="carte" href="https://bienvenue.soleyaconciergerie.com/compagnon/" target="_blank" rel="noopener">
+        <div class="photo"><img src="img/compagnon.webp" alt="Carte en relief de la Martinique"></div>
+        <div class="corps">
+          <span class="etiquette">Compagnon de séjour</span>
+          <h3>Que faire aujourd'hui ?</h3>
+          <ul>
+            <li>Idées de sorties selon la météo du jour et le temps disponible</li>
+            <li>Bonnes adresses, pharmacies de garde et numéros utiles</li>
+            <li>Agenda des événements de l'île, en français et en anglais</li>
+          </ul>
+          <span class="ouvrir">Ouvrir le compagnon → <small>en ligne</small></span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="cote-proprio">
+  <div class="wrap">
+    <div class="tete">
+      <span class="etiquette">Côté propriétaire</span>
+      <h2>Vous savez ce qui se passe chez vous, sans avoir à demander</h2>
+      <p>Un espace personnel pour suivre votre villa, avec un mail dès que Soleya y ajoute quelque chose.</p>
+    </div>
+    <div class="grille">
+      <a class="carte" href="proprietaire.html">
+        <div class="photo"><img src="img/chambre-vue.webp" alt="Chambre préparée avec vue sur la végétation"></div>
+        <div class="corps">
+          <span class="etiquette">Espace propriétaire</span>
+          <h3>Votre villa en un coup d'œil</h3>
+          <ul>
+            <li>Calendrier des séjours, accueils et ménages, et ajout de vos propres séjours</li>
+            <li>Suivi des points repérés, avec votre accord demandé avant toute dépense</li>
+            <li>Factures, garanties et notices de vos équipements</li>
+          </ul>
+          <span class="ouvrir">Entrer dans l'espace →</span>
+        </div>
+      </a>
+      <a class="carte" href="proprietaire.html#rapport">
+        <div class="photo"><img src="img/chambre.webp" alt="Chambre remise en état après un séjour"></div>
+        <div class="corps">
+          <span class="etiquette">Rapport de passage</span>
+          <h3>Ce que vous recevez après chaque ménage</h3>
+          <ul>
+            <li>Heures d'intervention et photos du rendu, pièce par pièce</li>
+            <li>Dégâts ou constats éventuels, avec photo</li>
+            <li>Fournitures à prévoir et contrôle du départ des voyageurs</li>
+          </ul>
+          <span class="ouvrir">Voir un rapport type →</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="tete">
+      <span class="etiquette">Comment ça se passe</span>
+      <h2>De la mise en service au premier rapport</h2>
+    </div>
+    <div class="etapes">
+      <div class="etape">
+        <span class="quand">Avant la première réservation</span>
+        <h3>Mise en service</h3>
+        <p>Livret d'accueil rédigé et photographié, fiche ménage de la villa, inventaire du linge, création de votre espace propriétaire.</p>
+      </div>
+      <div class="etape">
+        <span class="quand">À chaque séjour</span>
+        <h3>Accueil, ménage, contrôle</h3>
+        <p>Vos voyageurs sont accueillis, la villa est préparée et contrôlée au départ. Le rapport arrive dans votre espace.</p>
+      </div>
+      <div class="etape">
+        <span class="quand">Chaque mois</span>
+        <h3>Facture et suivi</h3>
+        <p>Une facture claire, réglable en ligne, et le point sur ce qui a été fait ou reste à prévoir dans la villa.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contact">
+  <div class="wrap">
+    <h2>Parlons de votre villa</h2>
+    <p>Une visite sur place, un devis détaillé, et une mise en service avant votre prochaine réservation.</p>
+    <div class="actions">
+      <a class="btn or" href="https://wa.me/596696111869?text=Bonjour%20Soleya%2C%20j%27ai%20vu%20la%20d%C3%A9mo%20et%20j%27aimerais%20parler%20de%20ma%20villa." target="_blank" rel="noopener">Écrire sur WhatsApp</a>
+      <a class="btn ligne" href="https://soleyaconciergerie.com" target="_blank" rel="noopener">soleyaconciergerie.com</a>
+      <span class="tel">+596 696 11 18 69</span>
+    </div>
+  </div>
+</section>
+<div class="wrap note">Démonstration : la Villa Démo, les dates, les montants et les rapports sont fictifs. Rien de ce que vous saisissez n'est envoyé.</div>
+</body></html>
